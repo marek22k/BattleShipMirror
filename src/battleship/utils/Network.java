@@ -1,0 +1,32 @@
+package battleship.utils;
+
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Collections;
+
+public final class Network {
+    public static ArrayList<String> getIpAddresses() throws SocketException {
+        final ArrayList<String> ipAddresses = new ArrayList<>();
+
+        for (final NetworkInterface networkInterface : Collections.list(NetworkInterface.getNetworkInterfaces())) {
+            if (networkInterface.isUp() && !networkInterface.isLoopback()) {
+                for (final InetAddress address : Collections.list(networkInterface.getInetAddresses())) {
+                    if (!address.isLoopbackAddress()) {
+                        String ipAddress = address.getHostAddress();
+                        if (
+                            address instanceof java.net.Inet6Address && !address.isLinkLocalAddress()
+                                    && ipAddress.contains("%")
+                        ) {
+                            ipAddress = ipAddress.substring(0, ipAddress.indexOf('%'));
+                        }
+                        ipAddresses.add(ipAddress);
+                    }
+                }
+            }
+        }
+
+        return ipAddresses;
+    }
+}
