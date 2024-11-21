@@ -19,10 +19,10 @@ public final class Sound {
         if (Constants.SOUND) {
             try {
                 logger.log(Level.FINE, "Load sound.");
-                water = new SoundFile(Constants.waterFilename);
-                hit1 = new SoundFile(Constants.hit1Filename);
-                hit2 = new SoundFile(Constants.hit2Filename);
-                victory = new SoundFile(Constants.victoryFilename);
+                water = new SoundFile(Constants.waterResource);
+                hit1 = new SoundFile(Constants.hit1Resource);
+                hit2 = new SoundFile(Constants.hit2Resource);
+                victory = new SoundFile(Constants.victoryResource);
             } catch (final Exception e) {
                 logger.log(Level.SEVERE, "Failed to load sound.", e);
             }

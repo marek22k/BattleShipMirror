@@ -1,6 +1,8 @@
 package battleship.sound;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -18,8 +20,11 @@ public final class SoundFile {
     }
 
     public void play() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-        try (AudioInputStream audioInputStream = AudioSystem
-                .getAudioInputStream(Entrypoint.class.getResourceAsStream(this.soundResource))) {
+        try (
+                InputStream resourceStream = Entrypoint.class.getResourceAsStream(this.soundResource);
+                BufferedInputStream bufferedStream = new BufferedInputStream(resourceStream);
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(bufferedStream)
+         ) {
             final Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.start();
