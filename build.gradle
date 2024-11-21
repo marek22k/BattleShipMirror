@@ -2,6 +2,8 @@ plugins {
     id 'application'
 }
 
+version = '1.0.0'
+
 sourceSets {
     main {
         java.srcDirs = ['src']
@@ -29,6 +31,7 @@ task fatJar(type: Jar) {
         attributes('Main-Class': application.mainClass)
     }
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    archiveBaseName = 'battleship'
+    archiveBaseName = "${project.name}"
+    archiveVersion = project.version
     with jar
 }
