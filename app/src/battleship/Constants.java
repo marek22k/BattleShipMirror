@@ -92,9 +92,9 @@ public class Constants {
     public static final boolean SOUND = true;
 
     /* https://opengameart.org/content/tiny-naval-battle-sounds-set */
-    public static final String hit1Filename = "/resources/Hit1.wav";
-    public static final String hit2Filename = "/resources/Hit2.wav";
-    public static final String waterFilename = "/resources/Water.wav";
+    public static final String hit1Filename = "/Hit1.wav";
+    public static final String hit2Filename = "/Hit2.wav";
+    public static final String waterFilename = "/Water.wav";
     /* https://opengameart.org/content/victory-4 */
-    public static final String victoryFilename = "/resources/Victory.wav";
+    public static final String victoryFilename = "/Victory.wav";
 }
