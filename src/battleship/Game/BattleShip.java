@@ -37,7 +37,7 @@ public final class BattleShip {
         this.currentGameLock = new Object();
         this.serverStatusLock = new Object();
         this.sound = new AtomicBoolean(true);
-        this.mainwindow = new MainWindow(sound);
+        this.mainwindow = new MainWindow(this.sound);
         this.currentLevel = 1;
         synchronized (this.serverStatusLock) {
             this.serverstatus = ServerStatus.STOPPED;
@@ -189,7 +189,8 @@ public final class BattleShip {
                 return;
             }
             this.currentGame = new GameSession(
-                    connection, isServer, this.mainwindow.getName(), selectedLevel, sound, (GameEndStatus status) -> {
+                    connection, isServer, this.mainwindow.getName(), selectedLevel, this.sound,
+                    (GameEndStatus status) -> {
                         this.logger.log(Level.FINE, "In game exit handler, status=" + status);
                         switch (status) {
                             case SUCCESSFUL_WON:

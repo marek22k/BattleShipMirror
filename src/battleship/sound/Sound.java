@@ -4,7 +4,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import battleship.Constants;
-import battleship.Entrypoint;
 
 public final class Sound {
     private static SoundFile hit1;

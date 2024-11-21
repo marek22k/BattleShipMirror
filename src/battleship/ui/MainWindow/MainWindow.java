@@ -42,7 +42,6 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import battleship.Constants;
-import battleship.Entrypoint;
 import battleship.terminal.TerminalWindow;
 import battleship.utils.Network;
 import battleship.utils.SystemUtils;
@@ -86,8 +85,6 @@ public final class MainWindow {
     private final JTextField nameField;
 
     private int counter;
-    private final AtomicBoolean sound;
-
     private ConnectHandler connecthandler;
     private ServerHandler serverStartHandler;
     private ServerHandler serverStopHandler;
@@ -98,7 +95,6 @@ public final class MainWindow {
         this.logger = Logger.getLogger(MainWindow.class.getName());
         this.logger.setLevel(Constants.logLevel);
 
-        this.sound = sound;
         this.window = new JFrame("Battleship");
         this.window.setLayout(new GridLayout(2, 2, 10, 10));
         this.counter = 0;

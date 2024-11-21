@@ -77,7 +77,8 @@ public final class GameSession {
      *                        aufgerufen werden soll
      */
     public GameSession(
-            Connection connection, boolean isServer, String playersName, int level, AtomicBoolean sound, GameExitHandler gameexithandler
+            Connection connection, boolean isServer, String playersName, int level, AtomicBoolean sound,
+            GameExitHandler gameexithandler
     ) {
         this.isRunning = new AtomicBoolean(true);
         this.turnLock = new Object();
