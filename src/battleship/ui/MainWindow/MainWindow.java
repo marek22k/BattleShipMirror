@@ -43,7 +43,7 @@ import javax.swing.text.StyledDocument;
 
 import battleship.Constants;
 import battleship.terminal.TerminalWindow;
-import battleship.utils.Network;
+import battleship.utils.NetworkUtils;
 import battleship.utils.SystemUtils;
 
 public final class MainWindow {
@@ -571,7 +571,7 @@ public final class MainWindow {
      */
     public void updateIpAddresses() {
         try {
-            final ArrayList<String> ipAddresses = Network.getIpAddresses();
+            final ArrayList<String> ipAddresses = NetworkUtils.getIpAddresses();
             this.ipListModel.clear();
             for (final String address : ipAddresses) {
                 this.ipListModel.addElement(address);

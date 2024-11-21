@@ -7,6 +7,10 @@ import java.util.logging.Level;
  * Beinhaltet verschiedene Konstanten, welche das Spiel benötigt.
  */
 public class Constants {
+    private Constants() {
+        throw new UnsupportedOperationException("Constants cannot be instantiated");
+    }
+
     /**
      * Protokollversion, welche das aktuelle Spiel implementiert.
      */

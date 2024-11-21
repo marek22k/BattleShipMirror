@@ -6,7 +6,11 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public final class Network {
+public final class NetworkUtils {
+    private NetworkUtils() {
+        throw new UnsupportedOperationException("NetworkUtils cannot be instantiated");
+    }
+
     public static ArrayList<String> getIpAddresses() throws SocketException {
         final ArrayList<String> ipAddresses = new ArrayList<>();
 

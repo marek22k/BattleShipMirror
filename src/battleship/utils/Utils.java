@@ -5,6 +5,10 @@ import java.text.Normalizer;
 import java.util.regex.Pattern;
 
 public final class Utils {
+    private Utils() {
+        throw new UnsupportedOperationException("Utils cannot be instantiated");
+    }
+
     public static String getFirstWordOrLine(String input) {
         final int spaceIndex = input.indexOf(' ');
         final int newLineIndex = input.indexOf("\r\n");
