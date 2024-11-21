@@ -24,7 +24,7 @@ public final class SoundFile {
                 InputStream resourceStream = Entrypoint.class.getResourceAsStream(this.soundResource);
                 BufferedInputStream bufferedStream = new BufferedInputStream(resourceStream);
                 AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(bufferedStream)
-         ) {
+        ) {
             final Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.start();
