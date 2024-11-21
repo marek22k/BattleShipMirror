@@ -1,6 +1,5 @@
 package battleship;
 
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,12 +15,6 @@ import battleship.sound.Sound;
  * Form der BattleShip-Klasse) startet.
  */
 public final class Entrypoint {
-
-    public static final AtomicBoolean sound;
-
-    static {
-        sound = new AtomicBoolean(true);
-    }
 
     public static void main(String[] args) {
         for (final var handler : Logger.getLogger("").getHandlers()) {

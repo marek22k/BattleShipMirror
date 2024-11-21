@@ -2,6 +2,7 @@ package battleship.Game;
 
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,6 +21,7 @@ import battleship.ui.MainWindow.MainWindow;
  */
 public final class BattleShip {
     private int currentLevel;
+    public final AtomicBoolean sound;
     private MainWindow mainwindow;
     private GameSession currentGame;
     private final Object currentGameLock;
@@ -34,7 +36,8 @@ public final class BattleShip {
     public BattleShip() {
         this.currentGameLock = new Object();
         this.serverStatusLock = new Object();
-        this.mainwindow = new MainWindow();
+        this.sound = new AtomicBoolean(true);
+        this.mainwindow = new MainWindow(sound);
         this.currentLevel = 1;
         synchronized (this.serverStatusLock) {
             this.serverstatus = ServerStatus.STOPPED;
@@ -186,7 +189,7 @@ public final class BattleShip {
                 return;
             }
             this.currentGame = new GameSession(
-                    connection, isServer, this.mainwindow.getName(), selectedLevel, (GameEndStatus status) -> {
+                    connection, isServer, this.mainwindow.getName(), selectedLevel, sound, (GameEndStatus status) -> {
                         this.logger.log(Level.FINE, "In game exit handler, status=" + status);
                         switch (status) {
                             case SUCCESSFUL_WON:

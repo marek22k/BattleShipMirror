@@ -37,6 +37,7 @@ public final class GameSession {
     private String myCoin;
     private final String playersName;
     private final int playersLevel;
+    private final AtomicBoolean sound;
     private OpposingPlayingField opposing;
     private OpposingField lastShoot;
     private PlayersPlayingField players;
@@ -76,10 +77,11 @@ public final class GameSession {
      *                        aufgerufen werden soll
      */
     public GameSession(
-            Connection connection, boolean isServer, String playersName, int level, GameExitHandler gameexithandler
+            Connection connection, boolean isServer, String playersName, int level, AtomicBoolean sound, GameExitHandler gameexithandler
     ) {
         this.isRunning = new AtomicBoolean(true);
         this.turnLock = new Object();
+        this.sound = sound;
         this.connection = connection;
         this.playersName = Utils.sanitizeString(playersName);
         this.isServer = isServer;
@@ -566,25 +568,33 @@ public final class GameSession {
                             this.opposing.hit(new OpposingField(x, y), OpposingFieldStatus.WATER);
                             this.opposing.print(this.gamewindow.getOpponentField());
                             this.changeTurn(TurnStatus.YOUR_TURN);
-                            Sound.playWater();
+                            if (this.sound.get()) {
+                                Sound.playWater();
+                            }
                             break;
 
                         case HIT:
                             this.opposing.hit(new OpposingField(x, y), OpposingFieldStatus.SHIP);
                             this.opposing.print(this.gamewindow.getOpponentField());
                             this.changeTurn(TurnStatus.MY_TURN_AFTER_HIT);
-                            Sound.playHit1();
+                            if (this.sound.get()) {
+                                Sound.playHit1();
+                            }
                             break;
 
                         case SUNK:
                             this.opposing.hit(new OpposingField(x, y), OpposingFieldStatus.SUNK);
                             this.opposing.print(this.gamewindow.getOpponentField());
                             this.changeTurn(TurnStatus.MY_TURN_AFTER_HIT);
-                            Sound.playHit2();
+                            if (this.sound.get()) {
+                                Sound.playHit2();
+                            }
                             break;
 
                         case SUNK_AND_VICTORY:
-                            Sound.playHit2();
+                            if (this.sound.get()) {
+                                Sound.playHit2();
+                            }
                             this.stopGame(GameEndStatus.SUCCESSFUL_WON);
                             break;
 
@@ -635,26 +645,34 @@ public final class GameSession {
                             this.gamewindow.playersTurn(true);
                             this.connection.writeHit(x, y, HitStatus.WATER);
                             this.players.print(this.gamewindow.getPlayersField());
-                            Sound.playWater();
+                            if (this.sound.get()) {
+                                Sound.playWater();
+                            }
                         } else if (ship.isSunk()) {
                             if (this.players.allSunk()) {
                                 /* Schiff versenkt und gewonnen */
                                 this.connection.writeHit(x, y, HitStatus.SUNK_AND_VICTORY);
                                 this.players.print(this.gamewindow.getPlayersField());
-                                Sound.playHit2();
+                                if (this.sound.get()) {
+                                    Sound.playHit2();
+                                }
                                 this.stopGame(GameEndStatus.SUCCESSFUL_LOST);
                             } else {
                                 /* Schiff versenkt */
                                 this.connection.writeHit(x, y, HitStatus.SUNK);
                                 this.players.print(this.gamewindow.getPlayersField());
-                                Sound.playHit2();
+                                if (this.sound.get()) {
+                                    Sound.playHit2();
+                                }
                                 this.changeTurn(TurnStatus.YOUR_TURN_AFTER_HIT);
                             }
                         } else {
                             /* Schiff getroffen */
                             this.connection.writeHit(x, y, HitStatus.HIT);
                             this.players.print(this.gamewindow.getPlayersField());
-                            Sound.playHit1();
+                            if (this.sound.get()) {
+                                Sound.playHit1();
+                            }
                             this.changeTurn(TurnStatus.YOUR_TURN_AFTER_HIT);
                         }
                     } catch (final Exception e) {

@@ -11,6 +11,7 @@ import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -85,6 +86,7 @@ public final class MainWindow {
     private final JTextField nameField;
 
     private int counter;
+    private final AtomicBoolean sound;
 
     private ConnectHandler connecthandler;
     private ServerHandler serverStartHandler;
@@ -92,10 +94,11 @@ public final class MainWindow {
 
     private final Logger logger;
 
-    public MainWindow() {
+    public MainWindow(AtomicBoolean sound) {
         this.logger = Logger.getLogger(MainWindow.class.getName());
         this.logger.setLevel(Constants.logLevel);
 
+        this.sound = sound;
         this.window = new JFrame("Battleship");
         this.window.setLayout(new GridLayout(2, 2, 10, 10));
         this.counter = 0;
@@ -314,9 +317,9 @@ public final class MainWindow {
 
         soundCheckbox.addItemListener(e -> {
             if (e.getStateChange() == 1) {
-                Entrypoint.sound.set(true);
+                sound.set(true);
             } else {
-                Entrypoint.sound.set(false);
+                sound.set(false);
             }
         });
 

@@ -46,7 +46,7 @@ public final class Sound {
     }
 
     private static void play(SoundFile sf) {
-        if (Constants.SOUND && Entrypoint.sound.get()) {
+        if (Constants.SOUND) {
             try {
                 sf.play();
             } catch (final Exception e) {
