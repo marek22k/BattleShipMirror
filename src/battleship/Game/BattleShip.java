@@ -234,8 +234,9 @@ public final class BattleShip {
         synchronized (this.currentGameLock) {
             synchronized (this.serverStatusLock) {
                 if (this.serverstatus != ServerStatus.STOPPED) {
-                    this.logger.log(Level.SEVERE, "The game cannot be started if the server is still running.");
-                    return;
+                    this.logger.log(Level.WARNING, "The game cannot be started if the server is still running. Stopping the server.");
+                    this.logger.log(Level.FINE, "ServerStatus: " + this.serverstatus);
+                    this.mainwindow.stopServer();
                 }
             }
             if (this.currentGame != null) {
