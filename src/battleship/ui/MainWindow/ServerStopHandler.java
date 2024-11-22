@@ -1,5 +1,5 @@
 package battleship.ui.MainWindow;
 
-public interface ServerHandler {
+public interface ServerStopHandler {
     void handle() throws Exception;
 }

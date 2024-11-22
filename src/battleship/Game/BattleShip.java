@@ -58,7 +58,7 @@ public final class BattleShip {
             this.startGame(connection, false);
         });
 
-        this.mainwindow.setServerStartHandler(() -> {
+        this.mainwindow.setServerStartHandler((int port) -> {
             if (!this.checkStartConditions()) {
                 this.mainwindow.stopServer();
                 return;
@@ -70,9 +70,7 @@ public final class BattleShip {
                 this.mainwindow.stopServer();
             }
 
-            final int port = Constants.SERVER_PORT;
             this.server = new Server(port);
-            SwingUtilities.invokeLater(() -> this.mainwindow.updateServerPort(String.valueOf(port)));
 
             try {
                 while (!Thread.currentThread().isInterrupted()) {
@@ -124,7 +122,6 @@ public final class BattleShip {
                     this.server = null;
                 }
             }
-            SwingUtilities.invokeLater(() -> this.mainwindow.updateServerPort(""));
         });
 
         this.mainwindow.firstInit();

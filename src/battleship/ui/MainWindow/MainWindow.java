@@ -31,6 +31,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
@@ -42,6 +43,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import battleship.Constants;
+import battleship.Game.ServerStatus;
 import battleship.terminal.TerminalWindow;
 import battleship.utils.NetworkUtils;
 import battleship.utils.SystemUtils;
@@ -67,6 +69,8 @@ public final class MainWindow {
     private final JLabel serverStatusLabel;
     private final JLabel serverPortLabel;
     private final JLabel serverIpListLabel;
+    private final JTextField serverPortField;
+    private ServerStatus serverstatus;
 
     // Client panel
     private final JLabel clientLabel;
@@ -86,8 +90,8 @@ public final class MainWindow {
 
     private int counter;
     private ConnectHandler connecthandler;
-    private ServerHandler serverStartHandler;
-    private ServerHandler serverStopHandler;
+    private ServerStartHandler serverStartHandler;
+    private ServerStopHandler serverStopHandler;
 
     private final Logger logger;
 
@@ -98,23 +102,22 @@ public final class MainWindow {
         this.window = new JFrame("Battleship");
         this.window.setLayout(new GridLayout(2, 2, 10, 10));
         this.counter = 0;
+        this.serverstatus = ServerStatus.STOPPED;
 
         final EmptyBorder padding = new EmptyBorder(10, 10, 10, 10);
 
-        /*
-         * Rand um die Kacheln. Sie sind Grau, haben eine Dicke von 1 und einen
-         * abgerundeten Rand.
-         */
+        /* Kleiner grauer Rand um die vier Kacheln */
         final LineBorder border = new LineBorder(Color.GRAY, 1, true);
 
-        /* Server Kachel (oben links */
+        /* Server Kachel (oben links) */
         final JPanel serverPanel = new JPanel();
         serverPanel.setBorder(BorderFactory.createCompoundBorder(padding, border));
         serverPanel.setLayout(new GridBagLayout());
         final GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.fill = GridBagConstraints.HORIZONTAL; // Weiteste horizontale Ausdehnung
         gbc.insets = new Insets(5, 5, 5, 5);
-
+        gbc.anchor = GridBagConstraints.WEST; // Ausrichtung nach links
+        
         this.serverLabel = new JLabel("Server", JLabel.LEFT);
         this.serverModeRadioButton = new JRadioButton();
         this.serverModeRadioButton.setSelected(true);
@@ -129,14 +132,19 @@ public final class MainWindow {
         buttonPanel.add(this.serverStartButton);
         buttonPanel.add(this.serverStopButton);
 
-        this.serverStatusLabel = new JLabel("Status: Stopped.");
+        final JPanel serverPortPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         this.serverPortLabel = new JLabel("Port: ");
+        this.serverPortField = new JTextField(String.valueOf(Constants.SERVER_PORT), 5);
+        serverPortPanel.add(this.serverPortLabel);
+        serverPortPanel.add(this.serverPortField);
+
+        this.serverStatusLabel = new JLabel("Status: Stopped.");
         this.serverIpListLabel = new JLabel("IP addresses:");
         this.ipListModel = new DefaultListModel<>();
         this.serverIpList = new JList<>(this.ipListModel);
 
         final JScrollPane scrollPane = new JScrollPane(this.serverIpList);
-        scrollPane.setPreferredSize(new Dimension(300, 200));
+        this.serverIpList.setFixedCellHeight(20);
 
         this.updateSeverIpListButton = new JButton("Update list");
 
@@ -151,7 +159,7 @@ public final class MainWindow {
         gbc.gridy++;
         serverPanel.add(this.serverStatusLabel, gbc);
         gbc.gridy++;
-        serverPanel.add(this.serverPortLabel, gbc);
+        serverPanel.add(serverPortPanel, gbc); // Füge das serverPortPanel hier hinzu
         gbc.gridy++;
         serverPanel.add(this.serverIpListLabel, gbc);
         gbc.gridy++;
@@ -397,6 +405,7 @@ public final class MainWindow {
         this.serverStatusLabel.setEnabled(enabled);
         this.serverPortLabel.setEnabled(enabled);
         this.serverIpListLabel.setEnabled(enabled);
+        this.serverPortField.setEnabled(enabled);
     }
 
     /**
@@ -448,18 +457,16 @@ public final class MainWindow {
         return handler;
     }
 
-    /**
-     * De- bzw. aktiviert das Client Panel.
-     *
-     * @param enabled
-     */
-
     public String getName() {
         return this.nameField.getText();
     }
 
     public Integer getSelectedLevel() {
         return (Integer) this.levelComboBox.getSelectedItem();
+    }
+    
+    public Integer getServerPort() {
+        return Integer.valueOf(this.serverPortField.getText());
     }
 
     public void log(String text, Style style) {
@@ -491,11 +498,11 @@ public final class MainWindow {
         this.connecthandler = connecthandler;
     }
 
-    public void setServerStartHandler(ServerHandler serverStartHandler) {
+    public void setServerStartHandler(ServerStartHandler serverStartHandler) {
         this.serverStartHandler = serverStartHandler;
     }
 
-    public void setServerStopHandler(ServerHandler serverStopHandler) {
+    public void setServerStopHandler(ServerStopHandler serverStopHandler) {
         this.serverStopHandler = serverStopHandler;
     }
 
@@ -508,6 +515,17 @@ public final class MainWindow {
             this.logger.log(Level.INFO, "Start server.");
             this.serverStartButton.setEnabled(false);
             this.serverStopButton.setEnabled(true);
+            this.serverPortField.setEditable(false);
+            final int serverPort;
+            try {
+                serverPort = getServerPort();
+            } catch (NumberFormatException e) {
+                logger.log(Level.SEVERE, "Failed to get port number.", e);
+                JOptionPane.showMessageDialog(this.window, "Failed to get port number: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                this.stopServer();
+                return;
+            }
+            this.serverstatus = ServerStatus.RUNNING;
             this.updateServerStatus("Started.");
 
             if (this.serverStartHandler != null) {
@@ -516,7 +534,7 @@ public final class MainWindow {
                     @Override
                     public void run() {
                         try {
-                            MainWindow.this.serverStartHandler.handle();
+                            MainWindow.this.serverStartHandler.handle(serverPort);
                         } catch (final Exception e) {
                             MainWindow.this.logger.log(Level.SEVERE, "Error starting server.", e);
                             SwingUtilities.invokeLater(() -> {
@@ -542,6 +560,8 @@ public final class MainWindow {
             this.logger.log(Level.INFO, "Stop server.");
             this.serverStartButton.setEnabled(true);
             this.serverStopButton.setEnabled(false);
+            this.serverPortField.setEditable(true);
+            this.serverstatus = ServerStatus.STOPPED;
             this.updateServerStatus("Stopped.");
 
             if (this.serverStartHandler != null) {
@@ -604,6 +624,11 @@ public final class MainWindow {
      */
     public void updateMode() {
         final boolean clientMode = this.clientModeRadioButton.isSelected();
+        
+        if (clientMode && serverstatus == ServerStatus.RUNNING) {
+            stopServer();
+        }
+        
         this.enableServer(!clientMode);
         this.enableClient(clientMode);
 
@@ -612,10 +637,6 @@ public final class MainWindow {
             new TerminalWindow().show();
             this.counter = 0;
         }
-    }
-
-    public void updateServerPort(String text) {
-        this.serverPortLabel.setText("Port: " + text);
     }
 
     /**
