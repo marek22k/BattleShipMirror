@@ -30,4 +30,9 @@ public final class SoundFile {
             clip.start();
         }
     }
+
+    @Override
+    public String toString() {
+        return "SoundFile [soundResource=" + this.soundResource + "]";
+    }
 }
