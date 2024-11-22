@@ -514,9 +514,20 @@ public final class GameSession {
                         this.stopGame(GameEndStatus.SUCCESSFUL_DRAW_FROM_PLAYER);
                     });
                     this.gamewindow.setComputerMoveHandler(() -> {
-                        final OpposingField f = this.opposing.getComputerMove();
-                        this.logger.log(Level.FINE, "Computer move on x=" + f.getX() + " and y=" + f.getY());
-                        this.attackOpponent(f.getX(), f.getY());
+                        try {
+                            final OpposingField f = this.opposing.getComputerMove();
+                            this.logger.log(Level.FINE, "Computer move on x=" + f.getX() + " and y=" + f.getY());
+                            this.attackOpponent(f.getX(), f.getY());
+                        } catch (final Exception e) {
+                            this.logger.log(Level.SEVERE, "Failed to calculate computer move.");
+                            this.logger.log(
+                                    Level.FINE,
+                                    "Current opposing playing field:\n"
+                                            + Utils.writerToString(pw -> this.opposing.debugPrint(pw)) + "\n"
+                                            + "Fields:\n" + Utils.writerToString(pw -> this.opposing.debugPrint2(pw))
+                            );
+                            throw e;
+                        }
                     });
                     this.logger.log(Level.FINE, "Draw ships.");
                     this.players.print(this.gamewindow.getPlayersField());

@@ -1,5 +1,6 @@
 package battleship.OpposingThings;
 
+import java.io.PrintWriter;
 import java.util.Random;
 
 import battleship.ui.PlaygroundMatrix.PlaygroundMatrix;
@@ -20,7 +21,7 @@ public class OpposingPlayingField {
         }
     }
 
-    public void debugPrint() {
+    public void debugPrint(PrintWriter pw) {
         for (final OpposingFieldStatus[] row : this.field) {
             for (final OpposingFieldStatus column : row) {
                 char symbol;
@@ -41,17 +42,17 @@ public class OpposingPlayingField {
                         symbol = '_';
                         break;
                 }
-                System.out.print(symbol + " ");
+                pw.print(symbol + " ");
             }
-            System.out.println();
+            pw.println();
         }
     }
 
-    public void debugPrint2() {
+    public void debugPrint2(PrintWriter pw) {
         for (int y = 0; y < this.n; y++) {
             for (int x = 0; x < this.n; x++) {
                 if (this.field[y][x] != OpposingFieldStatus.UNKNOWN) {
-                    System.out.println("x=" + x + " y=" + y + " : " + this.field[y][x]);
+                    pw.println("x=" + x + " y=" + y + " : " + this.field[y][x]);
                 }
             }
         }
@@ -193,6 +194,7 @@ public class OpposingPlayingField {
             if (y + 1 < this.n && this.field[y][y + 1] == OpposingFieldStatus.UNKNOWN) {
                 return new OpposingField(x, y + 1);
             }
+
             throw new RuntimeException(
                     "Playing field integrity of the opponent's playing field violated. There is a one-field ship that has not sunk."
             );
