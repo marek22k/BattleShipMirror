@@ -226,13 +226,16 @@ public class OpposingPlayingField {
      */
     public OpposingField getNextField(OpposingField f, OpposingFieldStatus fieldStatus) {
         /*
-         * Das Feld könnte wie folgt aussehen: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-         * AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA BBBBBBBBBBBBBBFCCCCCCCCCCCCCCCCCCCC
-         * DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD dabei
-         * ist F das Feld f. Als erstes soll der Bereich von F bis zum Ende durchsucht
-         * werden, also der Bereich F, der Bereich C und der Bereich D. Wenn das
-         * gesuchte Feld dann noch nicht gefunden wurden ist, soll vom Anfang an gesucht
-         * werden - also der Bereich C und D.
+         * Das Feld könnte wie folgt aussehen:
+         * AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+         * AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+         * BBBBBBBBBBBBBBFCCCCCCCCCCCCCCCCCCCC
+         * DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+         * DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+         * Dabei ist F das Feld f. Als erstes soll der Bereich von F bis zum Ende
+         * durchsucht werden, also der Bereich F, der Bereich C und der Bereich D. Wenn
+         * das gesuchte Feld dann noch nicht gefunden wurden ist, soll vom Anfang an
+         * gesucht werden - also der Bereich C und D.
          */
         int x, y;
         /* Hier wird der Bereich F und C durchsucht */
