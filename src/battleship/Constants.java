@@ -7,12 +7,15 @@ import java.util.logging.Level;
  * Beinhaltet verschiedene Konstanten, welche das Spiel benötigt.
  */
 public class Constants {
+    /**
+     * Constants kann nicht instanziiert werden
+     */
     private Constants() {
         throw new UnsupportedOperationException("Constants cannot be instantiated");
     }
 
     /**
-     * Protokollversion, welche das aktuelle Spiel implementiert.
+     * Protokoll-Version, welche das aktuelle Spiel implementiert.
      */
     public static final String PROTOCOL_VERSION = "1.1.0";
 
@@ -22,7 +25,7 @@ public class Constants {
     public static final String IMPLEMENTATION = "BandurasBattleShip";
 
     /**
-     * Standardport für Schiffeversenken
+     * Standard-Port des Schiffeversenken-Server
      */
     public static final int SERVER_PORT = 51525;
 
@@ -76,7 +79,7 @@ public class Constants {
     );
 
     /**
-     * Größe der Spielfelder von den einzelnen Leveln
+     * Größe der Spielfelder von den einzelnen Levels
      */
     public static final int[] LEVEL_SIZES = {14, 15, 16, 17, 18, 19};
 

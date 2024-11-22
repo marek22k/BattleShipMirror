@@ -31,34 +31,54 @@ public final class BattleShip {
     private final Logger logger;
 
     /**
-     * Initalisiert der Hauptfenster und einige für das Spiel notwendige Dinge.
+     * Initialisiert der Hauptfenster und einige für das Spiel notwendige Dinge.
      */
     public BattleShip() {
+        /* Anlegen von Lock Objekten */
         this.currentGameLock = new Object();
         this.serverStatusLock = new Object();
+        /* Setzen der Sound-Einstellung */
         this.sound = new AtomicBoolean(true);
+        /*
+         * Erstellen des Hauptfensters und Verknüpfung mit der Sound-Einstellung
+         * herstellen
+         */
         this.mainwindow = new MainWindow(this.sound);
         this.currentLevel = 1;
         synchronized (this.serverStatusLock) {
             this.serverstatus = ServerStatus.STOPPED;
         }
 
+        /* Einrichten der Ausgabe des Logs im Hauptfenster */
         Logger.getLogger("").addHandler(this.mainwindow.getLogHandler());
 
+        /* Logger erstellen */
         this.logger = Logger.getLogger(BattleShip.class.getName());
         this.logger.setLevel(Constants.logLevel);
 
+        /*
+         * Handler anlegen, welcher aufgerufen wird, wenn der "Connect"-Button beim
+         * Client geklickt wird
+         */
         this.mainwindow.setConnectHandler((String hostname, int port) -> {
+            /* Überprüfe Startbedingungen */
             if (!this.checkStartConditions()) {
                 SwingUtilities.invokeLater(() -> this.mainwindow.enable(true));
                 return;
             }
 
+            /* Anlegen einer Verbindung zum Server */
             final Connection connection = Connection.connectTo(hostname, port);
+            /* Starten der Spiele-Sitzung */
             this.startGame(connection, false);
         });
 
+        /*
+         * Handler anlegen, welcher aufgerufen wird, wenn der Server gestartet werden
+         * soll
+         */
         this.mainwindow.setServerStartHandler((int port) -> {
+            /* Überprüfe Startbedingungen */
             if (!this.checkStartConditions()) {
                 this.mainwindow.stopServer();
                 return;
@@ -66,15 +86,35 @@ public final class BattleShip {
             synchronized (this.serverStatusLock) {
                 this.serverstatus = ServerStatus.RUNNING;
             }
+            /*
+             * Wenn der letzte Server nicht richtig beendet wurden ist, führe diesen Schritt
+             * nun aus
+             */
             if (this.server != null) {
+                logger.log(
+                        Level.WARNING,
+                        "Server is started although the last server was not terminated correctly (reference still found). Cleaning this up."
+                );
                 this.mainwindow.stopServer();
             }
 
+            /* Erstellen des eigentlichen Servers */
             this.server = new Server(port);
 
+            /*
+             * Versuche so lange wie möglich (-> bis eine Ausnahme auftritt) auf einen
+             * Client zu warten
+             */
             try {
+                /* Warte solange auf Clients, solange der Server-Thread läuft */
                 while (!Thread.currentThread().isInterrupted()) {
+                    /* Diese Operation blockiert */
                     final Socket client = this.server.waitForClient();
+                    /*
+                     * Es soll gefragt werden, ob die Verbindungs-Anfrage des Client angenommen
+                     * werden soll. Er wird gewartet bis der Nutzer antwortet, damit es bei einer
+                     * Client-Flut kein Popup-Terror gibt.
+                     */
                     SwingUtilities.invokeAndWait(() -> {
                         final String clientQuestion = client.getInetAddress().getHostName() + ":" + client.getPort()
                                 + " (" + client.getInetAddress().getHostAddress() + ") -> "
@@ -87,6 +127,11 @@ public final class BattleShip {
                         if (option == JOptionPane.YES_OPTION) {
                             new Thread(() -> {
                                 try {
+                                    /*
+                                     * Wenn der Nutzer den Client annimmt, soll die Verbindung in ein
+                                     * Schiffeversenken-Verbindung "gewrappt" werden, der server beendet und
+                                     * anschließend die Spiele-Sitzung gestartet werden.
+                                     */
                                     final Connection connection = new Connection(client);
                                     this.mainwindow.stopServer();
                                     this.startGame(connection, true);
@@ -95,10 +140,19 @@ public final class BattleShip {
                                 }
                             }).start();
                         } else {
+                            /*
+                             * Wenn die Verbindung mit dem Client abgelehnt wird, soll die Verbindung
+                             * richtig zugemacht werden
+                             */
                             this.logger.log(Level.INFO, "Deny client.");
                             try {
                                 client.close();
                             } catch (final Exception e) {
+                                /*
+                                 * Wenn dies scheitert, ist das zwar doof, aber nicht "unser Problem" -> der
+                                 * Client wartet dann Ewigkeiten auf den Server. Dies betrifft aber nicht unsere
+                                 * Operationen, sodass wir auf den nächsten Client warten können.
+                                 */
                                 this.logger.log(Level.SEVERE, "Failed to deny client.", e);
                             }
                         }
@@ -114,6 +168,7 @@ public final class BattleShip {
             }
         });
 
+        /* Handler, welcher ausgeführt wird, wenn der Server gestoppt werden soll */
         this.mainwindow.setServerStopHandler(() -> {
             synchronized (this.serverStatusLock) {
                 this.serverstatus = ServerStatus.STOPPED;
