@@ -63,6 +63,7 @@ public class PlaygroundMatrix extends JPanel {
             final JLabel label = new JLabel(String.valueOf(i + 1), SwingConstants.CENTER);
             label.setPreferredSize(new Dimension(40, 40)); // Breite der Zahlenfelder
             label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            label.setLabelFor(null);
             this.add(label, gbc);
         }
 

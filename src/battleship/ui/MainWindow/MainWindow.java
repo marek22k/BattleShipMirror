@@ -260,6 +260,10 @@ public final class MainWindow {
         this.clientHostnameLabel.setLabelFor(this.clientHostnameField);
         this.clientPortLabel.setLabelFor(this.clientPortField);
         this.serverIpListLabel.setLabelFor(this.serverIpList);
+        this.nameLabel.setLabelFor(this.nameField);
+        this.serverPortLabel.setLabelFor(null);
+        this.serverStatusLabel.setLabelFor(null);
+        this.currentLevelLabel.setLabelFor(null);
 
         // Aktiviere den Client Mode, wenn er angeklickt wird
         innerClientPanel.addMouseListener(new MouseAdapter() {
