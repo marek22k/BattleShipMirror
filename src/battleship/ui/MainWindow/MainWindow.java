@@ -31,7 +31,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
@@ -112,12 +111,13 @@ public final class MainWindow {
         /* Server Kachel (oben links) */
         final JPanel serverPanel = new JPanel();
         serverPanel.setBorder(BorderFactory.createCompoundBorder(padding, border));
+        serverPanel.setPreferredSize(new Dimension(350, 420));
         serverPanel.setLayout(new GridBagLayout());
         final GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL; // Weiteste horizontale Ausdehnung
+        gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.anchor = GridBagConstraints.WEST; // Ausrichtung nach links
-        
+
         this.serverLabel = new JLabel("Server", JLabel.LEFT);
         this.serverModeRadioButton = new JRadioButton();
         this.serverModeRadioButton.setSelected(true);
@@ -338,7 +338,7 @@ public final class MainWindow {
         this.window.add(logPanel);
 
         // Fensteroptionen
-        this.window.setSize(750, 930);
+        this.window.pack();
         this.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.enable(false);
@@ -464,7 +464,7 @@ public final class MainWindow {
     public Integer getSelectedLevel() {
         return (Integer) this.levelComboBox.getSelectedItem();
     }
-    
+
     public Integer getServerPort() {
         return Integer.valueOf(this.serverPortField.getText());
     }
@@ -518,10 +518,12 @@ public final class MainWindow {
             this.serverPortField.setEditable(false);
             final int serverPort;
             try {
-                serverPort = getServerPort();
-            } catch (NumberFormatException e) {
-                logger.log(Level.SEVERE, "Failed to get port number.", e);
-                JOptionPane.showMessageDialog(this.window, "Failed to get port number: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                serverPort = this.getServerPort();
+            } catch (final NumberFormatException e) {
+                this.logger.log(Level.SEVERE, "Failed to get port number.", e);
+                JOptionPane.showMessageDialog(
+                        this.window, "Failed to get port number: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE
+                );
                 this.stopServer();
                 return;
             }
@@ -624,11 +626,11 @@ public final class MainWindow {
      */
     public void updateMode() {
         final boolean clientMode = this.clientModeRadioButton.isSelected();
-        
-        if (clientMode && serverstatus == ServerStatus.RUNNING) {
-            stopServer();
+
+        if (clientMode && this.serverstatus == ServerStatus.RUNNING) {
+            this.stopServer();
         }
-        
+
         this.enableServer(!clientMode);
         this.enableClient(clientMode);
 

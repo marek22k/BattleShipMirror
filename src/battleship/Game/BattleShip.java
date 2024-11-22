@@ -137,7 +137,7 @@ public final class BattleShip {
         if (this.hasNonBlankName()) {
             return true;
         }
-        
+
         this.logger.log(Level.SEVERE, "Game cannot be started without a name.");
         SwingUtilities.invokeLater(() -> {
             JOptionPane.showMessageDialog(
