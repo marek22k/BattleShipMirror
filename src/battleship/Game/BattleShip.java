@@ -49,31 +49,18 @@ public final class BattleShip {
         this.logger.setLevel(Constants.logLevel);
 
         this.mainwindow.setConnectHandler((String hostname, int port) -> {
-            if (this.hasNonBlankName()) {
-                final Connection connection = Connection.connectTo(hostname, port);
-                this.startGame(connection, false);
-            } else {
-                this.logger.log(Level.SEVERE, "Game cannot be started without a name.");
-                SwingUtilities.invokeLater(() -> {
-                    JOptionPane.showMessageDialog(
-                            null, "The game cannot be started without a name. Please enter a name.", "No name",
-                            JOptionPane.ERROR_MESSAGE
-                    );
-                    this.mainwindow.enable(true);
-                });
+            if (!this.checkStartConditions()) {
+                SwingUtilities.invokeLater(() -> this.mainwindow.enable(true));
+                return;
             }
+
+            final Connection connection = Connection.connectTo(hostname, port);
+            this.startGame(connection, false);
         });
 
         this.mainwindow.setServerStartHandler(() -> {
-            if (!this.hasNonBlankName()) {
-                this.logger.log(Level.SEVERE, "Game cannot be started without a name.");
-                SwingUtilities.invokeLater(() -> {
-                    JOptionPane.showMessageDialog(
-                            null, "The game cannot be started without a name. Please enter a name.", "No name",
-                            JOptionPane.ERROR_MESSAGE
-                    );
-                    this.mainwindow.stopServer();
-                });
+            if (!this.checkStartConditions()) {
+                this.mainwindow.stopServer();
                 return;
             }
             synchronized (this.serverStatusLock) {
@@ -141,6 +128,27 @@ public final class BattleShip {
         });
 
         this.mainwindow.firstInit();
+    }
+
+    /**
+     * Überprüft, ob alles notwendige vorliegt um das Spiel zu starten. Bei dem
+     * Notwendigen handelt es sich um den Namen des Spielers.
+     *
+     * @return true, wenn alles Notwendige vorliegt, sonst false.
+     */
+    public boolean checkStartConditions() {
+        if (this.hasNonBlankName()) {
+            return true;
+        }
+        
+        this.logger.log(Level.SEVERE, "Game cannot be started without a name.");
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(
+                    null, "The game cannot be started without a name. Please enter a name.", "No name",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        });
+        return false;
     }
 
     /**
