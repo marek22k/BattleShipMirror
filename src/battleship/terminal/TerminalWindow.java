@@ -100,9 +100,8 @@ public final class TerminalWindow {
                 g.fillOval(0, 0, this.getWidth(), this.getHeight());
             }
         };
-        this.colorDot.setPreferredSize(new Dimension(15, 15));
 
-        this.statusLabel = new JLabel("Status: ---");
+        this.statusLabel = new JLabel("Status: Initialization in progress");
         statusPanel.add(this.colorDot);
         statusPanel.add(this.statusLabel);
         bottomPanel.add(statusPanel, BorderLayout.NORTH);
@@ -118,8 +117,13 @@ public final class TerminalWindow {
 
         this.window.add(bottomPanel, BorderLayout.SOUTH);
 
-        // Fenster-Setup
-        this.window.setSize(600, 400);
+        this.statusLabel.setLabelFor(null);
+
+        this.terminalArea.setPreferredSize(new Dimension(600, 350));
+        this.colorDot.setPreferredSize(new Dimension(15, 15));
+        this.commandInputField.setColumns(40);
+        this.window.pack();
+
         this.window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.window.addWindowListener(new WindowAdapter() {
             @Override

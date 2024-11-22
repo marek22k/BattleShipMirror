@@ -11,8 +11,6 @@ import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import battleship.Entrypoint;
-
 public final class SoundFile {
     private final String soundResource;
 
@@ -25,7 +23,7 @@ public final class SoundFile {
 
     public void play() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
         try (
-                InputStream resourceStream = Entrypoint.class.getResourceAsStream(this.soundResource);
+                InputStream resourceStream = this.getClass().getResourceAsStream(this.soundResource);
                 BufferedInputStream bufferedStream = new BufferedInputStream(resourceStream);
                 AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(bufferedStream)
         ) {

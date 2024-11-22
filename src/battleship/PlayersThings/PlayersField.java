@@ -21,10 +21,6 @@ public class PlayersField {
         return this.x == other.getX() && this.y == other.getY();
     }
 
-    public boolean hasSamePosition(PlayersShipField other) {
-        return this.x == other.getX() && this.y == other.getY();
-    }
-
     public boolean isNeighbor(PlayersField other) {
         final int x = this.getX();
         final int y = this.getY();
