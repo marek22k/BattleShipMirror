@@ -191,7 +191,7 @@ public class OpposingPlayingField {
             if (x + 1 < this.n && this.field[y][x + 1] == OpposingFieldStatus.UNKNOWN) {
                 return new OpposingField(x + 1, y);
             }
-            if (y + 1 < this.n && this.field[y][y + 1] == OpposingFieldStatus.UNKNOWN) {
+            if (y + 1 < this.n && this.field[y + 1][x] == OpposingFieldStatus.UNKNOWN) {
                 return new OpposingField(x, y + 1);
             }
 
