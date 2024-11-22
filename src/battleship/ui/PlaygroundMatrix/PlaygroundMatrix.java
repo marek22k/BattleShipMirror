@@ -21,6 +21,7 @@ public class PlaygroundMatrix extends JPanel {
     private final int cols;
     private final List<FireListener> listeners; // Liste der registrierten Listener
     private static final long serialVersionUID = 1L;
+    private static final int RESIZE_FACTOR = 40;
 
     public PlaygroundMatrix(int rows, int cols) {
         this.rows = rows;
@@ -77,7 +78,7 @@ public class PlaygroundMatrix extends JPanel {
                 gbc.weightx = 0.1;
                 gbc.weighty = 0.1;
                 final JPanel panel = new JPanel();
-                panel.setBackground(Color.BLACK); // Anfangsfarbe (Wasser)
+                panel.setBackground(Color.BLACK); // Anfangsfarbe (Leer/Unbekannt)
                 panel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY)); // Helle Linien
                 this.grid[i][j] = panel;
                 this.add(panel, gbc);
@@ -94,6 +95,7 @@ public class PlaygroundMatrix extends JPanel {
                 });
             }
         }
+        this.setPreferredSize(new Dimension(cols * RESIZE_FACTOR, rows * RESIZE_FACTOR));
     }
 
     // Methode zum Hinzufügen von FireListenern

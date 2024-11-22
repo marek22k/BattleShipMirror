@@ -56,7 +56,6 @@ public final class GameWindow {
         this.window = new JFrame("Battleship");
 
         // Fensteroptionen
-        this.window.setSize(1300, 530);
         this.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Haupt-Panel mit einem BorderLayout
@@ -144,6 +143,7 @@ public final class GameWindow {
 
         // Haupt-Panel zum Fenster hinzufügen
         this.window.add(mainPanel);
+        this.window.pack();
     }
 
     public void close() {
