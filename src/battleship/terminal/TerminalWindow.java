@@ -101,7 +101,7 @@ public final class TerminalWindow {
             }
         };
 
-        this.statusLabel = new JLabel("Status: Initialization in progress");
+        this.statusLabel = new JLabel();
         statusPanel.add(this.colorDot);
         statusPanel.add(this.statusLabel);
         bottomPanel.add(statusPanel, BorderLayout.NORTH);
@@ -110,7 +110,7 @@ public final class TerminalWindow {
         final JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new BorderLayout());
         this.commandInputField = new JTextField();
-        this.startStopButton = new JButton("---");
+        this.startStopButton = new JButton();
         inputPanel.add(this.commandInputField, BorderLayout.CENTER);
         inputPanel.add(this.startStopButton, BorderLayout.EAST);
         bottomPanel.add(inputPanel, BorderLayout.SOUTH);
@@ -122,7 +122,6 @@ public final class TerminalWindow {
         this.terminalArea.setPreferredSize(new Dimension(600, 350));
         this.colorDot.setPreferredSize(new Dimension(15, 15));
         this.commandInputField.setColumns(40);
-        this.window.pack();
 
         this.window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.window.addWindowListener(new WindowAdapter() {
@@ -191,6 +190,7 @@ public final class TerminalWindow {
     }
 
     public void show() {
+        this.window.pack();
         this.window.setVisible(true);
     }
 
