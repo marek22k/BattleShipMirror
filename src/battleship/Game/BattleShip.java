@@ -23,7 +23,7 @@ public final class BattleShip {
     /* Speichert das aktuell maximale Level. */
     private int currentMaxLevel;
     /* Speichert die aktuelle Einstellung, ob Ton abgespielt werden soll. */
-    public final AtomicBoolean sound;
+    private final AtomicBoolean sound;
     /* Speichert das Hauptfenster. */
     private MainWindow mainwindow;
     /*
