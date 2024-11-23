@@ -20,14 +20,27 @@ import battleship.ui.MainWindow.MainWindow;
  * da.
  */
 public final class BattleShip {
-    private int currentLevel;
+    /* Speichert das aktuell maximale Level. */
+    private int currentMaxLevel;
+    /* Speichert die aktuelle Einstellung, ob Ton abgespielt werden soll. */
     public final AtomicBoolean sound;
+    /* Speichert das Hauptfenster. */
     private MainWindow mainwindow;
+    /*
+     * Speichert die aktuelle Spiele-Sitzung bzw. null, wenn aktuell kein Spiel
+     * läuft.
+     */
     private GameSession currentGame;
     private final Object currentGameLock;
+    /* Speichert den Spiele-Server bzw. null, wenn kein Server läuft. */
     private Server server;
+    /*
+     * Speichert zusätzlich den Server Status und gibt damit an, ob aktuell ein
+     * Server läuft.
+     */
     private ServerStatus serverstatus;
     private final Object serverStatusLock;
+    /* Unser Klassen-Logger */
     private final Logger logger;
 
     /**
@@ -44,7 +57,7 @@ public final class BattleShip {
          * herstellen
          */
         this.mainwindow = new MainWindow(this.sound);
-        this.currentLevel = 1;
+        this.currentMaxLevel = 1;
         synchronized (this.serverStatusLock) {
             this.serverstatus = ServerStatus.STOPPED;
         }
@@ -229,17 +242,39 @@ public final class BattleShip {
      * @throws Exception
      */
     private void startGame(Connection connection, boolean isServer) throws Exception {
+        /*
+         * Deaktiviere die Optionen Dinge im Hauptfenster zu tun (mit Ausnahme der
+         * Sound-Einstellungen)
+         */
         this.mainwindow.enable(false);
+        /* Welches Level möchte der Nutzer spielen? */
         final int selectedLevel = this.mainwindow.getSelectedLevel();
+        /* Ändere den aktuellen Spiele-Status, daher die Variable this.currentGame */
         synchronized (this.currentGameLock) {
+            /* Greife exklusiv auf den ServerStatus zu */
             synchronized (this.serverStatusLock) {
                 if (this.serverstatus != ServerStatus.STOPPED) {
-                    this.logger.log(Level.WARNING, "The game cannot be started if the server is still running. Stopping the server.");
+                    /*
+                     * Der Server sollte bereits beendet wurden sein. Für den Fall, dass irgendwie
+                     * ein Fehler aufgetreten ist und dies nicht passiert ist, tue das jetzt. Da das
+                     * aber eigentlich nicht passieren dürfte, gebe eine Warnung aus.
+                     */
+                    this.logger.log(
+                            Level.WARNING,
+                            "The game cannot be started if the server is still running. Stopping the server."
+                    );
                     this.logger.log(Level.FINE, "ServerStatus: " + this.serverstatus);
                     this.mainwindow.stopServer();
                 }
             }
+            /*
+             * Überprüfe, ob der letzte Spiel nicht richtig beendet wurden ist und immer
+             * noch als aktuelles Spiel festgelegt ist.
+             */
             if (this.currentGame != null) {
+                /*
+                 * Wenn ja, gebe eine Fehlermeldung aus und beende den Start des neuen Spiels.
+                 */
                 this.logger.log(Level.SEVERE, "One game is already running.");
                 SwingUtilities.invokeLater(
                         () -> JOptionPane.showMessageDialog(
@@ -249,11 +284,20 @@ public final class BattleShip {
                 );
                 return;
             }
+            /* Sollte alles gut sein, starte ein neues Spiel */
             this.currentGame = new GameSession(
                     connection, isServer, this.mainwindow.getName(), selectedLevel, this.sound,
+                    /*
+                     * Dies hier ist der GameExitHandler, welcher aufgerufen wird, wenn das Spiel
+                     * beendet wird.
+                     */
                     (GameEndStatus status) -> {
                         this.logger.log(Level.FINE, "In game exit handler, status=" + status);
                         switch (status) {
+                            /*
+                             * Im Falle, dass der Spieler gewonnen hat, gebe eine Meldung aus und Spiele
+                             * einen Sieges-Ton.
+                             */
                             case SUCCESSFUL_WON:
                                 Sound.playVictory();
                                 SwingUtilities.invokeLater(
@@ -323,20 +367,27 @@ public final class BattleShip {
                                 );
                                 break;
                         }
+                        /* Wenn der Spieler gewinnt, darf er im Level aufsteigen. */
                         if (
                             status == GameEndStatus.SUCCESSFUL_WON || status == GameEndStatus.SUCCESSFUL_DRAW_FROM_PEER
                         ) {
                             this.logger.log(Level.INFO, "Level up!");
-                            this.currentLevel = Math
-                                    .min(Math.max(selectedLevel + 1, this.currentLevel), Constants.NUMBER_OF_LEVELS);
-                            this.logger.log(Level.INFO, "New level: " + this.currentLevel);
-                            SwingUtilities.invokeLater(() -> this.mainwindow.updateLevels(this.currentLevel));
+                            /*
+                             * Das neue Level ist das gespielte Level + 1 oder das aktuell maximale Level,
+                             * jenachdem, was besser ist. Trotzdem darf das Level nicht höher sein als das
+                             * maximale Level.
+                             */
+                            this.currentMaxLevel = Math
+                                    .min(Math.max(selectedLevel + 1, this.currentMaxLevel), Constants.NUMBER_OF_LEVELS);
+                            this.logger.log(Level.INFO, "New level: " + this.currentMaxLevel);
+                            SwingUtilities.invokeLater(() -> this.mainwindow.updateLevels(this.currentMaxLevel));
                         }
                         this.mainwindow.enable(true);
                         this.currentGame = null;
                     }
             );
         }
+        /* Nun ist ein aktuelles Spiel gesetzt. Dieses soll nun gestartet werden. */
         this.currentGame.begin();
     }
 }

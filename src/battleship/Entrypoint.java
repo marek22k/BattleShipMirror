@@ -19,6 +19,7 @@ public final class Entrypoint {
     }
 
     public static void main(String[] args) {
+        /* Setzen des Log-Levels für alle Log-Handler */
         for (final var handler : Logger.getLogger("").getHandlers()) {
             handler.setLevel(Constants.logLevel);
         }

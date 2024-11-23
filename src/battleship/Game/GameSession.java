@@ -34,22 +34,48 @@ import battleship.utils.Utils;
  * Für die Kommunikation mit dem Gegner wird dies umgewandelt.
  */
 public final class GameSession {
+    /* Speichert die von uns gewürfelte Münze. */
     private String myCoin;
+    /* Speichert den Namen von unserem Spieler. */
     private final String playersName;
+    /* Speichert das Spielelevel, was unser Spieler spielen möchte. */
     private final int playersLevel;
+    /* Speichert die Sound-Einstellung, ob Ton abgespielt werden soll. */
     private final AtomicBoolean sound;
+    /*
+     * Speichert die Spielbretter (nicht die GUI, sondern das eigentliche
+     * Spielbrett).
+     */
     private OpposingPlayingField opposing;
+    /* Speichert das Feld, welches wir als letzter angegriffen hatten. */
     private OpposingField lastShoot;
     private PlayersPlayingField players;
+    /* Speichert das eigentliche Fenster, wo gespielt wird. */
     private GameWindow gamewindow;
+    /* Speichert in welcher Runde wir uns befinden, daher wer aktuell am Zug ist. */
     private TurnStatus turnstatus;
     private final Object turnLock;
+    /* Speichert den Thread, welcher Kommandos vom Gegner liest und verarbeitet. */
     private Thread readThread;
+    /* Speichert die Verbindung zum Gegner. */
     private Connection connection;
+    /*
+     * Speichert, ob wir in der Verbindung als Server agieren (relevant, um zu
+     * berechnen, wer anfängt).
+     */
     private final boolean isServer;
+    /*
+     * Speichert, ob das aktuelle Spiel gerade läuft. Sollte während der Spiels und
+     * die meinste Zeit true sein.
+     */
     private final AtomicBoolean isRunning;
+    /*
+     * Speichert den Handler, welcher aufgerufen wird, wenn das Spiel zu Ende ist.
+     */
     private final GameExitHandler gameexithandler;
+    /* Speichert unseren Logger. */
     private final Logger logger;
+    /* Speichert den Zufallsgenerator, um unsere Münze zu werfen. */
     private static Random random;
 
     static {
