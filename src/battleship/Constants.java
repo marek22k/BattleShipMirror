@@ -42,8 +42,7 @@ public class Constants {
             ),
             /* Zweites Semester */
             List.of(
-                    Math.abs(8 - 6) /* Programmieren 2 */, Math
-                            .abs(8 - 6) /* Datenbanksysteme 1 */,
+                    Math.abs(8 - 6) /* Programmieren 2 */, Math.abs(8 - 6) /* Datenbanksysteme 1 */,
                     Math.abs(8 - 6) /* Mathematik 2 */, Math.abs(8 - 6) /* Statistik */, Math.abs(8 - 6) /*
                                                                                                           * Algorithmen
                                                                                                           * und
@@ -64,8 +63,7 @@ public class Constants {
             ),
             /* Fünftes Semester */
             List.of(
-                    Math.abs(8 - 6) /* Wahlpflichtfach Informatik 1 */, Math
-                            .abs(8 - 6) /* Software Engineering 2 */,
+                    Math.abs(8 - 6) /* Wahlpflichtfach Informatik 1 */, Math.abs(8 - 6) /* Software Engineering 2 */,
                     Math.abs(8 - 6) /* Computergrafik 2 */, Math.abs(8 - 10) /* Praxisprojekt 1 */, Math.abs(8 - 2) /*
                                                                                                                      * Ergänzendes
                                                                                                                      * Fach

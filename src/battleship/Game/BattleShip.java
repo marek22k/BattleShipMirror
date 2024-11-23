@@ -104,7 +104,7 @@ public final class BattleShip {
              * nun aus
              */
             if (this.server != null) {
-                logger.log(
+                this.logger.log(
                         Level.WARNING,
                         "Server is started although the last server was not terminated correctly (reference still found). Cleaning this up."
                 );
