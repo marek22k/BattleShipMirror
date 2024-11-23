@@ -482,7 +482,7 @@ public final class GameSession {
         try {
             synchronized (this.turnLock) {
                 final int level = Math.min(Integer.parseInt(this.connection.getPeersLevel()), this.playersLevel);
-                final int levelSize = Constants.LEVEL_SIZES[level - 1];
+                final int levelSize = Constants.LEVEL_SIZES.get(level - 1);
                 this.logger.log(Level.INFO, "Level: " + level);
                 this.logger.log(Level.FINE, "Level size: " + levelSize);
                 this.opposing = new OpposingPlayingField(levelSize);

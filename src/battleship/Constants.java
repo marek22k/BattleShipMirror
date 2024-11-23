@@ -1,5 +1,6 @@
 package battleship;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -81,7 +82,7 @@ public class Constants {
     /**
      * Größe der Spielfelder von den einzelnen Levels
      */
-    public static final int[] LEVEL_SIZES = {14, 15, 16, 17, 18, 19};
+    public static final List<Integer> LEVEL_SIZES = Collections.unmodifiableList(List.of(14, 15, 16, 17, 18, 19));
 
     /**
      * Anzahl der Level
