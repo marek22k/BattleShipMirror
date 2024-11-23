@@ -274,7 +274,6 @@ public class OpposingPlayingField {
      * Sucht nach dem nächsten Feld, welches einen bestimmten Status hat. Wenn kein
      * Feld mit dieser Status gefunden wird, wird null zurückgegeben.
      *
-     * @param f
      * @param fieldStatus
      * @return
      */
