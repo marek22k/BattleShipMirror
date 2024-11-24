@@ -5,6 +5,18 @@
     public static void main(java.lang.String[]);
 }
 
+-assumenosideeffects public final class battleship.utils.Utils {
+    public static *** writerToString(...);
+    public static *** getFirstWordOrLine(...);
+    public static *** writerTogetStringAfterFirstSpaceString(...);
+    public static *** sanitizeString(...);
+    public static *** toAscii(...);
+}
+
+-assumenosideeffects public final class battleship.utils.NetworkUtils {
+    public final *** getIpAddresses(...);
+}
+
 -assumenosideeffects public class java.lang.System {
     public static long currentTimeMillis();
     static java.lang.Class getCallerClass();
