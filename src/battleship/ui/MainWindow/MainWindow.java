@@ -338,7 +338,6 @@ public final class MainWindow {
         this.window.add(logPanel);
 
         // Fensteroptionen
-        this.window.pack();
         this.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.enable(false);
@@ -507,6 +506,7 @@ public final class MainWindow {
     }
 
     public void show() {
+        this.window.pack();
         this.window.setVisible(true);
     }
 

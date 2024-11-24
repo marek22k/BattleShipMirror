@@ -1,4 +1,6 @@
-.PHONY: fatJar proguardedJar check docs clean
+.PHONY: all fatJar proguardedJar check docs clean
+
+all: fatJar proguardedJar
 
 fatJar:
 	./gradlew fatJar
