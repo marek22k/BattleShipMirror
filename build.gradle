@@ -10,6 +10,7 @@ repositories {
 
 dependencies {
     spotbugsPlugins 'com.mebigfatguy.fb-contrib:fb-contrib:7.6.8'
+    proguardClasspath("com.guardsquare:proguard-base:7.6.0")
 }
 
 version = '1.0.0'
