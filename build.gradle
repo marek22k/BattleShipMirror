@@ -38,6 +38,7 @@ application {
 }
 
 task fatJar(type: Jar) {
+    dependsOn check
     from {
         configurations.runtimeClasspath.collect {
             it.isDirectory() ? it : zipTree(it)

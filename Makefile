@@ -1,6 +1,6 @@
 .PHONY: jar check docs clean
 
-jar:
+fatJar:
 	./gradlew fatJar
 
 check:
