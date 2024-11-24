@@ -1,3 +1,5 @@
+MAKEFLAGS := -j1
+
 .PHONY: all fatJar proguardedJar check docs clean
 
 all: fatJar proguardedJar
