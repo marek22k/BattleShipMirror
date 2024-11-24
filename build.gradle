@@ -49,8 +49,7 @@ task fatJar(type: Jar) {
         attributes('Main-Class': application.mainClass)
     }
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    archiveBaseName = project.name
-    archiveVersion = project.version
+    archiveClassifier = "all-in-one"
     with jar
 }
 
@@ -60,7 +59,7 @@ task proguardedJar(type: io.github.sgtsilvio.gradle.proguard.ProguardTask) {
     }
 
     addOutput {
-        archiveFile.set(base.libsDirectory.file("${project.name}-${project.version}-proguarded.jar"))
+        archiveFile.set(base.libsDirectory.file("${project.name}-${project.version}-all-in-one-proguarded.jar"))
     }
 
     jdkModules.add('java.base')
