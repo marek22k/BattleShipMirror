@@ -36,7 +36,7 @@ public class Hit implements Command {
             case "3":
                 hitstatus = HitStatus.SUNK_AND_VICTORY;
                 break;
-            
+
             default:
                 hitstatus = HitStatus.UNKNOWN;
                 break;

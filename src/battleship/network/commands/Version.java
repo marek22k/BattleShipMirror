@@ -1,9 +1,7 @@
 package battleship.network.commands;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Version implements Command {
@@ -13,7 +11,7 @@ public class Version implements Command {
     public static Version fromString(String command) {
         final String[] parts = command.split(" ");
         final String implementation = parts[0].strip();
-        final Set<String> versions = new HashSet<String>(parts.length);
+        final Set<String> versions = new HashSet<>(parts.length);
         for (int i = 1; i < parts.length; i++) {
             versions.add(parts[i].strip());
         }

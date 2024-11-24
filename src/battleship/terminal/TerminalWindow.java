@@ -278,7 +278,11 @@ public final class TerminalWindow {
             SwingUtilities.invokeLater(() -> this.terminalArea.setText(""));
 
             this.stdoutThread = new Thread(() -> {
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.process.getInputStream(), StandardCharsets.UTF_8))) {
+                try (
+                        BufferedReader reader = new BufferedReader(
+                                new InputStreamReader(this.process.getInputStream(), StandardCharsets.UTF_8)
+                        )
+                ) {
                     while (true) {
                         final String line = reader.readLine();
                         if (Thread.currentThread().isInterrupted()) {
@@ -306,7 +310,11 @@ public final class TerminalWindow {
             this.stdoutThread.start();
 
             this.stderrThread = new Thread(() -> {
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.process.getErrorStream(), StandardCharsets.UTF_8))) {
+                try (
+                        BufferedReader reader = new BufferedReader(
+                                new InputStreamReader(this.process.getErrorStream(), StandardCharsets.UTF_8)
+                        )
+                ) {
                     while (true) {
                         final String line = reader.readLine();
                         if (Thread.currentThread().isInterrupted()) {
