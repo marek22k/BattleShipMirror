@@ -58,10 +58,10 @@ public final class Utils {
     public static String toAscii(String input) {
         final String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
         final Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-        String asciiString = pattern.matcher(normalized).replaceAll("");
+        final String stringWithoutDiacriticalMarks = pattern.matcher(normalized).replaceAll("");
 
-        final byte[] bytes = asciiString.getBytes(StandardCharsets.US_ASCII);
-        asciiString = new String(bytes, StandardCharsets.US_ASCII);
+        final byte[] bytes = stringWithoutDiacriticalMarks.getBytes(StandardCharsets.US_ASCII);
+        final String asciiString = new String(bytes, StandardCharsets.US_ASCII);
 
         return asciiString;
     }

@@ -25,7 +25,7 @@ public class PlayersPlayingField {
         }
     }
 
-    public void generateShips(List<Integer> list) {
+    public void generateShips(Iterable<Integer> list) {
         final Random random = new Random();
         for (final Integer shipSize : list) {
             PlayersShip ship;

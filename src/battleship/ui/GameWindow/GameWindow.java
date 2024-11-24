@@ -143,7 +143,6 @@ public final class GameWindow {
 
         // Haupt-Panel zum Fenster hinzufügen
         this.window.add(mainPanel);
-        this.window.pack();
     }
 
     public void close() {
@@ -183,6 +182,7 @@ public final class GameWindow {
     }
 
     public void show() {
+        this.window.pack();
         this.window.setVisible(true);
     }
 

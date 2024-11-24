@@ -19,7 +19,7 @@ public class Hit implements Command {
         }
         final String yCoordinate = coordinates.substring(1, Utils.getFirstWordOrLine(coordinates).length());
         final String status = Utils.getStringAfterFirstSpace(coordinates);
-        HitStatus hitstatus = HitStatus.UNKNOWN;
+        HitStatus hitstatus;
         switch (status) {
             case "0":
                 hitstatus = HitStatus.WATER;
@@ -35,6 +35,10 @@ public class Hit implements Command {
 
             case "3":
                 hitstatus = HitStatus.SUNK_AND_VICTORY;
+                break;
+            
+            default:
+                hitstatus = HitStatus.UNKNOWN;
                 break;
         }
 
