@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter
+    xmlns="https://github.com/spotbugs/filter/4.8.4"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://github.com/spotbugs/filter/4.8.4 https://raw.githubusercontent.com/spotbugs/spotbugs/4.8.4/spotbugs/etc/findbugsfilter.xsd">
+    <Match>
+        <Or>
+            <Bug pattern="S508C_NON_TRANSLATABLE_STRING" />
+            <Bug pattern="USBR_UNNECESSARY_STORE_BEFORE_RETURN" />
+            <Bug pattern="DRE_DECLARED_RUNTIME_EXCEPTION" />
+            <Bug pattern="CT_CONSTRUCTOR_THROW" />
+            <Bug pattern="LG_LOST_LOGGER_DUE_TO_WEAK_REFERENCE" />
+            <Bug pattern="CC_CYCLOMATIC_COMPLEXITY" />
+        </Or>
+    </Match>
+    <Match>
+        <Bug pattern="S508C_SET_COMP_COLOR" />
+        <Class name="battleship.ui.PlaygroundMatrix.PlaygroundMatrix" />
+    </Match>
+    <Match>
+        <!-- Is there a better way to solve this elegantly? -->
+        <Bug pattern="EI_EXPOSE_REP" />
+        <Class name="battleship.ui.GameWindow.GameWindow" />
+        <Or>
+            <Method name="getOpponentField" />
+            <Method name="getPlayersField" />
+        </Or>
+    </Match>
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP2" />
+        <Or>
+            <Class name="battleship.network.Connection" />
+            <Class name="battleship.Game.GameSession" />
+        </Or>
+    </Match>
+</FindBugsFilter>
