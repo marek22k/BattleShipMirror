@@ -1,6 +1,7 @@
 plugins {
     id 'application'
     id 'com.github.spotbugs' version '6.0.26'
+    id 'io.github.sgtsilvio.gradle.proguard' version '0.7.0'
 }
 
 repositories {
@@ -51,4 +52,21 @@ task fatJar(type: Jar) {
     archiveBaseName = project.name
     archiveVersion = project.version
     with jar
+}
+
+task proguardedJar(type: io.github.sgtsilvio.gradle.proguard.ProguardTask) {
+    addInput {
+        classpath.from(tasks.fatJar)
+    }
+
+    addOutput {
+        archiveFile.set(base.libsDirectory.file("${project.name}-${project.version}-proguarded.jar"))
+    }
+
+    jdkModules.add('java.base')
+    jdkModules.add('java.desktop')
+    jdkModules.add('java.logging')
+    jdkModules.add('java.datatransfer')
+
+    rules.addAll(file('battleship.pro').readLines())
 }
