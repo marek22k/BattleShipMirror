@@ -19,7 +19,7 @@ public final class NetworkUtils {
     public static List<String> getIpAddresses() throws SocketException {
         final ArrayList<String> ipAddresses = new ArrayList<>();
 
-        Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+        final Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
         if (networkInterfaces != null) {
             for (final NetworkInterface networkInterface : Collections.list(networkInterfaces)) {
                 if (networkInterface.isUp() && !networkInterface.isLoopback()) {

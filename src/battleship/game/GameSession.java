@@ -774,9 +774,9 @@ public final class GameSession {
     private void stopGame(GameEndStatus status) {
         if (this.isRunning.compareAndSet(true, false)) {
             this.logger.log(Level.FINE, "Stop current game with status " + status + ".");
-            logger.log(Level.FINE, "Wait for turnlock to stop game.");
-            synchronized (turnLock) {
-                logger.log(Level.FINE, "Turnlock received.");
+            this.logger.log(Level.FINE, "Wait for turnlock to stop game.");
+            synchronized (this.turnLock) {
+                this.logger.log(Level.FINE, "Turnlock received.");
 
                 if (this.gamewindow != null) {
                     try {
