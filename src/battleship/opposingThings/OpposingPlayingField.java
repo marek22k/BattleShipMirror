@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.util.Random;
 
 import battleship.ui.playgroundMatrix.PlaygroundMatrix;
+import edu.umd.cs.findbugs.annotations.Nullable;
 
 public class OpposingPlayingField {
     private final OpposingFieldStatus[][] field;
@@ -224,6 +225,7 @@ public class OpposingPlayingField {
      * @param fieldStatus
      * @return
      */
+    @Nullable
     public OpposingField getNextField(OpposingField f, OpposingFieldStatus fieldStatus) {
         /*
          * Das Feld könnte wie folgt aussehen:
@@ -278,6 +280,7 @@ public class OpposingPlayingField {
      * @param fieldStatus
      * @return
      */
+    @Nullable
     public OpposingField getNextField(OpposingFieldStatus fieldStatus) {
         return this.getNextField(new OpposingField(0, 0), fieldStatus);
     }
