@@ -9,6 +9,7 @@ repositories {
 }
 
 dependencies {
+    spotbugs 'com.github.spotbugs:spotbugs:4.8.6'
     spotbugsPlugins 'com.mebigfatguy.fb-contrib:fb-contrib:7.6.8'
     proguardClasspath("com.guardsquare:proguard-base:7.6.0")
 }
