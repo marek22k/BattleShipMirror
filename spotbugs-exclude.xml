@@ -33,4 +33,12 @@
             <Class name="battleship.game.GameSession" />
         </Or>
     </Match>
+    <Match>
+        <And>
+            <Confidence value="3" />
+            <Not>
+                <Bug code="AI" />
+            </Not>
+        </And>
+    </Match>
 </FindBugsFilter>
