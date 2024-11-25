@@ -508,7 +508,7 @@ public final class GameSession {
                 this.logger.log(Level.FINE, "Inform our peer that our ships have been placed.");
                 this.connection.writeCoin(this.myCoin);
 
-                SwingUtilities.invokeLater(() -> {
+                SwingUtilities.invokeAndWait(() -> {
                     this.gamewindow = new GameWindow(levelSize, levelSize);
                     this.gamewindow.writeMessageFromSystem(this.playersName + " (we) has joined the game.");
                     this.gamewindow.setMessageHandler((String text) -> {
