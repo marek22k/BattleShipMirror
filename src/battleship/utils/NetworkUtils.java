@@ -7,11 +7,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.CheckReturnValue;
+
 public final class NetworkUtils {
     private NetworkUtils() {
         throw new UnsupportedOperationException("NetworkUtils cannot be instantiated");
     }
 
+    @CheckReturnValue
     public static List<String> getIpAddresses() throws SocketException {
         final ArrayList<String> ipAddresses = new ArrayList<>();
 

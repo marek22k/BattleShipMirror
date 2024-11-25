@@ -12,6 +12,8 @@ dependencies {
     spotbugs 'com.github.spotbugs:spotbugs:4.8.6'
     spotbugsPlugins 'com.mebigfatguy.fb-contrib:fb-contrib:7.6.8'
     proguardClasspath 'com.guardsquare:proguard-base:7.6.0'
+
+    compileOnly 'com.github.spotbugs:spotbugs-annotations:4.8.6'
 }
 
 version = '1.0.0'
@@ -64,6 +66,9 @@ task proguardedJar(type: io.github.sgtsilvio.gradle.proguard.ProguardTask) {
 
     addOutput {
         archiveFile.set(base.libsDirectory.file("${project.name}-${project.version}-all-in-one-proguarded.jar"))
+    }
+    addLibrary {
+        classpath.from(configurations.compileClasspath)
     }
 
     jdkModules.add 'java.base'

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import battleship.ui.playgroundMatrix.PlaygroundMatrix;
+import edu.umd.cs.findbugs.annotations.Nullable;
 
 public class PlayersPlayingField {
     private final ArrayList<PlayersShip> ships;
@@ -35,6 +36,7 @@ public class PlayersPlayingField {
         }
     }
 
+    @Nullable
     public PlayersShip hit(PlayersField field) {
         for (final PlayersShip ship : this.ships) {
             if (ship.isOnField(field)) {
