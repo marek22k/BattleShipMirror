@@ -616,9 +616,13 @@ public final class MainWindow {
      * @param maxLevel Das maximale Level, welches wählbar sein soll.
      */
     public void updateLevels(int maxLevel) {
+        Object selectedItem = this.levelComboBox.getSelectedItem();
         this.levelComboBox.removeAllItems();
         for (int i = 1; i <= maxLevel; i++) {
             this.levelComboBox.addItem(i);
+        }
+        if (selectedItem != null) {
+            this.levelComboBox.setSelectedItem(selectedItem);
         }
         this.maxLevelLabel.setText("Current max level: " + maxLevel);
     }
