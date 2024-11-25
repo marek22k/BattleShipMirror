@@ -5,13 +5,14 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public final class NetworkUtils {
     private NetworkUtils() {
         throw new UnsupportedOperationException("NetworkUtils cannot be instantiated");
     }
 
-    public static ArrayList<String> getIpAddresses() throws SocketException {
+    public static List<String> getIpAddresses() throws SocketException {
         final ArrayList<String> ipAddresses = new ArrayList<>();
 
         for (final NetworkInterface networkInterface : Collections.list(NetworkInterface.getNetworkInterfaces())) {

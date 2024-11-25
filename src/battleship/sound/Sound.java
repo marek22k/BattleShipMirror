@@ -12,16 +12,20 @@ public final class Sound {
     private static SoundFile victory;
     private static Logger logger;
 
+    private Sound() {
+        throw new UnsupportedOperationException("Sound cannot be instantiated");
+    }
+
     public static void loadSound() {
         logger = Logger.getLogger(Sound.class.getName());
         logger.setLevel(Constants.logLevel);
         if (Constants.SOUND) {
             try {
                 logger.log(Level.FINE, "Load sound.");
-                water = new SoundFile(Constants.waterResource);
-                hit1 = new SoundFile(Constants.hit1Resource);
-                hit2 = new SoundFile(Constants.hit2Resource);
-                victory = new SoundFile(Constants.victoryResource);
+                water = new SoundFile(Constants.WATER_RESOURCE);
+                hit1 = new SoundFile(Constants.HIT1_RESOURCE);
+                hit2 = new SoundFile(Constants.HIT2_RESOURCE);
+                victory = new SoundFile(Constants.VICTORY_RESOURCE);
             } catch (final Exception e) {
                 logger.log(Level.SEVERE, "Failed to load sound.", e);
             }

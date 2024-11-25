@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 
-import battleship.Game.BattleShip;
+import battleship.game.BattleShip;
 import battleship.sound.Sound;
 
 /**

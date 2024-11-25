@@ -294,9 +294,7 @@ public final class TerminalWindow {
                             }
                             break;
                         }
-                        SwingUtilities.invokeLater(() -> {
-                            this.printToStdOut(line + "\n");
-                        });
+                        SwingUtilities.invokeLater(() -> this.printToStdOut(line + "\n"));
                     }
                 } catch (final IOException e) {
                     synchronized (this.processLock) {
@@ -326,9 +324,7 @@ public final class TerminalWindow {
                             }
                             break;
                         }
-                        SwingUtilities.invokeLater(() -> {
-                            this.printToStdErr(line + "\n");
-                        });
+                        SwingUtilities.invokeLater(() -> this.printToStdErr(line + "\n"));
                     }
                 } catch (final IOException e) {
                     synchronized (this.processLock) {
