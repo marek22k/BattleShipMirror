@@ -51,6 +51,9 @@ task fatJar(type: Jar) {
         attributes('Main-Class': application.mainClass)
     }
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+    includeEmptyDirs = false
     archiveClassifier = "all-in-one"
     with jar
 }
