@@ -774,48 +774,52 @@ public final class GameSession {
     private void stopGame(GameEndStatus status) {
         if (this.isRunning.compareAndSet(true, false)) {
             this.logger.log(Level.FINE, "Stop current game with status " + status + ".");
+            logger.log(Level.FINE, "Wait for turnlock to stop game.");
+            synchronized (turnLock) {
+                logger.log(Level.FINE, "Turnlock received.");
 
-            if (this.gamewindow != null) {
+                if (this.gamewindow != null) {
+                    try {
+                        SwingUtilities.invokeAndWait(() -> this.gamewindow.close());
+                    } catch (final Exception e) {
+                        this.logger.log(Level.SEVERE, "Failed to close game window.", e);
+                    }
+                }
+
+                if (this.readThread.isAlive()) {
+                    this.readThread.interrupt();
+                }
+
                 try {
-                    SwingUtilities.invokeAndWait(() -> this.gamewindow.close());
-                } catch (final Exception e) {
-                    this.logger.log(Level.SEVERE, "Failed to close game window.", e);
+                    if (this.connection != null) {
+                        this.connection.close();
+                    }
+                } catch (final IOException e) {
+                    this.logger.log(Level.SEVERE, "The connection to the peer could not be closed.", e);
+                    SwingUtilities.invokeLater(
+                            () -> JOptionPane.showMessageDialog(
+                                    null,
+                                    "The connection to the peer could not be closed. This should not happen. A restart of the game is recommended. Please report the error to the developers.",
+                                    "Error while waiting.", JOptionPane.ERROR_MESSAGE
+                            )
+                    );
                 }
-            }
 
-            if (this.readThread.isAlive()) {
-                this.readThread.interrupt();
-            }
+                this.myCoin = null;
+                this.opposing = null;
+                this.players = null;
+                this.gamewindow = null;
+                this.readThread = null;
+                this.connection = null;
 
-            try {
-                if (this.connection != null) {
-                    this.connection.close();
+                this.logger.log(Level.INFO, "Game stopped.");
+
+                if (this.gameexithandler == null) {
+                    this.logger.log(Level.WARNING, "No game exit handler.");
+                } else {
+                    this.logger.log(Level.FINE, "Run game exit handler.");
+                    this.gameexithandler.handle(status);
                 }
-            } catch (final IOException e) {
-                this.logger.log(Level.SEVERE, "The connection to the peer could not be closed.", e);
-                SwingUtilities.invokeLater(
-                        () -> JOptionPane.showMessageDialog(
-                                null,
-                                "The connection to the peer could not be closed. This should not happen. A restart of the game is recommended. Please report the error to the developers.",
-                                "Error while waiting.", JOptionPane.ERROR_MESSAGE
-                        )
-                );
-            }
-
-            this.myCoin = null;
-            this.opposing = null;
-            this.players = null;
-            this.gamewindow = null;
-            this.readThread = null;
-            this.connection = null;
-
-            this.logger.log(Level.INFO, "Game stopped.");
-
-            if (this.gameexithandler == null) {
-                this.logger.log(Level.WARNING, "No game exit handler.");
-            } else {
-                this.logger.log(Level.FINE, "Run game exit handler.");
-                this.gameexithandler.handle(status);
             }
         } else {
             this.logger.log(Level.FINE, "Game already stopped.");
