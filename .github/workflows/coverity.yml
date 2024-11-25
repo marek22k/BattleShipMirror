@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Apply workaround, see https://community.blackduck.com/s/article/cov-build-with-Gradle-8-9-or-newer-fails-with-error-Cannot-read-field-args-because-d-is-null
+      run: ./gradlew wrapper --gradle-version 8.8
     - uses: vapier/coverity-scan-action@v1
       with:
         project: 'BandurasBattleShip'
