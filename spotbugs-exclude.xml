@@ -15,12 +15,12 @@
     </Match>
     <Match>
         <Bug pattern="S508C_SET_COMP_COLOR" />
-        <Class name="battleship.ui.PlaygroundMatrix.PlaygroundMatrix" />
+        <Class name="battleship.ui.playgroundMatrix.PlaygroundMatrix" />
     </Match>
     <Match>
         <!-- Is there a better way to solve this elegantly? -->
         <Bug pattern="EI_EXPOSE_REP" />
-        <Class name="battleship.ui.GameWindow.GameWindow" />
+        <Class name="battleship.ui.gameWindow.GameWindow" />
         <Or>
             <Method name="getOpponentField" />
             <Method name="getPlayersField" />
@@ -30,7 +30,7 @@
         <Bug pattern="EI_EXPOSE_REP2" />
         <Or>
             <Class name="battleship.network.Connection" />
-            <Class name="battleship.Game.GameSession" />
+            <Class name="battleship.game.GameSession" />
         </Or>
     </Match>
 </FindBugsFilter>

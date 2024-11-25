@@ -98,9 +98,9 @@ public class Constants {
     public static final boolean SOUND = true;
 
     /* https://opengameart.org/content/tiny-naval-battle-sounds-set */
-    public static final String hit1Resource = "/Hit1.wav";
-    public static final String hit2Resource = "/Hit2.wav";
-    public static final String waterResource = "/Water.wav";
+    public static final String HIT1_RESOURCE = "/Hit1.wav";
+    public static final String HIT2_RESOURCE = "/Hit2.wav";
+    public static final String WATER_RESOURCE = "/Water.wav";
     /* https://opengameart.org/content/victory-4 */
-    public static final String victoryResource = "/Victory.wav";
+    public static final String VICTORY_RESOURCE = "/Victory.wav";
 }

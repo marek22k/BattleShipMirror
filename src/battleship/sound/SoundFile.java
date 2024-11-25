@@ -30,10 +30,10 @@ public final class SoundFile {
             final Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.addLineListener(event -> {
-                if (event.getType() == LineEvent.Type.STOP || event.getType() == LineEvent.Type.CLOSE) {
-                    if (clip.isOpen()) {
-                        clip.close();
-                    }
+                if (
+                    (event.getType() == LineEvent.Type.STOP || event.getType() == LineEvent.Type.CLOSE) && clip.isOpen()
+                ) {
+                    clip.close();
                 }
             });
             clip.start();
