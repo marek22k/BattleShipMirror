@@ -1,5 +1,6 @@
 -allowaccessmodification
 -dontobfuscate
+-optimizationpasses 9
 
 -keepclasseswithmembers public class * {
     public static void main(java.lang.String[]);
