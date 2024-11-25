@@ -71,5 +71,5 @@ task proguardedJar(type: io.github.sgtsilvio.gradle.proguard.ProguardTask) {
     jdkModules.add 'java.logging'
     jdkModules.add 'java.datatransfer'
 
-    rules.addAll file('battleship.pro').readLines()
+    rulesFiles.from file('battleship.pro')
 }
