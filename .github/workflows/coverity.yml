@@ -1,0 +1,20 @@
+name: Coverity Scan
+
+on:
+  push:
+    branches: [ "github" ]
+  schedule:
+    - cron: '19 8 * * 5'
+
+jobs:
+  coverity:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: vapier/coverity-scan-action@v1
+      with:
+        project: 'BandurasBattleShip'
+        build_language: 'java'
+        command: './gradlew build'
+        email: ${{ secrets.COVERITY_SCAN_EMAIL }}
+        token: ${{ secrets.COVERITY_SCAN_TOKEN }}
