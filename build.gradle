@@ -11,16 +11,15 @@ repositories {
 dependencies {
     spotbugs 'com.github.spotbugs:spotbugs:4.8.6'
     spotbugsPlugins 'com.mebigfatguy.fb-contrib:fb-contrib:7.6.8'
-    proguardClasspath("com.guardsquare:proguard-base:7.6.0")
+    proguardClasspath 'com.guardsquare:proguard-base:7.6.0'
 }
 
 version = '1.0.0'
 
 spotbugs {
-    effort = com.github.spotbugs.snom.Effort.valueOf('MAX')
-    reportLevel = com.github.spotbugs.snom.Confidence.valueOf('MEDIUM')
-    reportsDir = file("$buildDir/reports/spotbugs")
-    excludeFilter = file("spotbugs-exclude.xml")
+    effort = com.github.spotbugs.snom.Effort.valueOf 'MAX'
+    reportLevel = com.github.spotbugs.snom.Confidence.valueOf 'MEDIUM'
+    excludeFilter = file 'spotbugs-exclude.xml'
 }
 
 sourceSets {
@@ -32,7 +31,7 @@ sourceSets {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of 21
     }
 }
 
@@ -48,13 +47,13 @@ task fatJar(type: Jar) {
         } 
     }
     manifest {
-        attributes('Main-Class': application.mainClass)
+        attributes 'Main-Class' : application.mainClass
     }
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     preserveFileTimestamps = false
     reproducibleFileOrder = true
     includeEmptyDirs = false
-    archiveClassifier = "all-in-one"
+    archiveClassifier = 'all-in-one'
     with jar
 }
 
@@ -67,10 +66,10 @@ task proguardedJar(type: io.github.sgtsilvio.gradle.proguard.ProguardTask) {
         archiveFile.set(base.libsDirectory.file("${project.name}-${project.version}-all-in-one-proguarded.jar"))
     }
 
-    jdkModules.add('java.base')
-    jdkModules.add('java.desktop')
-    jdkModules.add('java.logging')
-    jdkModules.add('java.datatransfer')
+    jdkModules.add 'java.base'
+    jdkModules.add 'java.desktop'
+    jdkModules.add 'java.logging'
+    jdkModules.add 'java.datatransfer'
 
-    rules.addAll(file('battleship.pro').readLines())
+    rules.addAll file('battleship.pro').readLines()
 }
