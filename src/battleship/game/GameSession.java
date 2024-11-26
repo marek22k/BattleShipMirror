@@ -509,7 +509,7 @@ public final class GameSession {
                 this.connection.writeCoin(this.myCoin);
 
                 SwingUtilities.invokeLater(() -> {
-                    synchronized (turnLock) {
+                    synchronized (this.turnLock) {
                         this.gamewindow = new GameWindow(levelSize, levelSize);
                         this.gamewindow.writeMessageFromSystem(this.playersName + " (we) has joined the game.");
                         this.gamewindow.setMessageHandler((String text) -> {
@@ -530,10 +530,11 @@ public final class GameSession {
                             this.stopGame(GameEndStatus.SUCCESSFUL_DRAW_FROM_PLAYER);
                         });
                         this.gamewindow.setComputerMoveHandler(() -> {
-                            synchronized (turnLock) {
+                            synchronized (this.turnLock) {
                                 try {
                                     final OpposingField f = this.opposing.getComputerMove();
-                                    this.logger.log(Level.FINE, "Computer move on x=" + f.getX() + " and y=" + f.getY());
+                                    this.logger
+                                            .log(Level.FINE, "Computer move on x=" + f.getX() + " and y=" + f.getY());
                                     this.attackOpponent(f.getX(), f.getY());
                                 } catch (final Exception e) {
                                     this.logger.log(Level.SEVERE, "Failed to calculate computer move.");
@@ -541,7 +542,8 @@ public final class GameSession {
                                             Level.FINE,
                                             "Current opposing playing field:\n"
                                                     + Utils.writerToString(pw -> this.opposing.debugPrint(pw)) + "\n"
-                                                    + "Fields:\n" + Utils.writerToString(pw -> this.opposing.debugPrint2(pw))
+                                                    + "Fields:\n"
+                                                    + Utils.writerToString(pw -> this.opposing.debugPrint2(pw))
                                     );
                                     throw e;
                                 }
@@ -550,8 +552,9 @@ public final class GameSession {
                         this.logger.log(Level.FINE, "Draw ships.");
                         this.players.print(this.gamewindow.getPlayersField());
                         this.opposing.print(this.gamewindow.getOpponentField());
-                        this.gamewindow
-                                .writeMessageFromSystem(this.connection.getPeersName() + " (peer) has joined the game.");
+                        this.gamewindow.writeMessageFromSystem(
+                                this.connection.getPeersName() + " (peer) has joined the game."
+                        );
                     }
                 });
                 this.changeTurn(TurnStatus.PREPARED);

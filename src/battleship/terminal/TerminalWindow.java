@@ -270,7 +270,7 @@ public final class TerminalWindow {
             try {
                 this.process = Runtime.getRuntime().exec(command);
             } catch (final Exception e) {
-                logger.log(Level.FINE, "Failed to start process.", e);
+                this.logger.log(Level.FINE, "Failed to start process.", e);
                 this.printToSystemMessage(e.getMessage() + "\n");
                 this.setStopped();
                 return;
