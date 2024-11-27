@@ -248,6 +248,7 @@ public final class TerminalWindow {
         this.startStopButton.setText("Stop");
         this.setStatusLabel("Running");
         this.setReady();
+        this.commandInputField.setEnabled(false);
     }
 
     private void setStatusLabel(String text) {
