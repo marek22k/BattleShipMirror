@@ -29,9 +29,9 @@ public enum TurnStatus {
      * Empfang des COIN-Pakets.
      */
     NOT_READY_HANDSHAKE_PHASE2_PERFORMED,
-    
+
     MY_TURN_FIRST_TURN,
-    
+
     /**
      * Wir sind dran.
      */
@@ -49,7 +49,7 @@ public enum TurnStatus {
     WAITING_FOR_REPLY_AFTER_HIT,
 
     YOUR_TURN_FIRST_TURN,
-    
+
     /**
      * Der Gegner ist dran.
      */
