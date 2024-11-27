@@ -740,7 +740,10 @@ public final class GameSession {
                     break;
 
                 default:
-                    /* Der Gegner hat uns eine Antwort auf einen Angriff gesendet, welchen wir nie gestartet haben. */
+                    /*
+                     * Der Gegner hat uns eine Antwort auf einen Angriff gesendet, welchen wir nie
+                     * gestartet haben.
+                     */
                     this.logger.log(Level.WARNING, "Peer has sent the result of an attack that we did not carry out.");
                     SwingUtilities.invokeLater(() -> {
                         JOptionPane.showMessageDialog(
@@ -848,14 +851,21 @@ public final class GameSession {
 
                 final int xorResult = peerCoinValue ^ myCoinValue;
 
-                final boolean peerStarts = this.isServer ? xorResult == 0 : xorResult == 1;
+                final boolean serverStarts = xorResult == 1;
 
-                if (peerStarts) {
-                    this.logger.log(Level.INFO, "The peer starts the game.");
-                } else {
+                final boolean weStart = this.isServer == serverStarts;
+
+                this.logger.log(
+                        Level.FINER,
+                        "XOR COIN result: " + xorResult + " -> serverStarts? " + serverStarts + " -> weStart? "
+                                + weStart + " (isServer? " + this.isServer + ")"
+                );
+                if (weStart) {
                     this.logger.log(Level.INFO, "We start the game.");
+                } else {
+                    this.logger.log(Level.INFO, "The peer starts the game.");
                 }
-                this.changeTurn(peerStarts ? TurnStatus.YOUR_TURN_FIRST_TURN : TurnStatus.MY_TURN_FIRST_TURN);
+                this.changeTurn(weStart ? TurnStatus.MY_TURN_FIRST_TURN : TurnStatus.YOUR_TURN_FIRST_TURN);
                 SwingUtilities.invokeLater(() -> {
                     this.gamewindow.show();
                 });
