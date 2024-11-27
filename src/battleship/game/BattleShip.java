@@ -317,6 +317,10 @@ public final class BattleShip {
                                 );
                                 break;
 
+                            /*
+                             * Wenn die Verbindung während des Spieles unterbrochen wurden ist teile dies
+                             * mit.
+                             */
                             case CONNECTION_DISCONNECTED_OR_DISTURBED:
                                 SwingUtilities.invokeLater(
                                         () -> JOptionPane.showMessageDialog(
@@ -326,6 +330,10 @@ public final class BattleShip {
                                 );
                                 break;
 
+                            /*
+                             * Wenn kein Spiel zustande kommt, da im Aufbau-Prozess ein Fehler aufgetreten
+                             * ist, teile dies mit.
+                             */
                             case GAME_PREPARATION_OR_START_FAILED:
                                 SwingUtilities.invokeLater(
                                         () -> JOptionPane.showMessageDialog(
@@ -336,6 +344,7 @@ public final class BattleShip {
                                 );
                                 break;
 
+                            /* Wenn wir verloren haben ist das traurig, aber teile es trotzdem mit. */
                             case SUCCESSFUL_DRAW_FROM_PLAYER:
                                 SwingUtilities.invokeLater(
                                         () -> JOptionPane.showMessageDialog(
@@ -350,18 +359,6 @@ public final class BattleShip {
                                         () -> JOptionPane.showMessageDialog(
                                                 null, "You have lost!", "You have lost!",
                                                 JOptionPane.INFORMATION_MESSAGE
-                                        )
-                                );
-                                break;
-
-                            default:
-                                this.logger.log(Level.SEVERE, "Game ended for unknown reason: " + status);
-                                SwingUtilities.invokeLater(
-                                        () -> JOptionPane.showMessageDialog(
-                                                null,
-                                                "The game was ended for an unknown reason (" + status
-                                                        + "). Please report this error.",
-                                                "Error", JOptionPane.ERROR_MESSAGE
                                         )
                                 );
                                 break;
