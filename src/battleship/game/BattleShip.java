@@ -378,6 +378,10 @@ public final class BattleShip {
                             this.logger.log(Level.INFO, "New level: " + this.currentMaxLevel);
                             SwingUtilities.invokeLater(() -> this.mainwindow.updateLevels(this.currentMaxLevel));
                         }
+                        /*
+                         * Aktiviere wieder das Hauptfenster, sodass der Nutzer ein neues Spiel starten
+                         * kann oder Einstellungen festlegen kann.
+                         */
                         this.mainwindow.enable(true);
                         this.currentGame = null;
                     }

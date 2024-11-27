@@ -110,14 +110,17 @@ public final class GameSession {
         this.turnLock = new Object();
         this.sound = sound;
         this.connection = connection;
+        /* Entferne nicht-lesbare Zeichen aus dem Spielernamen */
         this.playersName = Utils.sanitizeString(playersName);
         this.isServer = isServer;
         this.playersLevel = level;
+        /* Werfe eine Münze für uns */
         this.myCoin = getCoin();
         this.logger = Logger.getLogger(GameSession.class.getName());
         this.logger.setLevel(Constants.logLevel);
+        /* Setze das Spiel auf Nicht-Bereicht (vor IAM- oder einem COIN-Paket). */
         synchronized (this.turnLock) {
-            this.turnstatus = TurnStatus.NOT_READY;
+            this.turnstatus = TurnStatus.NOT_READY_NOT_INITIALIZED;
         }
         this.gameexithandler = gameexithandler;
     }
@@ -128,10 +131,25 @@ public final class GameSession {
      * direkt nach dem Erstellen des Objektes aufgerufen werden.
      */
     public void begin() {
+        /*
+         * Während des Handshakes mit dem Gegner (Austausch der IAM-Pakete) könnte der
+         * Spielstatus in Vorbereitet geändert werden. Daher sperre dies. Des Weiteren
+         * verhindert die Sperre das unkontrollierte Mehrfachte aufrufen.
+         */
         synchronized (this.turnLock) {
             this.logger.log(Level.FINE, "Determine game information.");
 
             this.initGame();
+        }
+    }
+
+    public boolean isReady() {
+        switch (turnstatus) {
+            case MY_TURN_FIRST_TURN, MY_TURN, MY_TURN_AFTER_HIT, YOUR_TURN_FIRST_TURN, YOUR_TURN, YOUR_TURN_AFTER_HIT, WAITING_FOR_REPLY_AFTER_HIT:
+                return true;
+
+            default:
+                return false;
         }
     }
 
@@ -145,10 +163,10 @@ public final class GameSession {
     private void attackOpponent(int x, int y) {
         synchronized (this.turnLock) {
             switch (this.turnstatus) {
-                case MY_TURN, MY_TURN_AFTER_HIT:
+                case MY_TURN_FIRST_TURN, MY_TURN, MY_TURN_AFTER_HIT:
                     this.logger.log(Level.INFO, "Attack opponent at x=" + x + " y=" + y);
                     if (this.opposing.isUnknown(new OpposingField(x, y))) {
-                        this.turnstatus = TurnStatus.WAITING_FOR_REPLY_AFTER_HIT;
+                        changeTurn(TurnStatus.WAITING_FOR_REPLY_AFTER_HIT);
                         SwingUtilities.invokeLater(() -> this.gamewindow.playersTurn(false));
                         this.lastShoot = new OpposingField(x, y);
                         try {
@@ -161,7 +179,7 @@ public final class GameSession {
                                             "Not ready to attack", JOptionPane.INFORMATION_MESSAGE
                                     )
                             );
-                            this.turnstatus = TurnStatus.MY_TURN;
+                            changeTurn(TurnStatus.MY_TURN);
                             SwingUtilities.invokeLater(() -> this.gamewindow.playersTurn(true));
                         }
                     } else {
@@ -169,7 +187,8 @@ public final class GameSession {
                     }
                     break;
 
-                case NOT_READY:
+                case NOT_READY_NOT_INITIALIZED, NOT_READY_HANDSHAKE_PHASE1_PERFORMED,
+                        NOT_READY_HANDSHAKE_PHASE2_PERFORMED:
                     this.logger.log(Level.INFO, "Not ready to attack.");
                     SwingUtilities.invokeLater(
                             () -> JOptionPane.showMessageDialog(
@@ -179,7 +198,7 @@ public final class GameSession {
                     );
                     break;
 
-                default:
+                case YOUR_TURN_FIRST_TURN, YOUR_TURN, YOUR_TURN_AFTER_HIT, WAITING_FOR_REPLY_AFTER_HIT:
                     break;
             }
         }
@@ -194,16 +213,18 @@ public final class GameSession {
     private void changeTurn(TurnStatus turnstatus) {
         synchronized (this.turnLock) {
             this.turnstatus = turnstatus;
+            logger.log(Level.FINER, "Change turnstatus into: " + turnstatus);
             switch (turnstatus) {
-                case MY_TURN, MY_TURN_AFTER_HIT:
+                case MY_TURN_FIRST_TURN, MY_TURN, MY_TURN_AFTER_HIT:
                     SwingUtilities.invokeLater(() -> this.gamewindow.playersTurn(true));
                     break;
 
-                case NOT_READY, PREPARED:
+                case YOUR_TURN_FIRST_TURN, YOUR_TURN, YOUR_TURN_AFTER_HIT, WAITING_FOR_REPLY_AFTER_HIT:
+                    SwingUtilities.invokeLater(() -> this.gamewindow.playersTurn(false));
                     break;
 
-                case YOUR_TURN, YOUR_TURN_AFTER_HIT, WAITING_FOR_REPLY_AFTER_HIT:
-                    SwingUtilities.invokeLater(() -> this.gamewindow.playersTurn(false));
+                case NOT_READY_NOT_INITIALIZED, NOT_READY_HANDSHAKE_PHASE1_PERFORMED,
+                        NOT_READY_HANDSHAKE_PHASE2_PERFORMED:
                     break;
             }
         }
@@ -215,6 +236,20 @@ public final class GameSession {
     private void initGame() {
         try {
             synchronized (this.turnLock) {
+                if (turnstatus != TurnStatus.NOT_READY_NOT_INITIALIZED) {
+                    GameSession.this.logger.log(
+                            Level.WARNING,
+                            "The game is to be initialized, although it is already initialized. TurnStatus: "
+                                    + turnstatus
+                    );
+                    SwingUtilities.invokeLater(() -> {
+                        JOptionPane.showMessageDialog(
+                                null, "The game is to be initialized, although it is already initialized.",
+                                "Game already initialized", JOptionPane.WARNING_MESSAGE
+                        );
+                    });
+                    return;
+                }
                 this.logger.log(Level.FINE, "Our coin: " + this.myCoin);
                 this.connection.setEventHandler((ConnectionEvent event, Object eventObject) -> {
                     this.logger.log(Level.FINE, "Event received: " + event);
@@ -262,7 +297,10 @@ public final class GameSession {
                             break;
 
                         case COIN_COMMAND_RECEIVED:
-                            if (this.isPrepared()) {
+                            if (
+                                turnstatus == TurnStatus.NOT_READY_HANDSHAKE_PHASE1_PERFORMED
+                                        || turnstatus == TurnStatus.NOT_READY_HANDSHAKE_PHASE2_PERFORMED
+                            ) {
                                 final String peersCoin = (String) eventObject;
                                 this.startGame(peersCoin);
                             }
@@ -315,15 +353,14 @@ public final class GameSession {
                             break;
 
                         case IAMU_COMMAND_RECEIVED:
-                            if (this.isPrepared()) {
-                                if (!this.connection.getPeersName().equals(this.connection.getPeersUnicodeName())) {
-                                    SwingUtilities.invokeLater(
-                                            () -> this.gamewindow.writeMessageFromSystem(
-                                                    this.connection.getPeersUnicodeName()
-                                                            + " (peer) has joined the game."
-                                            )
-                                    );
-                                }
+                            if (!this.connection.getPeersName().equals(this.connection.getPeersUnicodeName())) {
+                                SwingUtilities
+                                        .invokeLater(
+                                                () -> this.gamewindow.writeMessageFromSystem(
+                                                        this.connection.getPeersUnicodeName()
+                                                                + " (peer) has joined the game."
+                                                )
+                                        );
                             }
                             break;
 
@@ -458,34 +495,11 @@ public final class GameSession {
                 };
                 this.readThread.start();
 
-                this.changeTurn(TurnStatus.NOT_READY);
+                this.changeTurn(TurnStatus.NOT_READY_HANDSHAKE_PHASE1_PERFORMED);
             }
         } catch (final Exception e) {
             this.logger.log(Level.SEVERE, "Error when preparing the game.", e);
             this.stopGame(GameEndStatus.GAME_PREPARATION_OR_START_FAILED);
-        }
-    }
-
-    /**
-     * Überprüft, ob das Spiel vorbereitet ist (nach IAM, vor COIN)
-     *
-     * @return true, wenn das Spiel vorbereitet ist, sonst false.
-     */
-    private boolean isPrepared() {
-        synchronized (this.turnLock) {
-            return this.turnstatus != TurnStatus.NOT_READY;
-        }
-    }
-
-    /**
-     * Überprüft, ob aktuell gespielt wird - also alle Vorbereitungen erfolgreich
-     * abgeschlossen sind.
-     *
-     * @return true, wenn aktuell gespielt wird, sonst false.
-     */
-    private boolean isReady() {
-        synchronized (this.turnLock) {
-            return this.turnstatus != TurnStatus.NOT_READY && this.turnstatus != TurnStatus.PREPARED;
         }
     }
 
@@ -496,6 +510,18 @@ public final class GameSession {
     private void prepareGame() {
         try {
             synchronized (this.turnLock) {
+                if (turnstatus != TurnStatus.NOT_READY_HANDSHAKE_PHASE1_PERFORMED) {
+                    GameSession.this.logger.log(
+                            Level.WARNING,
+                            "The game is to be prepared, although it is already prepared. TurnStatus: " + turnstatus
+                    );
+                    SwingUtilities.invokeLater(() -> {
+                        JOptionPane.showMessageDialog(
+                                null, "The game is to be prepared, although it is already prepared.",
+                                "Game already prepared", JOptionPane.WARNING_MESSAGE
+                        );
+                    });
+                }
                 final int level = Math.min(Integer.parseInt(this.connection.getPeersLevel()), this.playersLevel);
                 final int levelSize = Constants.LEVEL_SIZES.get(level - 1);
                 this.logger.log(Level.INFO, "Level: " + level);
@@ -557,7 +583,7 @@ public final class GameSession {
                         );
                     }
                 });
-                this.changeTurn(TurnStatus.PREPARED);
+                this.changeTurn(TurnStatus.NOT_READY_HANDSHAKE_PHASE2_PERFORMED);
             }
         } catch (final Exception e) {
             this.logger.log(Level.SEVERE, "Error when preparing the game.", e);
@@ -669,8 +695,7 @@ public final class GameSession {
     private void receiveAttack(int x, int y) {
         synchronized (this.turnLock) {
             switch (this.turnstatus) {
-                case YOUR_TURN:
-                case YOUR_TURN_AFTER_HIT:
+                case YOUR_TURN_FIRST_TURN, YOUR_TURN, YOUR_TURN_AFTER_HIT:
                     try {
                         final PlayersShip ship = this.players.hit(new PlayersField(x, y));
                         if (ship == null) {
@@ -743,7 +768,7 @@ public final class GameSession {
     private void startGame(String peersCoin) {
         try {
             synchronized (this.turnLock) {
-                if (this.turnstatus != TurnStatus.PREPARED) {
+                if (this.turnstatus != TurnStatus.NOT_READY_HANDSHAKE_PHASE2_PERFORMED) {
                     this.logger.log(Level.SEVERE, "The game is to be started, although it has not yet been prepared.");
                     return;
                 }
@@ -760,7 +785,7 @@ public final class GameSession {
                 } else {
                     this.logger.log(Level.INFO, "We start the game.");
                 }
-                this.changeTurn(peerStarts ? TurnStatus.YOUR_TURN : TurnStatus.MY_TURN);
+                this.changeTurn(peerStarts ? TurnStatus.YOUR_TURN_FIRST_TURN : TurnStatus.MY_TURN_FIRST_TURN);
                 SwingUtilities.invokeLater(() -> {
                     this.gamewindow.show();
                 });
