@@ -563,6 +563,10 @@ public final class GameSession {
                         );
                     });
                 }
+                /*
+                 * Berechne das Level, was gespielt werden soll. Dies ist das Minimum des
+                 * Levels, welches wir und welches der Gegner spielen wollen.
+                 */
                 final int level = Math.min(Integer.parseInt(this.connection.getPeersLevel()), this.playersLevel);
                 final int levelSize = Constants.LEVEL_SIZES.get(level - 1);
                 this.logger.log(Level.INFO, "Level: " + level);
@@ -577,18 +581,29 @@ public final class GameSession {
 
                 SwingUtilities.invokeLater(() -> {
                     synchronized (this.turnLock) {
+                        /* Erstelle das Spiele-Fenster */
                         this.gamewindow = new GameWindow(levelSize, levelSize);
+                        /* Schreibe in der Chat-Box, dass wir dem Spiel beigetreten sind */
                         this.gamewindow.writeMessageFromSystem(this.playersName + " (we) has joined the game.");
                         this.gamewindow.setMessageHandler((String text) -> {
+                            /*
+                             * Dieser Code hier im Handler wird ausgeführt, wenn unser Benutzer eine
+                             * Nachricht senden möchte.
+                             */
                             SwingUtilities.invokeLater(() -> {
                                 this.gamewindow.writeMessageFromUser(this.playersName, text);
                             });
                             this.connection.writeChat(text);
                         });
                         this.gamewindow.getOpponentField().addFireListener((FireEvent fireevent) -> {
+                            /*
+                             * Dieser Lambda-Ausdruck wird ausgeführt, wenn unser Benutzer den Gegner
+                             * manuell angreifen möchte.
+                             */
                             this.attackOpponent(fireevent.getX(), fireevent.getY());
                         });
                         this.gamewindow.setWithdrawHandler(() -> {
+                            /* Das hier passiert, wenn unser Benutzer aufgeben möchte. */
                             try {
                                 this.connection.writeWithdraw();
                             } catch (final IOException e) {
@@ -597,6 +612,10 @@ public final class GameSession {
                             this.stopGame(GameEndStatus.SUCCESSFUL_DRAW_FROM_PLAYER);
                         });
                         this.gamewindow.setComputerMoveHandler(() -> {
+                            /*
+                             * Das hier passiert, wenn unser Nutzer möchte, dass der Computer für ihn eine
+                             * Runde lang spielt.
+                             */
                             synchronized (this.turnLock) {
                                 try {
                                     final OpposingField f = this.opposing.getComputerMove();
@@ -644,26 +663,34 @@ public final class GameSession {
      */
     private void receiveAnswerToOwnAttack(int x, int y, HitStatus hitstatus) {
         synchronized (this.turnLock) {
-            if (x != this.lastShoot.getX() || y != this.lastShoot.getY()) {
-                this.logger
-                        .log(Level.SEVERE, "The opponent thinks we have attacked a square that we have not attacked.");
-                this.logger.log(
-                        Level.FINE,
-                        "lastShoot x=" + this.lastShoot.getX() + " y=" + this.lastShoot.getY() + " Hit x=" + x + " y="
-                                + y
-                );
-                SwingUtilities.invokeLater(() -> {
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "Our or the peer's instance seems to have a faulty implementation. Or the opponent is cheating. We have attacked one of the opponent's squares, but the opponent thinks we have attacked a different square. This is problematic. To continue the game, we trust the opponent and continue with the opponent's information.",
-                            "The opponent thinks we have attacked a square that we have not attacked.",
-                            JOptionPane.ERROR_MESSAGE
-                    );
-                });
-            }
-
             switch (this.turnstatus) {
                 case WAITING_FOR_REPLY_AFTER_HIT:
+                    /*
+                     * Überprüfe, ob der Gegner uns eine Rückmeldung zu dem Feld gegeben hat,
+                     * welches wir auch angegriffen haben. Wenn der Gegner eine falsche Rückmeldung
+                     * gibt, können wir leider nicht viel tun. Wir informieren dann den Nutzer. Um
+                     * das Spiel nicht abbrechen zu müssen vertrauen wir in diesem Fall dem Gegner.
+                     */
+                    if (x != this.lastShoot.getX() || y != this.lastShoot.getY()) {
+                        this.logger.log(
+                                Level.SEVERE, "The opponent thinks we have attacked a square that we have not attacked."
+                        );
+                        this.logger.log(
+                                Level.FINE,
+                                "lastShoot x=" + this.lastShoot.getX() + " y=" + this.lastShoot.getY() + " Hit x=" + x
+                                        + " y=" + y
+                        );
+                        SwingUtilities.invokeLater(() -> {
+                            JOptionPane.showMessageDialog(
+                                    null,
+                                    "Our or the peer's instance seems to have a faulty implementation. Or the opponent is cheating. We have attacked one of the opponent's squares, but the opponent thinks we have attacked a different square. This is problematic. To continue the game, we trust the opponent and continue with the opponent's information.",
+                                    "The opponent thinks we have attacked a square that we have not attacked.",
+                                    JOptionPane.ERROR_MESSAGE
+                            );
+                        });
+                    }
+
+                    /* Schaue nach, wie der Gegner geantwortet hat und handle entsprechend. */
                     switch (hitstatus) {
                         case WATER:
                             this.opposing.hit(new OpposingField(x, y), OpposingFieldStatus.WATER);
@@ -713,6 +740,7 @@ public final class GameSession {
                     break;
 
                 default:
+                    /* Der Gegner hat uns eine Antwort auf einen Angriff gesendet, welchen wir nie gestartet haben. */
                     this.logger.log(Level.WARNING, "Peer has sent the result of an attack that we did not carry out.");
                     SwingUtilities.invokeLater(() -> {
                         JOptionPane.showMessageDialog(
@@ -738,6 +766,7 @@ public final class GameSession {
             switch (this.turnstatus) {
                 case YOUR_TURN_FIRST_TURN, YOUR_TURN, YOUR_TURN_AFTER_HIT:
                     try {
+                        /* Ermittle das Schiff, welches der Gegner getroffen hat. */
                         final PlayersShip ship = this.players.hit(new PlayersField(x, y));
                         if (ship == null) {
                             /* Gegner hat Wasser getroffen */
