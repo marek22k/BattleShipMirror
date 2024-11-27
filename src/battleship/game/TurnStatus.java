@@ -30,6 +30,9 @@ public enum TurnStatus {
      */
     NOT_READY_HANDSHAKE_PHASE2_PERFORMED,
 
+    /**
+     * Wir sind dran. Es ist der erste Zug im Spiel.
+     */
     MY_TURN_FIRST_TURN,
 
     /**
@@ -48,6 +51,9 @@ public enum TurnStatus {
      */
     WAITING_FOR_REPLY_AFTER_HIT,
 
+    /**
+     * Der Gegner ist dran. Es ist der erste Zug im Spiel.
+     */
     YOUR_TURN_FIRST_TURN,
 
     /**

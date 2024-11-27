@@ -34,6 +34,14 @@ public final class Connection {
     private EventHandler eventhandler;
     private final Logger logger;
 
+    /**
+     * Baut eine Verbindung als Client zu einem Server auf.
+     *
+     * @param host Hostname des Servers
+     * @param port Port des Servers
+     * @return Liefert eine Spiele-Verbindung zurück
+     * @throws IOException
+     */
     public static Connection connectTo(String host, int port) throws IOException {
         final Logger logger = Logger.getLogger(Connection.class.getName());
         logger.setLevel(Constants.logLevel);
@@ -44,6 +52,15 @@ public final class Connection {
         return new Connection(socket);
     }
 
+    /**
+     * Umhüllt eine Verbindung zu einer anderen Partei in eine Spiele-Verbindung.
+     * Eine Spiele-Verbindung implementiert spielspezifische Funktionen zum Senden
+     * und Empfangen von Spiel-Paketen.
+     *
+     * @param socket Socket, welcher als Grundlage für diese Verbindung genutzt
+     *               werden soll.
+     * @throws IOException
+     */
     public Connection(Socket socket) throws IOException {
         this.logger = Logger.getLogger(Connection.class.getName());
         this.logger.setLevel(Constants.logLevel);
@@ -53,12 +70,24 @@ public final class Connection {
         this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
     }
 
+    /**
+     * Schließt die Spiele-Verbindung mit dem darunterliegenden Socket sowie die
+     * Reader- und Writer des Sockets.
+     *
+     * @throws IOException
+     */
     public void close() throws IOException {
         this.socket.close();
         this.reader.close();
         this.writer.close();
     }
 
+    /**
+     * Gibt die Implementierung zurück, welche der Peer verwendet. Diese wurden
+     * vom VERSION-Paket des Peers ermittelt.
+     *
+     * @return Die Implementierung als String
+     */
     public String getPeerImplementation() {
         return this.peerImplementation;
     }
