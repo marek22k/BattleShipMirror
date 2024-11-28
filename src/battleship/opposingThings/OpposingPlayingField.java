@@ -1,6 +1,5 @@
 package battleship.opposingThings;
 
-import java.io.PrintWriter;
 import java.util.Random;
 
 import battleship.ui.playgroundMatrix.PlaygroundMatrix;
@@ -40,7 +39,15 @@ public class OpposingPlayingField {
         }
     }
 
-    public void debugPrint(PrintWriter pw) {
+    public String debugPrint() {
+        /*
+         * Die initale Kapatität kann angegeben werden. Jedes Feld wird mit einem
+         * Zeichen gedruckt. Dies sind also n*n-Zeichen. Zusätzlich wird nach jedem
+         * Zeichen eine Leerzeichen hinzugefügt. Dies sind auch noch einmal n*n Zeichen.
+         * Hinzukommt eine Leerzeile nach jeder Zeile. Dies sind n Zeichen. Insgesamt
+         * sind es also n*n+n*n+n-Zeichen.
+         */
+        final StringBuilder sb = new StringBuilder(this.n * this.n + this.n * this.n + this.n);
         for (final OpposingFieldStatus[] row : this.field) {
             for (final OpposingFieldStatus column : row) {
                 char symbol;
@@ -61,20 +68,23 @@ public class OpposingPlayingField {
                         symbol = '_';
                         break;
                 }
-                pw.print(symbol + " ");
+                sb.append(symbol).append(' ');
             }
-            pw.println();
+            sb.append('\n');
         }
+        return sb.toString();
     }
 
-    public void debugPrint2(PrintWriter pw) {
+    public String debugPrint2() {
+        final StringBuilder sb = new StringBuilder();
         for (int y = 0; y < this.n; y++) {
             for (int x = 0; x < this.n; x++) {
                 if (this.field[y][x] != OpposingFieldStatus.UNKNOWN) {
-                    pw.println("x=" + x + " y=" + y + " : " + this.field[y][x]);
+                    sb.append("x=").append(x).append(" y=").append(y).append(" : ").append(this.field[y][x]);
                 }
             }
         }
+        return sb.toString();
     }
 
     /**

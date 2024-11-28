@@ -622,14 +622,13 @@ public final class GameSession {
                                     this.logger
                                             .log(Level.FINE, "Computer move on x=" + f.getX() + " and y=" + f.getY());
                                     this.attackOpponent(f.getX(), f.getY());
+
                                 } catch (final Exception e) {
                                     this.logger.log(Level.SEVERE, "Failed to calculate computer move.");
                                     this.logger.log(
                                             Level.FINE,
-                                            "Current opposing playing field:\n"
-                                                    + Utils.writerToString(pw -> this.opposing.debugPrint(pw)) + "\n"
-                                                    + "Fields:\n"
-                                                    + Utils.writerToString(pw -> this.opposing.debugPrint2(pw))
+                                            "Current opposing playing field:\n" + this.opposing.debugPrint() + "\n"
+                                                    + "Fields:\n" + this.opposing.debugPrint2()
                                     );
                                     throw e;
                                 }

@@ -15,7 +15,7 @@ public class OpposingShipEndWithDirection {
 
     /**
      * Erstellt eine Repräsentation eines Schiffes vom Feind.
-     * 
+     *
      * @param direction Lage des Schiffes
      * @param end       Ein Ende des Schiffes
      */
@@ -26,6 +26,7 @@ public class OpposingShipEndWithDirection {
 
     /**
      * Gibt die Lage des Schiffes zurück.
+     *
      * @return Die Lage des Schiffes.
      */
     public OpposingShipDirection getDirection() {
@@ -34,6 +35,7 @@ public class OpposingShipEndWithDirection {
 
     /**
      * Gibt das Feld zurück auf dem das Schiff liegt.
+     *
      * @return Das Feld des Schiffes.
      */
     public OpposingField getEnd() {

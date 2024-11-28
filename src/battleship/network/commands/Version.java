@@ -38,7 +38,7 @@ public class Version implements Command {
      * Erstellt eine Repräsentation des VERSION-Paketes.
      *
      * @param implementation Die verwendete Implementierung
-     * @param version Ein Set von unterstützten Versionen
+     * @param version        Ein Set von unterstützten Versionen
      */
     public Version(String implementation, Set<String> version) {
         this.implementation = implementation;
@@ -49,7 +49,7 @@ public class Version implements Command {
      * Erstellt eine Repräsentation des VERSION-Paketes
      *
      * @param implementation Die verwendete Implementierung
-     * @param version Die unterstützte Version
+     * @param version        Die unterstützte Version
      */
     public Version(String implementation, String version) {
         this(implementation, Set.of(version));

@@ -1,25 +1,12 @@
 package battleship.utils;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
-import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 public final class Utils {
     private Utils() {
         throw new UnsupportedOperationException("Utils cannot be instantiated");
-    }
-
-    public static String writerToString(Consumer<PrintWriter> writer) {
-        final StringWriter stringWriter = new StringWriter();
-
-        try (PrintWriter printWriter = new PrintWriter(stringWriter)) {
-            writer.accept(printWriter);
-        }
-
-        return stringWriter.toString();
     }
 
     public static String getFirstWordOrLine(String input) {

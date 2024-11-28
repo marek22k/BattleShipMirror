@@ -15,7 +15,7 @@ public class OpposingField {
 
     /**
      * Erstellt eine neue Ortsangabe für ein Feld des Gegners
-     * 
+     *
      * @param x X-Koordinate des Feldes, beginnend bei 0
      * @param y Y-Koordinate des Feldes, beginnend bei 0
      */
@@ -26,7 +26,7 @@ public class OpposingField {
 
     /**
      * Gibt die X-Koordinate des Feldes zurück.
-     * 
+     *
      * @return X-Koordinate beginned bei 0
      */
     public int getX() {
@@ -35,7 +35,7 @@ public class OpposingField {
 
     /**
      * Gibt die Y-Koordinate des Feldes zurück.
-     * 
+     *
      * @return Y-Koordinate beginned bei 0
      */
     public int getY() {
