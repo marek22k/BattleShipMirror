@@ -14,7 +14,7 @@ public class IAMU implements Command {
      * eine Repräsentation des Paketes.
      *
      * @param command Das IAMU-Paket
-     * @return
+     * @return Repräsentation des IAMU-Pakets
      */
     public static IAMU fromString(String command) {
         final String name = command.strip();

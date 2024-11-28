@@ -26,7 +26,7 @@ public class Hit implements Command {
      * eine Repräsentation des Paketes.
      *
      * @param command Das HIT-Paket
-     * @return
+     * @return Repräsentation des HIT-Pakets
      */
     public static Hit fromString(String command) {
         final String coordinates = command.strip();

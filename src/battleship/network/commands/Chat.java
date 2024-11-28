@@ -14,7 +14,7 @@ public class Chat implements Command {
      * eine Repräsentation des Paketes.
      *
      * @param command Das CHAT-Paket
-     * @return
+     * @return Repräsentation des CHAT-Pakets
      */
     public static Chat fromString(String command) {
         return new Chat(command.strip());

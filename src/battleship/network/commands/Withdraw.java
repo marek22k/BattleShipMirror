@@ -1,6 +1,16 @@
 package battleship.network.commands;
 
+/**
+ * Repräsentiert ein WITHDRAW-Paket
+ */
 public class Withdraw implements Command {
+    /**
+     * Erstellt aus einem WITHDRAW-Paket in seiner genormten Übertragungsform als
+     * String eine Repräsentation des Paketes.
+     *
+     * @param command Das WITHDRAW-Paket
+     * @return Repräsentation des WITHDRAW-Pakets
+     */
     public static Withdraw fromString(String command) {
         if (!command.isBlank()) {
             throw new RuntimeException("Withdraw contains message.");

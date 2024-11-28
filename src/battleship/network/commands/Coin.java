@@ -14,7 +14,7 @@ public class Coin implements Command {
      * eine Repräsentation des Paketes.
      *
      * @param command Das COIN-Paket
-     * @return
+     * @return Repräsentation des COIN-Pakets
      */
     public static Coin fromString(String command) {
         final String coin = command.strip();

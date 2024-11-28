@@ -21,7 +21,7 @@ public class IAM implements Command {
      * eine Repräsentation des Paketes.
      *
      * @param command Das IAM-Paket
-     * @return
+     * @return Repräsentation des IAM-Pakets
      */
     public static IAM fromString(String command) {
         final String level = Utils.getFirstWordOrLine(command);
