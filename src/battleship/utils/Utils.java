@@ -7,14 +7,11 @@ import java.text.Normalizer;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
-import edu.umd.cs.findbugs.annotations.CheckReturnValue;
-
 public final class Utils {
     private Utils() {
         throw new UnsupportedOperationException("Utils cannot be instantiated");
     }
 
-    @CheckReturnValue
     public static String writerToString(Consumer<PrintWriter> writer) {
         final StringWriter stringWriter = new StringWriter();
 
@@ -25,7 +22,6 @@ public final class Utils {
         return stringWriter.toString();
     }
 
-    @CheckReturnValue
     public static String getFirstWordOrLine(String input) {
         final int spaceIndex = input.indexOf(' ');
         final int newLineIndex = input.indexOf("\r\n");
@@ -44,7 +40,6 @@ public final class Utils {
         return input.substring(0, endIndex);
     }
 
-    @CheckReturnValue
     public static String getStringAfterFirstSpace(String input) {
         final int spaceIndex = input.indexOf(' ');
 
@@ -55,13 +50,11 @@ public final class Utils {
         return input.substring(spaceIndex + 1);
     }
 
-    @CheckReturnValue
     public static String sanitizeString(String input) {
         return input.replaceAll("\r", "\\r").replaceAll("\t", "\\t").replaceAll("\b", "\\b").replaceAll("\f", "\\f")
                 .replaceAll("\\s+", " ");
     }
 
-    @CheckReturnValue
     public static String toAscii(String input) {
         final String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
         final Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");

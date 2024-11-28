@@ -248,6 +248,7 @@ public final class TerminalWindow {
         this.startStopButton.setText("Stop");
         this.setStatusLabel("Running");
         this.setReady();
+        this.commandInputField.setEnabled(false);
     }
 
     private void setStatusLabel(String text) {
@@ -270,7 +271,7 @@ public final class TerminalWindow {
             try {
                 this.process = Runtime.getRuntime().exec(command);
             } catch (final Exception e) {
-                logger.log(Level.FINE, "Failed to start process.", e);
+                this.logger.log(Level.FINE, "Failed to start process.", e);
                 this.printToSystemMessage(e.getMessage() + "\n");
                 this.setStopped();
                 return;
