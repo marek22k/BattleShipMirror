@@ -2,15 +2,32 @@ package battleship.network.commands;
 
 import battleship.utils.Utils;
 
+/**
+ * Repräsentiert ein HIT-Paket
+ */
 public class Hit implements Command {
-    /*
-     * Koordination werden beginnend bei 0 gespeichert, jedoch beginnend bei 1
-     * übertragen.
+    /**
+     * X-Koordinate, gespeichert als Zahl beginnend mit 0, übertragen als Buchstabe
+     * beginnend mit A
      */
     private final int x;
+    /**
+     * Y-Koordinate, gespeichert als Zahl beginnend mit 0, übertragen als Zahl
+     * beginnend mit 1
+     */
     private final int y;
+    /**
+     * Der Status des übermittelten Feldes
+     */
     private final HitStatus hitstatus;
 
+    /**
+     * Erstellt aus einem HIT-Paket in seiner genormten Übertragungsform als String
+     * eine Repräsentation des Paketes.
+     *
+     * @param command Das HIT-Paket
+     * @return
+     */
     public static Hit fromString(String command) {
         final String coordinates = command.strip();
         final String xCoordinate = coordinates.substring(0, 1);
@@ -45,6 +62,13 @@ public class Hit implements Command {
         return new Hit(xCoordinate.charAt(0) - 'A', Integer.parseInt(yCoordinate) - 1, hitstatus);
     }
 
+    /**
+     * Erstellt eine Repräsentation des CHAT-Paketes.
+     *
+     * @param x         Die X-Koordinate, beginnend bei 0
+     * @param y         Die Y-Koordinate, beginnend bei 0
+     * @param hitstatus
+     */
     public Hit(int x, int y, HitStatus hitstatus) {
         this.x = x;
         this.y = y;
@@ -87,14 +111,29 @@ public class Hit implements Command {
         return builder.toString();
     }
 
+    /**
+     * Gibt den Status des Feldes zurück.
+     *
+     * @return Status des Feldes
+     */
     public HitStatus getHitStatus() {
         return this.hitstatus;
     }
 
+    /**
+     * Gibt die X-Koordinate zurück.
+     *
+     * @return X-Koordinate, beginnend bei 0.
+     */
     public int getX() {
         return this.x;
     }
 
+    /**
+     * Gibt die Y-Koordinate zurück.
+     *
+     * @return Y-Koordinate, beginnend bei 0.
+     */
     public int getY() {
         return this.y;
     }

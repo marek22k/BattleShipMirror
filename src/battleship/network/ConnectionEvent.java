@@ -2,12 +2,12 @@ package battleship.network;
 
 /**
  * Event, welches dem Event-Handler als Aufruf-Grund übergeben wird.
- * 
+ *
  * Wenn ein Paket empfangen wird, wird er in seine einzelnen Komponenten verlegt
  * und danach wieder zusammengesetzt. Wenn das Wieder-Zusammengesetzte anders
  * aussieht als wir es empfangen haben wird ein `NOT_WELL_STRUCTURED`-Event
  * aufgerufen.
- * 
+ *
  * Wenn ein Paket die Protokoll-Spezifikation verletzt wird ein `INVALID`-Event
  * aufgerufen. `INVALID`-Events gibt es lediglich für nicht essenzielle Pakete
  * wie CHAT, was ein optionales Zusatzpaket ist.
@@ -70,7 +70,7 @@ public enum ConnectionEvent {
 
     /**
      * Ein COIN-Paket wurde erfolgreich empfangen.
-     * 
+     *
      * Als Event-Objekt wird die vom Peer übermittelte Müunze als String übergeben.
      */
     COIN_COMMAND_RECEIVED,
@@ -87,7 +87,7 @@ public enum ConnectionEvent {
 
     /**
      * Ein SHOOT-Paket wurde erfolgreich empfangen.
-     * 
+     *
      * Als Event-Objekt wird der Shoot-Befehl des Peers übergeben. Auf die
      * Koordinaten kann mit `getX()` und `getY()` zugegriffen werden.
      */
@@ -105,7 +105,7 @@ public enum ConnectionEvent {
 
     /**
      * Ein HIT-Paket wurde erfolgreich empfangen.
-     * 
+     *
      * Als Event-Objekt wird der Hit-Befehl des Peers übergeben. Auf die
      * Koordinaten kann mit `getX()` und `getY()` zugegriffen werden und auf den
      * Status mit `getHitStatus()`.
@@ -124,7 +124,7 @@ public enum ConnectionEvent {
 
     /**
      * Ein CHAT-Paket wurde erfolgreich empfangen.
-     * 
+     *
      * Als Event-Objekt wird die übermittelte Nachricht als String übergeben.
      */
     CHAT_COMMAND_RECEIVED,
