@@ -6,15 +6,33 @@ import java.util.Random;
 import battleship.ui.playgroundMatrix.PlaygroundMatrix;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
+/**
+ * Repräsentiert ein Spielfeld des Gegners
+ */
 public class OpposingPlayingField {
+    /**
+     * Alle Felder vom Spielfeld des Gegners mit iherem Inhalt
+     */
     private final OpposingFieldStatus[][] field;
+    /**
+     * Die Größe des Spielfeldes. Es wird angenommen, dass es immer quadratisch ist.
+     */
     private final int n;
+    /**
+     * Zufallsgenerator. Dieser wird verwendet, wenn der Computer einen zug
+     * berechnen soll und dieser entscheidet ein zufälliges Feld zu treffen.
+     */
     private final Random random;
 
     public OpposingPlayingField(int n) {
         this.field = new OpposingFieldStatus[n][n];
         this.n = n;
         this.random = new Random();
+        /*
+         * Setze alle Felder auf unbekannt. Zum Start des Spieles, wenn der Gegner noch
+         * nicht angegriffen wird, ist unbekannt, welchen Inhalt die Felder des Gegners
+         * haben.
+         */
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 this.field[i][j] = OpposingFieldStatus.UNKNOWN;

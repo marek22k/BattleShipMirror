@@ -57,10 +57,20 @@ public class Shoot implements Command {
         return builder.toString();
     }
 
+    /**
+     * Gibt die X-Koordinate zurück.
+     *
+     * @return X-Koordinate, beginnend bei 0.
+     */
     public int getX() {
         return this.x;
     }
 
+    /**
+     * Gibt die Y-Koordinate zurück.
+     *
+     * @return Y-Koordinate, beginnend bei 0.
+     */
     public int getY() {
         return this.y;
     }
