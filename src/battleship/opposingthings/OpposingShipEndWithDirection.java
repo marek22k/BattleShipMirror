@@ -1,4 +1,4 @@
-package battleship.opposingThings;
+package battleship.opposingthings;
 
 /**
  * Repräsentiert ein Schiff des Gegners.
@@ -19,7 +19,7 @@ public class OpposingShipEndWithDirection {
      * @param direction Lage des Schiffes
      * @param end       Ein Ende des Schiffes
      */
-    public OpposingShipEndWithDirection(OpposingShipDirection direction, OpposingField end) {
+    public OpposingShipEndWithDirection(final OpposingShipDirection direction, final OpposingField end) {
         this.direction = direction;
         this.end = end;
     }

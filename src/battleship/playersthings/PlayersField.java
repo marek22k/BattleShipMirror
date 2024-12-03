@@ -1,4 +1,4 @@
-package battleship.playersThings;
+package battleship.playersthings;
 
 /**
  * Repräsentiert den Standort eines Feldes vom Spieler.
@@ -13,7 +13,7 @@ public class PlayersField {
      * @param x X-Koordinate des Feldes
      * @param y Y-Koordinate des Feldes
      */
-    public PlayersField(int x, int y) {
+    public PlayersField(final int x, final int y) {
         this.x = x;
         this.y = y;
     }
@@ -42,7 +42,7 @@ public class PlayersField {
      * @param other Das andere Feld.
      * @return true, wenn beide Felder auf der gleichen Position liegt, sonst false.
      */
-    public boolean hasSamePosition(PlayersField other) {
+    public boolean hasSamePosition(final PlayersField other) {
         return this.x == other.getX() && this.y == other.getY();
     }
 
@@ -53,7 +53,7 @@ public class PlayersField {
      * @param other Das andere Feld.
      * @return true, wenn die beiden Felder benachbart sind, sonst false.
      */
-    public boolean isNeighbor(PlayersField other) {
+    public boolean isNeighbor(final PlayersField other) {
         final int x = this.getX();
         final int y = this.getY();
         final int ox = other.getX();
@@ -69,7 +69,7 @@ public class PlayersField {
      * @param field Das andere Feld.
      * @return true, wenn beide Felder Nachbarn sind oder auf der gleichen Position.
      */
-    public boolean isNeighborOrEqual(PlayersField field) {
+    public boolean isNeighborOrEqual(final PlayersField field) {
         return this.equals(field) || this.isNeighbor(field);
     }
 

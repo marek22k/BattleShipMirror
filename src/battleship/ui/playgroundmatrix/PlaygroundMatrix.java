@@ -1,4 +1,4 @@
-package battleship.ui.playgroundMatrix;
+package battleship.ui.playgroundmatrix;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,7 +18,7 @@ import javax.swing.SwingConstants;
  * Graphisches Spielfeld.
  */
 public class PlaygroundMatrix extends JPanel {
-    private static final long serialVersionUID = 3185851666830761797L;
+    private static final long serialVersionUID = -4425085031052165829L;
 
     /*
      * Speichert die einzelnen Felder in Form von JPanels.
@@ -53,12 +53,14 @@ public class PlaygroundMatrix extends JPanel {
      * @param rows Anzahl der Zeilen
      * @param cols Anzahl der Reihen
      */
-    public PlaygroundMatrix(int rows, int cols) {
+    public PlaygroundMatrix(final int rows, final int cols) {
+        super();
+
         this.rows = rows;
         this.cols = cols;
         this.listeners = new ArrayList<>();
 
-        this.setLayout(new GridBagLayout());
+        super.setLayout(new GridBagLayout());
         final GridBagConstraints gbc = new GridBagConstraints();
 
         // Leeres Zusatzfeld oben links
@@ -70,7 +72,7 @@ public class PlaygroundMatrix extends JPanel {
         final JPanel emptyCorner = new JPanel();
         // Größe des leeren Feldes
         emptyCorner.setPreferredSize(new Dimension(40, 40));
-        this.add(emptyCorner, gbc);
+        super.add(emptyCorner, gbc);
 
         // Buchstabenfelder oben
         for (int i = 0; i < cols; i++) {
@@ -81,7 +83,7 @@ public class PlaygroundMatrix extends JPanel {
             gbc.weighty = 0.1;
             final JLabel label = new JLabel(String.valueOf((char) ('A' + i)), SwingConstants.CENTER);
             label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            this.add(label, gbc);
+            super.add(label, gbc);
         }
 
         // Zahlenfelder links
@@ -95,7 +97,7 @@ public class PlaygroundMatrix extends JPanel {
             label.setPreferredSize(new Dimension(40, 40)); // Breite der Zahlenfelder
             label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             label.setLabelFor(null);
-            this.add(label, gbc);
+            super.add(label, gbc);
         }
 
         // Spielfeld erstellen
@@ -111,7 +113,7 @@ public class PlaygroundMatrix extends JPanel {
                 panel.setBackground(Color.BLACK); // Anfangsfarbe (Leer/Unbekannt)
                 panel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY)); // Helle Linien
                 this.grid[i][j] = panel;
-                this.add(panel, gbc);
+                super.add(panel, gbc);
 
                 // MouseListener hinzufügen, um auf Klicks zu reagieren
                 final int x = j;
@@ -125,7 +127,7 @@ public class PlaygroundMatrix extends JPanel {
                 });
             }
         }
-        this.setPreferredSize(new Dimension(cols * RESIZE_FACTOR, rows * RESIZE_FACTOR));
+        super.setPreferredSize(new Dimension(cols * RESIZE_FACTOR, rows * RESIZE_FACTOR));
     }
 
     /**
@@ -133,7 +135,7 @@ public class PlaygroundMatrix extends JPanel {
      *
      * @param listener Der zu registrierende FireListener
      */
-    public void addFireListener(FireListener listener) {
+    public void addFireListener(final FireListener listener) {
         this.listeners.add(listener);
     }
 
@@ -144,7 +146,7 @@ public class PlaygroundMatrix extends JPanel {
      * @param row   Spaltennummer des Feldes (beginnend bei 0)
      * @param color Die Farbe auf welche das Feld gesetzt werden soll
      */
-    public void setFieldColor(int col, int row, Color color) {
+    public void setFieldColor(final int col, final int row, final Color color) {
         if (row >= 0 && row < this.rows && col >= 0 && col < this.cols) {
             this.grid[row][col].setBackground(color);
         }
@@ -156,7 +158,7 @@ public class PlaygroundMatrix extends JPanel {
      * @param col Zeilennummer des Feldes (beginnend bei 0)
      * @param row Spaltennummer des Feldes (beginnend bei 0)
      */
-    public void setShip(int col, int row) {
+    public void setShip(final int col, final int row) {
         this.setFieldColor(col, row, Color.DARK_GRAY);
     }
 
@@ -166,7 +168,7 @@ public class PlaygroundMatrix extends JPanel {
      * @param col Zeilennummer des Feldes (beginnend bei 0)
      * @param row Spaltennummer des Feldes (beginnend bei 0)
      */
-    public void setSunk(int col, int row) {
+    public void setSunk(final int col, final int row) {
         this.setFieldColor(col, row, new Color(0, 0, 153));
     }
 
@@ -176,7 +178,7 @@ public class PlaygroundMatrix extends JPanel {
      * @param col Zeilennummer des Feldes (beginnend bei 0)
      * @param row Spaltennummer des Feldes (beginnend bei 0)
      */
-    public void setUnknown(int col, int row) {
+    public void setUnknown(final int col, final int row) {
         this.setFieldColor(col, row, Color.WHITE);
     }
 
@@ -186,7 +188,7 @@ public class PlaygroundMatrix extends JPanel {
      * @param col Zeilennummer des Feldes (beginnend bei 0)
      * @param row Spaltennummer des Feldes (beginnend bei 0)
      */
-    public void setWater(int col, int row) {
+    public void setWater(final int col, final int row) {
         this.setFieldColor(col, row, new Color(0, 102, 255));
     }
 
@@ -196,7 +198,7 @@ public class PlaygroundMatrix extends JPanel {
      * @param x X-Koordinate / Zeilennummer
      * @param y Y-Koordinate / Spaltennummer
      */
-    private void fireEvent(int x, int y) {
+    private void fireEvent(final int x, final int y) {
         final FireEvent event = new FireEvent(x, y);
         for (final FireListener listener : this.listeners) {
             listener.fire(event);

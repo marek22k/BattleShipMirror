@@ -1,4 +1,4 @@
-package battleship.ui.gameWindow;
+package battleship.ui.gamewindow;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -23,7 +23,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import battleship.Constants;
-import battleship.ui.playgroundMatrix.PlaygroundMatrix;
+import battleship.ui.playgroundmatrix.PlaygroundMatrix;
 import battleship.utils.Utils;
 
 public final class GameWindow {
@@ -45,9 +45,9 @@ public final class GameWindow {
     private final int cols;
     private final Logger logger;
 
-    public GameWindow(int rows, int cols) {
+    public GameWindow(final int rows, final int cols) {
         this.logger = Logger.getLogger(GameWindow.class.getName());
-        this.logger.setLevel(Constants.logLevel);
+        this.logger.setLevel(Constants.LOG_LEVEL);
 
         this.rows = rows;
         this.cols = cols;
@@ -134,10 +134,10 @@ public final class GameWindow {
         mainPanel.add(gamePanel, BorderLayout.CENTER); // Beide Spielfelder
         mainPanel.add(controlPanel, BorderLayout.EAST); // Chat und Buttons
 
-        this.sendButton.addActionListener(e -> GameWindow.this.messageEvent());
+        this.sendButton.addActionListener(e -> this.messageEvent());
         this.chatInputField.addActionListener(e -> this.messageEvent());
-        this.withdrawButton.addActionListener(e -> GameWindow.this.withdrawEvent());
-        this.computerButton.addActionListener(e -> GameWindow.this.computerMoveEvent());
+        this.withdrawButton.addActionListener(e -> this.withdrawEvent());
+        this.computerButton.addActionListener(e -> this.computerMoveEvent());
 
         // Haupt-Panel zum Fenster hinzufügen
         this.window.add(mainPanel);
@@ -151,7 +151,7 @@ public final class GameWindow {
         this.withdrawButton.setEnabled(false);
     }
 
-    public void enableComputerMove(boolean b) {
+    public void enableComputerMove(final boolean b) {
         this.computerButton.setEnabled(b);
     }
 
@@ -163,19 +163,19 @@ public final class GameWindow {
         return this.playersField;
     }
 
-    public void playersTurn(boolean b) {
+    public void playersTurn(final boolean b) {
         this.enableComputerMove(b);
     }
 
-    public void setComputerMoveHandler(ClickHandler computermovehandler) {
+    public void setComputerMoveHandler(final ClickHandler computermovehandler) {
         this.computermovehandler = computermovehandler;
     }
 
-    public void setMessageHandler(MessageHandler messagehandler) {
+    public void setMessageHandler(final MessageHandler messagehandler) {
         this.messagehandler = messagehandler;
     }
 
-    public void setWithdrawHandler(ClickHandler withdrawhandler) {
+    public void setWithdrawHandler(final ClickHandler withdrawhandler) {
         this.withdrawhandler = withdrawhandler;
     }
 
@@ -184,7 +184,7 @@ public final class GameWindow {
         this.window.setVisible(true);
     }
 
-    public void writeMessage(String text, Style style) {
+    public void writeMessage(final String text, final Style style) {
         try {
             final StyledDocument sd = this.chatOutputPane.getStyledDocument();
             sd.insertString(sd.getLength(), text + "\n", style);
@@ -193,15 +193,15 @@ public final class GameWindow {
         }
     }
 
-    public void writeMessageFromPeer(String name, String text) {
+    public void writeMessageFromPeer(final String name, final String text) {
         this.writeMessage(text, this.chatPeerStyle);
     }
 
-    public void writeMessageFromSystem(String text) {
+    public void writeMessageFromSystem(final String text) {
         this.writeMessage(text, this.chatSystemStyle);
     }
 
-    public void writeMessageFromUser(String name, String text) {
+    public void writeMessageFromUser(final String name, final String text) {
         this.writeMessage(text, this.chatUserStyle);
     }
 

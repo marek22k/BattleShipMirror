@@ -1,4 +1,4 @@
-package battleship.ui.playgroundMatrix;
+package battleship.ui.playgroundmatrix;
 
 /**
  * Listener, welcher aufgerufen wird, wenn auf ein Feld gefeuert wird.

@@ -28,7 +28,7 @@ public class Hit implements Command {
      * @param command Das HIT-Paket
      * @return Repräsentation des HIT-Pakets
      */
-    public static Hit fromString(String command) {
+    public static Hit fromString(final String command) {
         final String coordinates = command.strip();
         final String xCoordinate = coordinates.substring(0, 1);
         if (xCoordinate.length() != 1) {
@@ -36,7 +36,7 @@ public class Hit implements Command {
         }
         final String yCoordinate = coordinates.substring(1, Utils.getFirstWordOrLine(coordinates).length());
         final String status = Utils.getStringAfterFirstSpace(coordinates);
-        HitStatus hitstatus;
+        final HitStatus hitstatus;
         switch (status) {
             case "0":
                 hitstatus = HitStatus.WATER;
@@ -69,7 +69,7 @@ public class Hit implements Command {
      * @param y         Die Y-Koordinate, beginnend bei 0
      * @param hitstatus
      */
-    public Hit(int x, int y, HitStatus hitstatus) {
+    public Hit(final int x, final int y, final HitStatus hitstatus) {
         this.x = x;
         this.y = y;
         this.hitstatus = hitstatus;
@@ -78,12 +78,7 @@ public class Hit implements Command {
     @Override
     public String getFullCommand() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("HIT ");
-
-        builder.append((char) (this.x + 'A'));
-        builder.append(this.y + 1);
-
-        builder.append(' ');
+        builder.append("HIT ").append((char) (this.x + 'A')).append(this.y + 1).append(' ');
 
         switch (this.hitstatus) {
             case WATER:

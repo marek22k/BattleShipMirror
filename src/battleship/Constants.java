@@ -9,13 +9,6 @@ import java.util.logging.Level;
  */
 public class Constants {
     /**
-     * Constants kann nicht instanziiert werden
-     */
-    private Constants() {
-        throw new UnsupportedOperationException("Constants cannot be instantiated");
-    }
-
-    /**
      * Protokoll-Version, welche das aktuelle Spiel implementiert.
      */
     public static final String PROTOCOL_VERSION = "1.1.0";
@@ -28,7 +21,7 @@ public class Constants {
     /**
      * Standard-Port des Schiffeversenken-Server
      */
-    public static final int SERVER_PORT = 51525;
+    public static final int SERVER_PORT = 51_525;
 
     /**
      * Liste, welche die Anzahl und Größe der Schiffe pro Level definiert.
@@ -90,7 +83,7 @@ public class Constants {
     /**
      * Standardloglevel
      */
-    public static final Level logLevel = Level.ALL;
+    public static final Level LOG_LEVEL = Level.ALL;
 
     /**
      * Gibt an, ob das Spiel Sound unterstützen soll.
@@ -103,4 +96,11 @@ public class Constants {
     public static final String WATER_RESOURCE = "/Water.wav";
     /* https://opengameart.org/content/victory-4 */
     public static final String VICTORY_RESOURCE = "/Victory.wav";
+
+    /**
+     * Constants kann nicht instanziiert werden
+     */
+    private Constants() {
+        throw new UnsupportedOperationException("Constants cannot be instantiated");
+    }
 }

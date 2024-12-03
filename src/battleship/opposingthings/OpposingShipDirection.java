@@ -1,4 +1,4 @@
-package battleship.opposingThings;
+package battleship.opposingthings;
 
 /**
  * Repräsentiert die Lage eines Schiffes vom Gegner.

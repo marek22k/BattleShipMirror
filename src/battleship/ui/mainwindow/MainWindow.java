@@ -1,4 +1,4 @@
-package battleship.ui.mainWindow;
+package battleship.ui.mainwindow;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -105,9 +105,9 @@ public final class MainWindow {
 
     private final Logger logger;
 
-    public MainWindow(AtomicBoolean sound) {
+    public MainWindow(final AtomicBoolean sound) {
         this.logger = Logger.getLogger(MainWindow.class.getName());
-        this.logger.setLevel(Constants.logLevel);
+        this.logger.setLevel(Constants.LOG_LEVEL);
 
         this.window = new JFrame("Battleship");
         this.window.setLayout(new GridLayout(2, 2, 10, 10));
@@ -232,7 +232,7 @@ public final class MainWindow {
         portPanel.add(this.clientPortField);
 
         this.clientConnectButton = new JButton("Connect");
-        this.clientConnectButton.addActionListener(e -> MainWindow.this.onConnect());
+        this.clientConnectButton.addActionListener(e -> this.onConnect());
         final JPanel connectButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         connectButtonPanel.add(this.clientConnectButton);
 
@@ -302,14 +302,14 @@ public final class MainWindow {
 
         // Aktuallisiere auf Wunsch des Nutzers, wenn es den Button anklickt, die Liste
         // mit IP-Adressen
-        this.updateSeverIpListButton.addActionListener(e -> MainWindow.this.updateIpAddresses());
+        this.updateSeverIpListButton.addActionListener(e -> this.updateIpAddresses());
 
         // Kopiere die ausgewählte IP-Adresse des Server bei einem Doppelklick in die
         // Zwischenablage
         this.serverIpList.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) { // Doppelklick
+            public void mouseClicked(final MouseEvent event) {
+                if (event.getClickCount() == 2) { // Doppelklick
                     final String selectedIp = MainWindow.this.serverIpList.getSelectedValue();
                     if (selectedIp != null) {
                         SystemUtils.copyToClipboard(selectedIp);
@@ -321,9 +321,9 @@ public final class MainWindow {
 
         // Wenn ein Modus umgeschaltet wird, wird der andere Modus deaktiviert und damit
         // auch deine GUI-Elemente
-        this.clientModeRadioButton.addItemListener(e -> MainWindow.this.updateMode());
+        this.clientModeRadioButton.addItemListener(e -> this.updateMode());
 
-        this.serverModeRadioButton.addItemListener(e -> MainWindow.this.updateMode());
+        this.serverModeRadioButton.addItemListener(e -> this.updateMode());
 
         this.serverStartButton.addActionListener(e -> this.startServer());
 
@@ -358,7 +358,7 @@ public final class MainWindow {
      *
      * @param enabled
      */
-    public void enable(boolean enabled) {
+    public void enable(final boolean enabled) {
         this.enableSettings(enabled);
         this.enableModeSettings(enabled);
 
@@ -373,7 +373,7 @@ public final class MainWindow {
     /**
      * Zeigt das Fenster an.
      */
-    public void enableClient(boolean enabled) {
+    public void enableClient(final boolean enabled) {
         this.clientHostnameField.setEnabled(enabled);
         this.clientPortField.setEnabled(enabled);
         this.clientHostnameLabel.setEnabled(enabled);
@@ -387,7 +387,7 @@ public final class MainWindow {
      *
      * @param enabled
      */
-    public void enableModeSettings(boolean enabled) {
+    public void enableModeSettings(final boolean enabled) {
         this.serverModeRadioButton.setEnabled(enabled);
         this.clientModeRadioButton.setEnabled(enabled);
         this.serverLabel.setEnabled(enabled);
@@ -399,7 +399,7 @@ public final class MainWindow {
      *
      * @param enabled
      */
-    public void enableServer(boolean enabled) {
+    public void enableServer(final boolean enabled) {
         if (!enabled) {
             /*
              * Geht nur in eine Richtung. Wenn der Server Mode aktiviert ist, bedeutet dies
@@ -421,7 +421,7 @@ public final class MainWindow {
      *
      * @param enabled
      */
-    public void enableSettings(boolean enabled) {
+    public void enableSettings(final boolean enabled) {
         this.currentLevelLabel.setEnabled(enabled);
         this.levelComboBox.setEnabled(enabled);
         this.maxLevelLabel.setEnabled(enabled);
@@ -452,12 +452,12 @@ public final class MainWindow {
             }
 
             @Override
-            public void publish(LogRecord record) {
+            public void publish(final LogRecord record) {
                 if (this.isLoggable(record)) {
                     final String message = this.getFormatter().format(record);
-                    if (record.getLevel() == java.util.logging.Level.SEVERE) {
+                    if (record.getLevel() == Level.SEVERE) {
                         SwingUtilities.invokeLater(() -> MainWindow.this.logError(message));
-                    } else if (record.getLevel() == java.util.logging.Level.WARNING) {
+                    } else if (record.getLevel() == Level.WARNING) {
                         SwingUtilities.invokeLater(() -> MainWindow.this.logWarning(message));
                     } else {
                         SwingUtilities.invokeLater(() -> MainWindow.this.logInfo(message));
@@ -481,7 +481,7 @@ public final class MainWindow {
         return Integer.valueOf(this.serverPortField.getText());
     }
 
-    public void log(String text, Style style) {
+    public void log(final String text, final Style style) {
         try {
             final StyledDocument sd = this.logTextPane.getStyledDocument();
             sd.insertString(sd.getLength(), text, style);
@@ -494,27 +494,27 @@ public final class MainWindow {
         }
     }
 
-    public void logError(String text) {
+    public void logError(final String text) {
         this.log(text, this.logErrorStyle);
     }
 
-    public void logInfo(String text) {
+    public void logInfo(final String text) {
         this.log(text, this.logInfoStyle);
     }
 
-    public void logWarning(String text) {
+    public void logWarning(final String text) {
         this.log(text, this.logWarningStyle);
     }
 
-    public void setConnectHandler(ConnectHandler connecthandler) {
+    public void setConnectHandler(final ConnectHandler connecthandler) {
         this.connecthandler = connecthandler;
     }
 
-    public void setServerStartHandler(ServerStartHandler serverStartHandler) {
+    public void setServerStartHandler(final ServerStartHandler serverStartHandler) {
         this.serverStartHandler = serverStartHandler;
     }
 
-    public void setServerStopHandler(ServerStopHandler serverStopHandler) {
+    public void setServerStopHandler(final ServerStopHandler serverStopHandler) {
         this.serverStopHandler = serverStopHandler;
     }
 
@@ -626,7 +626,7 @@ public final class MainWindow {
      *
      * @param maxLevel Das maximale Level, welches wählbar sein soll.
      */
-    public void updateLevels(int maxLevel) {
+    public void updateLevels(final int maxLevel) {
         final Object selectedItem = this.levelComboBox.getSelectedItem();
         this.levelComboBox.removeAllItems();
         for (int i = 1; i <= maxLevel; i++) {
@@ -663,14 +663,14 @@ public final class MainWindow {
      *
      * @param text
      */
-    public void updateServerStatus(String text) {
+    public void updateServerStatus(final String text) {
         this.serverStatusLabel.setText("Status: " + text);
     }
 
     private void onConnect() {
         this.enable(false);
-        String hostname;
-        int port;
+        final String hostname;
+        final int port;
         try {
             hostname = this.clientHostnameField.getText();
             port = Integer.parseInt(this.clientPortField.getText());

@@ -33,7 +33,7 @@ public final class Sound {
      */
     public static void loadSound() {
         logger = Logger.getLogger(Sound.class.getName());
-        logger.setLevel(Constants.logLevel);
+        logger.setLevel(Constants.LOG_LEVEL);
         if (Constants.SOUND) {
             try {
                 logger.log(Level.FINE, "Load sound.");
@@ -81,7 +81,7 @@ public final class Sound {
      *
      * @param sf Die Sound-Datei, welche abgespielt werden soll.
      */
-    private static void play(SoundFile sf) {
+    private static void play(final SoundFile sf) {
         if (Constants.SOUND) {
             try {
                 sf.play();

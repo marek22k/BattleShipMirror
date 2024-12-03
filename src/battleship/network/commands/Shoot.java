@@ -23,7 +23,7 @@ public class Shoot implements Command {
      * @param command Das SHOOT-Paket
      * @return Repräsentation des SHOOT-Pakets
      */
-    public static Shoot fromString(String command) {
+    public static Shoot fromString(final String command) {
         final String coordinates = command.strip();
         final String xCoordinate = coordinates.substring(0, 1);
         if (xCoordinate.length() != 1) {
@@ -40,7 +40,7 @@ public class Shoot implements Command {
      * @param x Die X-Koordinate, beginnend bei 0
      * @param y Die Y-Koordinate, beginnend bei 0
      */
-    public Shoot(int x, int y) {
+    public Shoot(final int x, final int y) {
         this.x = x;
         this.y = y;
     }
@@ -48,12 +48,8 @@ public class Shoot implements Command {
     @Override
     public String getFullCommand() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("SHOOT ");
+        builder.append("SHOOT ").append((char) (this.x + 'A')).append(this.y + 1).append("\r\n");
 
-        builder.append((char) (this.x + 'A'));
-        builder.append(this.y + 1);
-
-        builder.append("\r\n");
         return builder.toString();
     }
 

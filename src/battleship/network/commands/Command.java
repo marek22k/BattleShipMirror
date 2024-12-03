@@ -9,7 +9,7 @@ public interface Command {
      *
      * @return Der Befehl als String
      */
-    public String getFullCommand();
+    String getFullCommand();
 
     /**
      * Überprüft, ob der Befehl die Protokoll-Spezifikation einhält.
@@ -17,5 +17,5 @@ public interface Command {
      * @return true, wenn der Befehl die Protokoll-Spezifikation einhält und damit
      *         valide ist, sonst false.
      */
-    public boolean isValid();
+    boolean isValid();
 }

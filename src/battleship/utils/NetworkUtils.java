@@ -30,7 +30,7 @@ public final class NetworkUtils {
      * @throws SocketException
      */
     public static List<String> getIpAddresses() throws SocketException {
-        final ArrayList<String> ipAddresses = new ArrayList<>();
+        final List<String> ipAddresses = new ArrayList<>();
 
         final Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
         if (networkInterfaces != null) {

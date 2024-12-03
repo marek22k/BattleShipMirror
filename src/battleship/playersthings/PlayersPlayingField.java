@@ -1,10 +1,10 @@
-package battleship.playersThings;
+package battleship.playersthings;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import battleship.ui.playgroundMatrix.PlaygroundMatrix;
+import battleship.ui.playgroundmatrix.PlaygroundMatrix;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
@@ -26,7 +26,7 @@ public class PlayersPlayingField {
      *
      * @param size Größe des Spielfeldes
      */
-    public PlayersPlayingField(int size) {
+    public PlayersPlayingField(final int size) {
         this.ships = new ArrayList<>();
         this.size = size;
     }
@@ -63,7 +63,7 @@ public class PlayersPlayingField {
      *             einmal fünf Felder lang. Die Schiffe werden so platziert, dass
      *             sie nicht überlappend oder benachbart sind.
      */
-    public void generateShips(Iterable<Integer> list) {
+    public void generateShips(final Iterable<Integer> list) {
         final Random random = new Random();
         for (final Integer shipSize : list) {
             PlayersShip ship;
@@ -84,7 +84,7 @@ public class PlayersPlayingField {
      *         welches getroffen wurden ist.
      */
     @Nullable
-    public PlayersShip hit(PlayersField field) {
+    public PlayersShip hit(final PlayersField field) {
         for (final PlayersShip ship : this.ships) {
             if (ship.isOnField(field)) {
                 ship.hit(field);
@@ -102,7 +102,7 @@ public class PlayersPlayingField {
      * @param ship Das Schiff
      * @return true, wenn es konfliktfrei ist, sonst false.
      */
-    public boolean isShipSuitable(PlayersShip ship) {
+    public boolean isShipSuitable(final PlayersShip ship) {
         for (final PlayersShip element : this.ships) {
             if (element.isNeighborOrEqual(ship)) {
                 return false;
@@ -117,7 +117,7 @@ public class PlayersPlayingField {
      *
      * @param ship
      */
-    public void placeShip(PlayersShip ship) {
+    public void placeShip(final PlayersShip ship) {
         this.ships.add(ship);
     }
 
@@ -128,7 +128,7 @@ public class PlayersPlayingField {
      * @param pm Die `PlaygroundMatrix`, in welche das Spielfeld eingezeichnet
      *           werden soll.
      */
-    public void print(PlaygroundMatrix pm) {
+    public void print(final PlaygroundMatrix pm) {
         for (int y = 0; y < this.size; y++) {
             for (int x = 0; x < this.size; x++) {
                 pm.setWater(x, y);

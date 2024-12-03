@@ -7,7 +7,7 @@ public class Coin implements Command {
     /**
      * Geworfene Münze
      */
-    private final String coin;
+    private final String flippedCoin;
 
     /**
      * Erstellt aus einem COIN-Paket in seiner genormten Übertragungsform als String
@@ -16,7 +16,7 @@ public class Coin implements Command {
      * @param command Das COIN-Paket
      * @return Repräsentation des COIN-Pakets
      */
-    public static Coin fromString(String command) {
+    public static Coin fromString(final String command) {
         final String coin = command.strip();
         return new Coin(coin);
     }
@@ -26,8 +26,8 @@ public class Coin implements Command {
      *
      * @param coin Die geworfene Münze (`"0"` oder `"1"`) als String.
      */
-    public Coin(String coin) {
-        this.coin = coin;
+    public Coin(final String coin) {
+        this.flippedCoin = coin;
     }
 
     /**
@@ -36,23 +36,20 @@ public class Coin implements Command {
      * @return Die geworfene Münze
      */
     public String getCoin() {
-        return this.coin;
+        return this.flippedCoin;
     }
 
     @Override
     public String getFullCommand() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("COIN ");
+        builder.append("COIN ").append(this.flippedCoin).append("\r\n");
 
-        builder.append(this.coin);
-
-        builder.append("\r\n");
         return builder.toString();
     }
 
     @Override
     public boolean isValid() {
-        if ("0".equals(this.coin) || "1".equals(this.coin)) {
+        if ("0".equals(this.flippedCoin) || "1".equals(this.flippedCoin)) {
             return true;
         }
         return false;

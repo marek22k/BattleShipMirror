@@ -1,5 +1,6 @@
 plugins {
     id 'application'
+    id 'pmd'
     id 'org.gradlex.reproducible-builds' version '1.0'
     id 'com.github.spotbugs' version '6.0.26'
     id 'io.github.sgtsilvio.gradle.proguard' version '0.7.0'
@@ -27,6 +28,12 @@ sonar {
         property "sonar.organization", "marek22k"
         property "sonar.host.url", "https://sonarcloud.io"
     }
+}
+
+pmd {
+    consoleOutput = true
+    toolVersion = '7.8.0'
+    ruleSetFiles = files 'pmd.xml'
 }
 
 spotbugs {

@@ -25,7 +25,7 @@ public final class Utils {
      * @return Das erste Wort aus dem String bzw. die erste Zeile, wenn in der Zeile
      *         nur ein Wort ist.
      */
-    public static String getFirstWordOrLine(String input) {
+    public static String getFirstWordOrLine(final String input) {
         final int spaceIndex = input.indexOf(' ');
         final int newLineIndex = input.indexOf("\r\n");
 
@@ -50,7 +50,7 @@ public final class Utils {
      *              extrahiert werden soll.
      * @return Alle Zeichen nach dem ersten Leerzeichen
      */
-    public static String getStringAfterFirstSpace(String input) {
+    public static String getStringAfterFirstSpace(final String input) {
         final int spaceIndex = input.indexOf(' ');
 
         if (spaceIndex == -1) {
@@ -67,7 +67,7 @@ public final class Utils {
      * @param input Der unbehandelte String
      * @return Der behandelte String
      */
-    public static String sanitizeString(String input) {
+    public static String sanitizeString(final String input) {
         return CharMatcher.anyOf("\r\t\b\f").replaceFrom(input, "\\$0").replaceAll("\\s+", " ");
     }
 
@@ -79,7 +79,7 @@ public final class Utils {
      * @param input Der String, welcher in einen ASCII-Sring umgewandelt werden soll
      * @return Der ASCII-String
      */
-    public static String toAscii(String input) {
+    public static String toAscii(final String input) {
         final String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
         final String asciiOnly = CharMatcher.ascii().retainFrom(normalized);
 

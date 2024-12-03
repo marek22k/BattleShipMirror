@@ -15,15 +15,15 @@ import battleship.network.ConnectionEvent;
 import battleship.network.commands.Hit;
 import battleship.network.commands.HitStatus;
 import battleship.network.commands.Shoot;
-import battleship.opposingThings.OpposingField;
-import battleship.opposingThings.OpposingFieldStatus;
-import battleship.opposingThings.OpposingPlayingField;
-import battleship.playersThings.PlayersField;
-import battleship.playersThings.PlayersPlayingField;
-import battleship.playersThings.PlayersShip;
+import battleship.opposingthings.OpposingField;
+import battleship.opposingthings.OpposingFieldStatus;
+import battleship.opposingthings.OpposingPlayingField;
+import battleship.playersthings.PlayersField;
+import battleship.playersthings.PlayersPlayingField;
+import battleship.playersthings.PlayersShip;
 import battleship.sound.Sound;
-import battleship.ui.gameWindow.GameWindow;
-import battleship.ui.playgroundMatrix.FireEvent;
+import battleship.ui.gamewindow.GameWindow;
+import battleship.ui.playgroundmatrix.FireEvent;
 import battleship.utils.Utils;
 
 /**
@@ -115,8 +115,8 @@ public final class GameSession {
      *                        aufgerufen werden soll
      */
     public GameSession(
-            Connection connection, boolean isServer, String playersName, int level, AtomicBoolean sound,
-            GameExitHandler gameexithandler
+            final Connection connection, final boolean isServer, final String playersName, final int level,
+            final AtomicBoolean sound, final GameExitHandler gameexithandler
     ) {
         this.isRunning = new AtomicBoolean(true);
         this.turnLock = new Object();
@@ -129,7 +129,7 @@ public final class GameSession {
         /* Werfe eine Münze für uns */
         this.myCoin = getCoin();
         this.logger = Logger.getLogger(GameSession.class.getName());
-        this.logger.setLevel(Constants.logLevel);
+        this.logger.setLevel(Constants.LOG_LEVEL);
         /* Setze das Spiel auf Nicht-Bereicht (vor IAM- oder einem COIN-Paket). */
         synchronized (this.turnLock) {
             this.turnstatus = TurnStatus.NOT_READY_NOT_INITIALIZED;
@@ -173,7 +173,7 @@ public final class GameSession {
      * @param x X-Koordinate des Feldes, welches angegriffen werden soll
      * @param y Y-Koordinate des Feldes, welches angegriffen werden soll
      */
-    private void attackOpponent(int x, int y) {
+    private void attackOpponent(final int x, final int y) {
         synchronized (this.turnLock) {
             switch (this.turnstatus) {
                 /* Ich soll angreifer, aber bin ich überhaupt dran? */
@@ -239,7 +239,7 @@ public final class GameSession {
      *
      * @param turnstatus Neuer Runden-Status
      */
-    private void changeTurn(TurnStatus turnstatus) {
+    private void changeTurn(final TurnStatus turnstatus) {
         synchronized (this.turnLock) {
             this.turnstatus = turnstatus;
             this.logger.log(Level.FINER, "Change turnstatus into: " + turnstatus);
@@ -266,7 +266,7 @@ public final class GameSession {
         try {
             synchronized (this.turnLock) {
                 if (this.turnstatus != TurnStatus.NOT_READY_NOT_INITIALIZED) {
-                    GameSession.this.logger.log(
+                    this.logger.log(
                             Level.WARNING,
                             "The game is to be initialized, although it is already initialized. TurnStatus: "
                                     + this.turnstatus
@@ -504,13 +504,11 @@ public final class GameSession {
                     public void run() {
                         try {
                             GameSession.this.logger.log(Level.FINE, "Ready to receive commands from the peer.");
-                            while (
-                                GameSession.this.connection.isConnected() && !Thread.currentThread().isInterrupted()
-                            ) {
+                            while (GameSession.this.connection.isConnected() && !currentThread().isInterrupted()) {
                                 GameSession.this.connection.readCommand();
                             }
                         } catch (final Exception e) {
-                            if (Thread.currentThread().isInterrupted()) {
+                            if (currentThread().isInterrupted()) {
                                 GameSession.this.logger.log(
                                         Level.FINE,
                                         "Good error when reading a command. The reading thread is now closed."
@@ -551,7 +549,7 @@ public final class GameSession {
         try {
             synchronized (this.turnLock) {
                 if (this.turnstatus != TurnStatus.NOT_READY_HANDSHAKE_PHASE1_PERFORMED) {
-                    GameSession.this.logger.log(
+                    this.logger.log(
                             Level.WARNING,
                             "The game is to be prepared, although it is already prepared. TurnStatus: "
                                     + this.turnstatus
@@ -660,7 +658,7 @@ public final class GameSession {
      *                  beziehungsweise Gegner)
      * @param hitstatus Vom Gegner übermittelter Status
      */
-    private void receiveAnswerToOwnAttack(int x, int y, HitStatus hitstatus) {
+    private void receiveAnswerToOwnAttack(final int x, final int y, final HitStatus hitstatus) {
         synchronized (this.turnLock) {
             switch (this.turnstatus) {
                 case WAITING_FOR_REPLY_AFTER_HIT:
@@ -763,7 +761,7 @@ public final class GameSession {
      * @param x X-Koordinate, welche der Gegner angreift
      * @param y Y-Koordinate, welche der Gegner angreift
      */
-    private void receiveAttack(int x, int y) {
+    private void receiveAttack(final int x, final int y) {
         synchronized (this.turnLock) {
             switch (this.turnstatus) {
                 case YOUR_TURN_FIRST_TURN, YOUR_TURN, YOUR_TURN_AFTER_HIT:
@@ -837,7 +835,7 @@ public final class GameSession {
      *
      * @param peersCoin Die Münze des Gegners (entweder "0" oder "1").
      */
-    private void startGame(String peersCoin) {
+    private void startGame(final String peersCoin) {
         try {
             synchronized (this.turnLock) {
                 if (this.turnstatus != TurnStatus.NOT_READY_HANDSHAKE_PHASE2_PERFORMED) {
@@ -882,7 +880,7 @@ public final class GameSession {
      * @param status Status, mit welchem das Spiel abgebrochen werden soll. Dieser
      *               Wert wird später dem GameExitHandler übergeben.
      */
-    private void stopGame(GameEndStatus status) {
+    private void stopGame(final GameEndStatus status) {
         if (this.isRunning.compareAndSet(true, false)) {
             this.logger.log(Level.FINE, "Stop current game with status " + status + ".");
             this.logger.log(Level.FINE, "Wait for turnlock to stop game.");
@@ -891,7 +889,7 @@ public final class GameSession {
 
                 if (this.gamewindow != null) {
                     try {
-                        SwingUtilities.invokeAndWait(() -> this.gamewindow.close());
+                        SwingUtilities.invokeAndWait(this.gamewindow::close);
                     } catch (final Exception e) {
                         this.logger.log(Level.SEVERE, "Failed to close game window.", e);
                     }

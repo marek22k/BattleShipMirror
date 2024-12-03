@@ -79,7 +79,7 @@ public final class TerminalWindow {
 
     public TerminalWindow() {
         this.logger = Logger.getLogger(TerminalWindow.class.getName());
-        this.logger.setLevel(Constants.logLevel);
+        this.logger.setLevel(Constants.LOG_LEVEL);
 
         this.window = new JFrame("Terminal");
         this.window.setLayout(new BorderLayout());
@@ -120,7 +120,7 @@ public final class TerminalWindow {
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected void paintComponent(Graphics g) {
+            protected void paintComponent(final Graphics g) {
                 super.paintComponent(g);
                 g.setColor(TerminalWindow.this.dotColor);
                 g.fillOval(0, 0, this.getWidth(), this.getHeight());
@@ -152,7 +152,7 @@ public final class TerminalWindow {
         this.window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.window.addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(WindowEvent e) {
+            public void windowClosing(final WindowEvent event) {
                 synchronized (TerminalWindow.this.processLock) {
                     TerminalWindow.this.stopProcess("Window closed.");
                     if (
@@ -167,7 +167,7 @@ public final class TerminalWindow {
                                 ) {
                                     TerminalWindow.this.destroyWaitingThread.join();
                                 }
-                                SwingUtilities.invokeLater(() -> TerminalWindow.this.window.dispose());
+                                SwingUtilities.invokeLater(TerminalWindow.this.window::dispose);
                             } catch (final Exception exc) {
                                 if (TerminalWindow.this.process != null && TerminalWindow.this.process.isAlive()) {
                                     SwingUtilities.invokeLater(
@@ -179,9 +179,9 @@ public final class TerminalWindow {
                                     TerminalWindow.this.logger.log(
                                             Level.SEVERE,
                                             "A strange error has occurred. The thread to terminate the process was not successfully executed to the end, but the process is terminated.",
-                                            e
+                                            event
                                     );
-                                    SwingUtilities.invokeLater(() -> TerminalWindow.this.window.dispose());
+                                    SwingUtilities.invokeLater(TerminalWindow.this.window::dispose);
                                 }
                             }
                         });
@@ -228,7 +228,7 @@ public final class TerminalWindow {
      * @param text  Text
      * @param style Style
      */
-    private void printText(String text, Style style) {
+    private void printText(final String text, final Style style) {
         try {
             final StyledDocument sd = this.terminalArea.getStyledDocument();
             sd.insertString(sd.getLength(), text, style);
@@ -243,7 +243,7 @@ public final class TerminalWindow {
      *
      * @param text Text
      */
-    private void printToStdErr(String text) {
+    private void printToStdErr(final String text) {
         this.printText(text, this.terminalStderrStyle);
     }
 
@@ -252,7 +252,7 @@ public final class TerminalWindow {
      *
      * @param text Text
      */
-    private void printToStdOut(String text) {
+    private void printToStdOut(final String text) {
         this.printText(text, this.terminalStdoutStyle);
     }
 
@@ -261,7 +261,7 @@ public final class TerminalWindow {
      *
      * @param text Text
      */
-    private void printToSystemMessage(String text) {
+    private void printToSystemMessage(final String text) {
         this.printText(text, this.terminalSystemMessageStyle);
     }
 
@@ -270,7 +270,7 @@ public final class TerminalWindow {
      *
      * @param color Die neue Farbe
      */
-    private void setDotColor(Color color) {
+    private void setDotColor(final Color color) {
         this.dotColor = color;
         this.colorDot.repaint();
     }
@@ -323,7 +323,7 @@ public final class TerminalWindow {
      *
      * @param text
      */
-    private void setStatusLabel(String text) {
+    private void setStatusLabel(final String text) {
         this.statusLabel.setText("Status: " + text);
     }
 
@@ -459,7 +459,7 @@ public final class TerminalWindow {
      * @param reason Ein Grund, warum der Prozess beendet werden soll. Der Grund
      *               wird dem Nutzer angezeigt.
      */
-    private void stopProcess(String reason) {
+    private void stopProcess(final String reason) {
         synchronized (this.processLock) {
             if (this.processstatus != ProcessStatus.STOPPED && this.processstatus != ProcessStatus.WAITING_FOR_END) {
                 this.logger.log(Level.INFO, "Process finished: " + reason);
@@ -493,7 +493,7 @@ public final class TerminalWindow {
                         }
                         // Wenn der Prozess zu lange braucht, um sich zu beenden, soll das Programm
                         // nicht "einfrieren", sondern den Prozess zwangsweise beenden.
-                        if (System.currentTimeMillis() - lastTime >= 10000) {
+                        if (System.currentTimeMillis() - lastTime >= 10_000) {
                             SwingUtilities.invokeLater(
                                     () -> this.printToSystemMessage("Wait for the process to finish...\n")
                             );

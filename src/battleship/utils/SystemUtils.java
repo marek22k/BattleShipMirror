@@ -20,7 +20,7 @@ public final class SystemUtils {
      *
      * @param text Text, der in die System-Zwischenablage kopiert werden soll.
      */
-    public static void copyToClipboard(String text) {
+    public static void copyToClipboard(final String text) {
         final StringSelection stringSelection = new StringSelection(text);
         final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(stringSelection, null);
