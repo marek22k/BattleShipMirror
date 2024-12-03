@@ -115,8 +115,8 @@ public final class GameSession {
      *                        aufgerufen werden soll
      */
     public GameSession(
-            final Connection connection, final boolean isServer, final String playersName, final int level, final AtomicBoolean sound,
-            final GameExitHandler gameexithandler
+            final Connection connection, final boolean isServer, final String playersName, final int level,
+            final AtomicBoolean sound, final GameExitHandler gameexithandler
     ) {
         this.isRunning = new AtomicBoolean(true);
         this.turnLock = new Object();
@@ -504,9 +504,7 @@ public final class GameSession {
                     public void run() {
                         try {
                             GameSession.this.logger.log(Level.FINE, "Ready to receive commands from the peer.");
-                            while (
-                                GameSession.this.connection.isConnected() && !currentThread().isInterrupted()
-                            ) {
+                            while (GameSession.this.connection.isConnected() && !currentThread().isInterrupted()) {
                                 GameSession.this.connection.readCommand();
                             }
                         } catch (final Exception e) {
