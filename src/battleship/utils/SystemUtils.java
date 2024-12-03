@@ -5,7 +5,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 
 /**
- * System-Tools
+ * System-Werkzeuge
  */
 public final class SystemUtils {
     /**

@@ -11,7 +11,7 @@ import java.util.List;
 import com.google.common.net.InetAddresses;
 
 /**
- * Netzwerk-Tools
+ * Netzwerk-Werkzeuge
  */
 public final class NetworkUtils {
     /**

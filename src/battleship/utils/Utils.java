@@ -1,16 +1,30 @@
 package battleship.utils;
 
-import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
-import java.util.regex.Pattern;
 
 import com.google.common.base.CharMatcher;
 
+/**
+ * Verschiedene Werkzeuge
+ */
 public final class Utils {
+    /**
+     * Utils kann nicht instanziiert werden
+     */
     private Utils() {
         throw new UnsupportedOperationException("Utils cannot be instantiated");
     }
 
+    /**
+     * Extrahiert aus einem String das erste Wort (alle Zeichen vor dem ersten
+     * Leerzeichen) oder falls die Zeile nur aus einem Wort besteht schneidet es die
+     * darauf folgenden Zeilen ab.
+     *
+     * @param input Der String, aus welchem das erste Wort bzw. die erste Zeile
+     *              extrahiert werden soll.
+     * @return Das erste Wort aus dem String bzw. die erste Zeile, wenn in der Zeile
+     *         nur ein Wort ist.
+     */
     public static String getFirstWordOrLine(String input) {
         final int spaceIndex = input.indexOf(' ');
         final int newLineIndex = input.indexOf("\r\n");
@@ -29,6 +43,13 @@ public final class Utils {
         return input.substring(0, endIndex);
     }
 
+    /**
+     * Extrahiert alle Zeichen ab dem ersten Leerzeichen.
+     *
+     * @param input String, aus welchem alle Zeichen nach dem ersten Leerzeichen
+     *              extrahiert werden soll.
+     * @return Alle Zeichen nach dem ersten Leerzeichen
+     */
     public static String getStringAfterFirstSpace(String input) {
         final int spaceIndex = input.indexOf(' ');
 
@@ -39,18 +60,29 @@ public final class Utils {
         return input.substring(spaceIndex + 1);
     }
 
+    /**
+     * Entfernt "gefährliche" Zeichen aus einem String. Dies können beispielsweise
+     * Kontrollzeichen sein.
+     *
+     * @param input Der unbehandelte String
+     * @return Der behandelte String
+     */
     public static String sanitizeString(String input) {
         return CharMatcher.anyOf("\r\t\b\f").replaceFrom(input, "\\$0").replaceAll("\\s+", " ");
     }
 
+    /**
+     * Konvertiert einen String in ASCII-Zeichen. Dafür wird dieser als erstes
+     * Sonderbuchstaben durch ihren Basisbuchstaben ersetzt und danach werden alle
+     * verbleibenden nicht-ASCII-Zeichen entfernt.
+     *
+     * @param input Der String, welcher in einen ASCII-Sring umgewandelt werden soll
+     * @return Der ASCII-String
+     */
     public static String toAscii(String input) {
         final String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
-        final Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-        final String stringWithoutDiacriticalMarks = pattern.matcher(normalized).replaceAll("");
+        final String asciiOnly = CharMatcher.ascii().retainFrom(normalized);
 
-        final byte[] bytes = stringWithoutDiacriticalMarks.getBytes(StandardCharsets.US_ASCII);
-        final String asciiString = new String(bytes, StandardCharsets.US_ASCII);
-
-        return asciiString;
+        return asciiOnly;
     }
 }
