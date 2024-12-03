@@ -4,8 +4,8 @@ package battleship.playersThings;
  * Repräsentiert den Standort eines Feldes vom Spieler.
  */
 public class PlayersField {
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     /**
      * Erstellt eine neue Repräsentation eines Standortes eines Feldes.
@@ -65,7 +65,7 @@ public class PlayersField {
 
     /**
      * Überprüft, ob ein Feld benachbart ist oder auf der gleichen Position.
-     * 
+     *
      * @param field Das andere Feld.
      * @return true, wenn beide Felder Nachbarn sind oder auf der gleichen Position.
      */
