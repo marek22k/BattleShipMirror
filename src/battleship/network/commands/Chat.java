@@ -33,7 +33,7 @@ public class Chat implements Command {
     public String getFullCommand() {
         final StringBuilder builder = new StringBuilder();
         builder.append("CHAT ").append(this.message).append("\r\n");
-        
+
         return builder.toString();
     }
 

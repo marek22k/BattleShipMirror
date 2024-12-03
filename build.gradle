@@ -24,9 +24,7 @@ version = '1.0.0'
 pmd {
     consoleOutput = true
     toolVersion = '7.8.0'
-    rulesMinimumPriority = 5
     ruleSetFiles = files 'pmd.xml'
-    ignoreFailures = true
 }
 
 spotbugs {

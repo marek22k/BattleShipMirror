@@ -34,7 +34,7 @@ public class IAMU implements Command {
     public String getFullCommand() {
         final StringBuilder builder = new StringBuilder();
         builder.append("IAMU ").append(this.name).append("\r\n");
-        
+
         return builder.toString();
     }
 
