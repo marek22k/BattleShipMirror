@@ -224,7 +224,7 @@ public final class TerminalWindow {
 
     /**
      * Gibt einen bestimmten Text in einem bestimmten Style aus.
-     * 
+     *
      * @param text  Text
      * @param style Style
      */
@@ -240,7 +240,7 @@ public final class TerminalWindow {
 
     /**
      * Gibt Text im `stderr`-Style aus.
-     * 
+     *
      * @param text Text
      */
     private void printToStdErr(String text) {
@@ -249,7 +249,7 @@ public final class TerminalWindow {
 
     /**
      * Gibt Text im `stdout`-Style aus.
-     * 
+     *
      * @param text Text
      */
     private void printToStdOut(String text) {
@@ -258,7 +258,7 @@ public final class TerminalWindow {
 
     /**
      * Gibt Text im system-Style aus.
-     * 
+     *
      * @param text Text
      */
     private void printToSystemMessage(String text) {
@@ -267,7 +267,7 @@ public final class TerminalWindow {
 
     /**
      * Setzt die Farbe des Prozesstatusfarbpunkts
-     * 
+     *
      * @param color Die neue Farbe
      */
     private void setDotColor(Color color) {
@@ -320,7 +320,7 @@ public final class TerminalWindow {
 
     /**
      * Ändert den Prozess-Status-Text.
-     * 
+     *
      * @param text
      */
     private void setStatusLabel(String text) {
@@ -455,7 +455,7 @@ public final class TerminalWindow {
 
     /**
      * Stoppt den Prozess
-     * 
+     *
      * @param reason Ein Grund, warum der Prozess beendet werden soll. Der Grund
      *               wird dem Nutzer angezeigt.
      */

@@ -4,6 +4,8 @@ import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
 import java.util.regex.Pattern;
 
+import com.google.common.base.CharMatcher;
+
 public final class Utils {
     private Utils() {
         throw new UnsupportedOperationException("Utils cannot be instantiated");
@@ -38,8 +40,7 @@ public final class Utils {
     }
 
     public static String sanitizeString(String input) {
-        return input.replaceAll("\r", "\\r").replaceAll("\t", "\\t").replaceAll("\b", "\\b").replaceAll("\f", "\\f")
-                .replaceAll("\\s+", " ");
+        return CharMatcher.anyOf("\r\t\b\f").replaceFrom(input, "\\$0").replaceAll("\\s+", " ");
     }
 
     public static String toAscii(String input) {

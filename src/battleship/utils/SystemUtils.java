@@ -17,6 +17,7 @@ public final class SystemUtils {
 
     /**
      * Kopiert einen String in die System-Zwischenablage
+     *
      * @param text Text, der in die System-Zwischenablage kopiert werden soll.
      */
     public static void copyToClipboard(String text) {

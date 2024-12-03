@@ -25,7 +25,7 @@ public final class NetworkUtils {
      * Gibt eine Liste von IP-Adressen des lokalen Computers zurück.
      * Loopback-Adressen werden dabei ausgeschlossen. Die IP-Adressen werden soweit
      * gekürzt bzw. normalisiert soweit es Java zulässt.
-     * 
+     *
      * @return
      * @throws SocketException
      */
