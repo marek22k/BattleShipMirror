@@ -22,7 +22,7 @@ public final class SoundFile {
 
     /**
      * Erstellt eine neue Repräsentation einer Sound-Datei.
-     * 
+     *
      * @param resourceName Pfad zur Sound-Resource
      */
     public SoundFile(String resourceName) {
@@ -34,7 +34,7 @@ public final class SoundFile {
 
     /**
      * Spielt den Sound ab.
-     * 
+     *
      * @throws LineUnavailableException
      * @throws IOException
      * @throws UnsupportedAudioFileException

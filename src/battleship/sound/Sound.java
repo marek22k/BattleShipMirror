@@ -78,7 +78,7 @@ public final class Sound {
     /**
      * Spiele eine bestimmte Sound-Datei ab. Sollte dies fehlschlagen wird eine
      * Fehlermeldung geloggt. Es wird kein Fehler geworfen.
-     * 
+     *
      * @param sf Die Sound-Datei, welche abgespielt werden soll.
      */
     private static void play(SoundFile sf) {
