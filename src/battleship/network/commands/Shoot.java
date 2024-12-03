@@ -1,13 +1,28 @@
 package battleship.network.commands;
 
+/**
+ * Repräsentiert ein SHOOT-Paket
+ */
 public class Shoot implements Command {
-    /*
-     * Koordination werden beginnend bei 0 gespeichert, jedoch beginnend bei 1
-     * übertragen.
+    /**
+     * X-Koordinate, gespeichert als Zahl beginnend mit 0, übertragen als Buchstabe
+     * beginnend mit A
      */
     private final int x;
+    /**
+     * Y-Koordinate, gespeichert als Zahl beginnend mit 0, übertragen als Zahl
+     * beginnend mit 1
+     */
     private final int y;
 
+    /**
+     * Erstellt aus einem SHOOT-Paket in seiner genormten Übertragungsform als
+     * String
+     * eine Repräsentation des Paketes.
+     *
+     * @param command Das SHOOT-Paket
+     * @return Repräsentation des SHOOT-Pakets
+     */
     public static Shoot fromString(String command) {
         final String coordinates = command.strip();
         final String xCoordinate = coordinates.substring(0, 1);
@@ -19,6 +34,12 @@ public class Shoot implements Command {
         return new Shoot(xCoordinate.charAt(0) - 'A', Integer.parseInt(yCoordinate) - 1);
     }
 
+    /**
+     * Erstellt eine Repräsentation des SHOOT-Paketes.
+     *
+     * @param x Die X-Koordinate, beginnend bei 0
+     * @param y Die Y-Koordinate, beginnend bei 0
+     */
     public Shoot(int x, int y) {
         this.x = x;
         this.y = y;
@@ -36,10 +57,20 @@ public class Shoot implements Command {
         return builder.toString();
     }
 
+    /**
+     * Gibt die X-Koordinate zurück.
+     *
+     * @return X-Koordinate, beginnend bei 0.
+     */
     public int getX() {
         return this.x;
     }
 
+    /**
+     * Gibt die Y-Koordinate zurück.
+     *
+     * @return Y-Koordinate, beginnend bei 0.
+     */
     public int getY() {
         return this.y;
     }

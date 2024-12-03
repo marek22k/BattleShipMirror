@@ -15,6 +15,7 @@ dependencies {
     spotbugsPlugins 'com.mebigfatguy.fb-contrib:fb-contrib:7.6.8'
     proguardClasspath 'com.guardsquare:proguard-base:7.6.0'
 
+	implementation 'com.google.guava:guava:33.3.1-jre'
     compileOnly 'com.github.spotbugs:spotbugs-annotations:4.8.6'
 }
 
@@ -73,7 +74,6 @@ task proguardedJar(type: io.github.sgtsilvio.gradle.proguard.ProguardTask) {
     addInput {
         classpath.from(tasks.fatJar)
     }
-
     addOutput {
         archiveFile.set(base.libsDirectory.file("${project.name}-${project.version}-all-in-one-proguarded.jar"))
     }

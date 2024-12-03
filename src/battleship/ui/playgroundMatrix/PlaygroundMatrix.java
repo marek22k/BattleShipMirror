@@ -14,21 +14,50 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-@SuppressWarnings("serial")
+/**
+ * Graphisches Spielfeld.
+ */
 public class PlaygroundMatrix extends JPanel {
+    private static final long serialVersionUID = 3185851666830761797L;
+
+    /*
+     * Speichert die einzelnen Felder in Form von JPanels.
+     */
     private final JPanel[][] grid;
 
+    /*
+     * Anzahl der Zeilen
+     */
     private final int rows;
+
+    /*
+     * Anzahl der Reihen
+     */
     private final int cols;
-    private final List<FireListener> listeners; // Liste der registrierten Listener
+
+    /*
+     * Liste von Listeners, welche aufgerufen werden, wenn der Benutzer auf ein Feld
+     * klickt und damit feuert.
+     */
+    private final List<FireListener> listeners;
+
+    /*
+     * Faktor um die Größe (wie es später angezeigt wird, in Pixeln) im Verhältnis
+     * zur eigentlichen Spielfeldgröße zu beschreiben.
+     */
     private static final int RESIZE_FACTOR = 40;
 
+    /**
+     * Erstellt ein neues graphisches Spielfeld
+     *
+     * @param rows Anzahl der Zeilen
+     * @param cols Anzahl der Reihen
+     */
     public PlaygroundMatrix(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
-        this.listeners = new ArrayList<>(); // Initialisiere die Listener-Liste
+        this.listeners = new ArrayList<>();
 
-        // Layout mit zusätzlicher Zeile und Spalte für Beschriftungen
         this.setLayout(new GridBagLayout());
         final GridBagConstraints gbc = new GridBagConstraints();
 
@@ -39,7 +68,8 @@ public class PlaygroundMatrix extends JPanel {
         gbc.weightx = 0.1;
         gbc.weighty = 0.1;
         final JPanel emptyCorner = new JPanel();
-        emptyCorner.setPreferredSize(new Dimension(40, 40)); // Größe des leeren Feldes
+        // Größe des leeren Feldes
+        emptyCorner.setPreferredSize(new Dimension(40, 40));
         this.add(emptyCorner, gbc);
 
         // Buchstabenfelder oben
@@ -98,35 +128,74 @@ public class PlaygroundMatrix extends JPanel {
         this.setPreferredSize(new Dimension(cols * RESIZE_FACTOR, rows * RESIZE_FACTOR));
     }
 
-    // Methode zum Hinzufügen von FireListenern
+    /**
+     * Registriert einen neuen FireListener
+     *
+     * @param listener Der zu registrierende FireListener
+     */
     public void addFireListener(FireListener listener) {
         this.listeners.add(listener);
     }
 
-    // Zusätzliche Methoden, um die Felder zu steuern (z.B. Farben ändern)
+    /**
+     * Setzt ein bestimmtes Feld aus eine Farbe
+     *
+     * @param col   Zeilennummer des Feldes (beginnend bei 0)
+     * @param row   Spaltennummer des Feldes (beginnend bei 0)
+     * @param color Die Farbe auf welche das Feld gesetzt werden soll
+     */
     public void setFieldColor(int col, int row, Color color) {
         if (row >= 0 && row < this.rows && col >= 0 && col < this.cols) {
             this.grid[row][col].setBackground(color);
         }
     }
 
+    /**
+     * Setzt ein bestimmtes Feld auf die Schiffsfarbe (Dunkelgrau)
+     *
+     * @param col Zeilennummer des Feldes (beginnend bei 0)
+     * @param row Spaltennummer des Feldes (beginnend bei 0)
+     */
     public void setShip(int col, int row) {
         this.setFieldColor(col, row, Color.DARK_GRAY);
     }
 
+    /**
+     * Setzt ein bestimmtes Feld auf die versunkene Schiffsfarbe (Dunkelblau)
+     *
+     * @param col Zeilennummer des Feldes (beginnend bei 0)
+     * @param row Spaltennummer des Feldes (beginnend bei 0)
+     */
     public void setSunk(int col, int row) {
         this.setFieldColor(col, row, new Color(0, 0, 153));
     }
 
+    /**
+     * Setzt ein bestimmtes Feld auf die Unbekanntes-Feld-Farbe (Weiß)
+     *
+     * @param col Zeilennummer des Feldes (beginnend bei 0)
+     * @param row Spaltennummer des Feldes (beginnend bei 0)
+     */
     public void setUnknown(int col, int row) {
         this.setFieldColor(col, row, Color.WHITE);
     }
 
+    /**
+     * Setzt ein bestimmtes Feld auf die Wasserfarbe (blau)
+     *
+     * @param col Zeilennummer des Feldes (beginnend bei 0)
+     * @param row Spaltennummer des Feldes (beginnend bei 0)
+     */
     public void setWater(int col, int row) {
         this.setFieldColor(col, row, new Color(0, 102, 255));
     }
 
-    // Methode zum Auslösen des Fire-Events
+    /**
+     * Löst ein FireEvent aus. Ruft alle registrierten Listener auf.
+     *
+     * @param x X-Koordinate / Zeilennummer
+     * @param y Y-Koordinate / Spaltennummer
+     */
     private void fireEvent(int x, int y) {
         final FireEvent event = new FireEvent(x, y);
         for (final FireListener listener : this.listeners) {

@@ -11,9 +11,20 @@ import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+/**
+ * Repräsentiert eine Sound-Datei
+ */
 public final class SoundFile {
+    /**
+     * Pfad zur Sound-Resource
+     */
     private final String soundResource;
 
+    /**
+     * Erstellt eine neue Repräsentation einer Sound-Datei.
+     *
+     * @param resourceName Pfad zur Sound-Resource
+     */
     public SoundFile(String resourceName) {
         if (resourceName == null) {
             throw new IllegalArgumentException("resourceName is null");
@@ -21,6 +32,13 @@ public final class SoundFile {
         this.soundResource = resourceName;
     }
 
+    /**
+     * Spielt den Sound ab.
+     *
+     * @throws LineUnavailableException
+     * @throws IOException
+     * @throws UnsupportedAudioFileException
+     */
     public void play() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
         try (
                 InputStream resourceStream = this.getClass().getResourceAsStream(this.soundResource);

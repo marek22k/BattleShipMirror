@@ -1,8 +1,27 @@
 package battleship.terminal;
 
+/**
+ * Repräsentiert den Status eines Prozesses und damit indirekt, welche
+ * GUI-Element zur Verfügung stehen sollen.
+ */
 public enum ProcessStatus {
-    NOT_READY, /* Nicht bereit */
-    RUNNING, /* Process gestartet */
-    WAITING_FOR_END, /* Warte bis der Prozess beendet ist */
-    STOPPED /* Es läuft kein Process */
+    /**
+     * Nicht bereit
+     */
+    NOT_READY,
+
+    /**
+     * Process gestartet
+     */
+    RUNNING,
+
+    /**
+     * Warte bis der Prozess beendet ist
+     */
+    WAITING_FOR_END,
+
+    /**
+     * Es läuft kein Process
+     */
+    STOPPED
 }
