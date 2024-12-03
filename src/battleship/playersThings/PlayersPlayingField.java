@@ -50,7 +50,7 @@ public class PlayersPlayingField {
     public String debugPrint() {
         final StringBuilder sb = new StringBuilder();
         for (final PlayersShip element : this.ships) {
-            sb.append(element.toString());
+            sb.append(element);
         }
         return sb.toString();
     }
