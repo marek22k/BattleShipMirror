@@ -28,7 +28,7 @@ public class PlayersShip {
 
     /**
      * Generiert ein neues zufälliges Schiff.
-     * 
+     *
      * @param random Random-Objekt, welches zur Generierung verwendet werden soll.
      * @param size   Größe des Spielfeldes, auf welches das Schiff passen soll. Es
      *               wird angenommen, dass das Spielfeld quadratisch ist.
@@ -65,7 +65,7 @@ public class PlayersShip {
 
     /**
      * Erstellt eine neue Repräsentation des Schiffes vom Spieler
-     * 
+     *
      * @param start     Start des Schiffes
      * @param direction Richtung des Schiffes
      * @param length    Länge des Schiffes
@@ -116,7 +116,7 @@ public class PlayersShip {
 
     /**
      * Gibt die größte X-Koordinate der Schifffelder zurück.
-     * 
+     *
      * @return Die größte X-Koordinate.
      */
     public int getMaxX() {
@@ -134,7 +134,7 @@ public class PlayersShip {
 
     /**
      * Gibt die größte Y-Koordinate der Schifffelder zurück.
-     * 
+     *
      * @return Die größte Y-Koordinate.
      */
     public int getMaxY() {
@@ -152,7 +152,7 @@ public class PlayersShip {
 
     /**
      * Markiert ein Schiffsfeld als getroffen.
-     * 
+     *
      * @param field Das Schiffsfeld, welches als getroffen markiert werden soll.
      */
     public void hit(PlayersField field) {
@@ -173,7 +173,7 @@ public class PlayersShip {
     /**
      * Überprüft, ob ein Schiff benachbart oder an derselben Position wie das
      * Aktuelle ist.
-     * 
+     *
      * @param other Das andere Schiff
      * @return true, wenn es benachbart oder an der gleichen Position ist.
      */
@@ -183,7 +183,7 @@ public class PlayersShip {
 
     /**
      * Überprüft, ob das Schiff ein bestimmtes Spielfeld abdeckt.
-     * 
+     *
      * @param field Das Spielfeld.
      * @return true, wenn das Schiff das Spielfeld abdeckt, sonst false.
      */
@@ -193,7 +193,7 @@ public class PlayersShip {
 
     /**
      * Überprüft, ob das Schiff versunken ist.
-     * 
+     *
      * @return true, wenn das Schiff versunken ist, sonst false.
      */
     public boolean isSunk() {
@@ -203,7 +203,7 @@ public class PlayersShip {
     /**
      * Zeichnet das Schiff in ein graphisches Element in Form einer
      * `PlaygroundMatrix` ein.
-     * 
+     *
      * @param pm Die `PlaygroundMatrix`, auf welche das Schiff eingezeichnet werden
      *           soll.
      */

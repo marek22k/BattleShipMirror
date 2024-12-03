@@ -1,7 +1,21 @@
 package battleship.playersThings;
 
+/**
+ * Repräsentiert die Richtung eines Feldes.
+ */
 public enum PlayersShipDirection {
-    SINGLE_FIELD, /* Das Schiff bedeckt nur ein Feld */
-    HORIZONTAL, /* von links nach rechts */
-    VERTICAL /* von oben nach unten */
+    /**
+     * Das Schiff bedeckt nur ein Feld. Es hat daher keine Richtung.
+     */
+    SINGLE_FIELD,
+
+    /**
+     * von links nach rechts
+     */
+    HORIZONTAL,
+
+    /**
+     * von oben nach unten
+     */
+    VERTICAL
 }
