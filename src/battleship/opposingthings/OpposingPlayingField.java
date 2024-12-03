@@ -63,7 +63,7 @@ public class OpposingPlayingField {
         final StringBuilder sb = new StringBuilder(this.n * this.n + this.n * this.n + this.n);
         for (final OpposingFieldStatus[] row : this.field) {
             for (final OpposingFieldStatus column : row) {
-                char symbol;
+                final char symbol;
                 switch (column) {
                     case SHIP:
                         symbol = 'X';

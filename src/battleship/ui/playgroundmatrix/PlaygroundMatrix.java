@@ -54,6 +54,8 @@ public class PlaygroundMatrix extends JPanel {
      * @param cols Anzahl der Reihen
      */
     public PlaygroundMatrix(final int rows, final int cols) {
+        super();
+
         this.rows = rows;
         this.cols = cols;
         this.listeners = new ArrayList<>();

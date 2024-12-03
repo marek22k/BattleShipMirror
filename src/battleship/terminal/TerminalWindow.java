@@ -167,7 +167,7 @@ public final class TerminalWindow {
                                 ) {
                                     TerminalWindow.this.destroyWaitingThread.join();
                                 }
-                                SwingUtilities.invokeLater(() -> TerminalWindow.this.window.dispose());
+                                SwingUtilities.invokeLater(TerminalWindow.this.window::dispose);
                             } catch (final Exception exc) {
                                 if (TerminalWindow.this.process != null && TerminalWindow.this.process.isAlive()) {
                                     SwingUtilities.invokeLater(
@@ -181,7 +181,7 @@ public final class TerminalWindow {
                                             "A strange error has occurred. The thread to terminate the process was not successfully executed to the end, but the process is terminated.",
                                             event
                                     );
-                                    SwingUtilities.invokeLater(() -> TerminalWindow.this.window.dispose());
+                                    SwingUtilities.invokeLater(TerminalWindow.this.window::dispose);
                                 }
                             }
                         });
@@ -493,7 +493,7 @@ public final class TerminalWindow {
                         }
                         // Wenn der Prozess zu lange braucht, um sich zu beenden, soll das Programm
                         // nicht "einfrieren", sondern den Prozess zwangsweise beenden.
-                        if (System.currentTimeMillis() - lastTime >= 10000) {
+                        if (System.currentTimeMillis() - lastTime >= 10_000) {
                             SwingUtilities.invokeLater(
                                     () -> this.printToSystemMessage("Wait for the process to finish...\n")
                             );

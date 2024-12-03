@@ -36,7 +36,7 @@ public class Hit implements Command {
         }
         final String yCoordinate = coordinates.substring(1, Utils.getFirstWordOrLine(coordinates).length());
         final String status = Utils.getStringAfterFirstSpace(coordinates);
-        HitStatus hitstatus;
+        final HitStatus hitstatus;
         switch (status) {
             case "0":
                 hitstatus = HitStatus.WATER;

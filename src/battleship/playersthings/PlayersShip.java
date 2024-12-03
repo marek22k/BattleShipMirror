@@ -51,7 +51,7 @@ public class PlayersShip {
         final int startx = random.nextInt(max);
         final int starty = random.nextInt(max);
         /* Richtung des Schiffes */
-        PlayersShipDirection direction;
+        final PlayersShipDirection direction;
 
         if (length == 1) {
             direction = PlayersShipDirection.SINGLE_FIELD;
