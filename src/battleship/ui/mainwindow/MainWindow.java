@@ -1,4 +1,4 @@
-package battleship.ui.mainWindow;
+package battleship.ui.mainwindow;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

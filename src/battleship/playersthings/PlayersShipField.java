@@ -1,4 +1,4 @@
-package battleship.playersThings;
+package battleship.playersthings;
 
 public class PlayersShipField extends PlayersField {
     private boolean sunk;

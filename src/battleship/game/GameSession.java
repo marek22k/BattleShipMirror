@@ -15,15 +15,15 @@ import battleship.network.ConnectionEvent;
 import battleship.network.commands.Hit;
 import battleship.network.commands.HitStatus;
 import battleship.network.commands.Shoot;
-import battleship.opposingThings.OpposingField;
-import battleship.opposingThings.OpposingFieldStatus;
-import battleship.opposingThings.OpposingPlayingField;
-import battleship.playersThings.PlayersField;
-import battleship.playersThings.PlayersPlayingField;
-import battleship.playersThings.PlayersShip;
+import battleship.opposingthings.OpposingField;
+import battleship.opposingthings.OpposingFieldStatus;
+import battleship.opposingthings.OpposingPlayingField;
+import battleship.playersthings.PlayersField;
+import battleship.playersthings.PlayersPlayingField;
+import battleship.playersthings.PlayersShip;
 import battleship.sound.Sound;
-import battleship.ui.gameWindow.GameWindow;
-import battleship.ui.playgroundMatrix.FireEvent;
+import battleship.ui.gamewindow.GameWindow;
+import battleship.ui.playgroundmatrix.FireEvent;
 import battleship.utils.Utils;
 
 /**

@@ -1,11 +1,11 @@
-package battleship.playersThings;
+package battleship.playersthings;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
-import battleship.ui.playgroundMatrix.PlaygroundMatrix;
+import battleship.ui.playgroundmatrix.PlaygroundMatrix;
 
 /**
  * Repräsentiert ein Schiff eines Spielers.

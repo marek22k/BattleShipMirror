@@ -1,4 +1,4 @@
-package battleship.ui.playgroundMatrix;
+package battleship.ui.playgroundmatrix;
 
 import java.awt.Color;
 import java.awt.Dimension;

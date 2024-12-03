@@ -1,8 +1,8 @@
-package battleship.opposingThings;
+package battleship.opposingthings;
 
 import java.util.Random;
 
-import battleship.ui.playgroundMatrix.PlaygroundMatrix;
+import battleship.ui.playgroundmatrix.PlaygroundMatrix;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**

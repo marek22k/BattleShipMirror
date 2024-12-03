@@ -1,4 +1,4 @@
-package battleship.opposingThings;
+package battleship.opposingthings;
 
 /**
  * Repräsentiert den Inhalt (Status) eines Feldes vom Gegner

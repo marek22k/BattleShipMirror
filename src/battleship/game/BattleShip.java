@@ -13,7 +13,7 @@ import battleship.Constants;
 import battleship.network.Connection;
 import battleship.network.Server;
 import battleship.sound.Sound;
-import battleship.ui.mainWindow.MainWindow;
+import battleship.ui.mainwindow.MainWindow;
 
 /**
  * Stellt das gesamte Spiel (und damit auch das Hauptfenster) in einer Klasse

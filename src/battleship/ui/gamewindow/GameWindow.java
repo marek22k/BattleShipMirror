@@ -1,4 +1,4 @@
-package battleship.ui.gameWindow;
+package battleship.ui.gamewindow;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -23,7 +23,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import battleship.Constants;
-import battleship.ui.playgroundMatrix.PlaygroundMatrix;
+import battleship.ui.playgroundmatrix.PlaygroundMatrix;
 import battleship.utils.Utils;
 
 public final class GameWindow {

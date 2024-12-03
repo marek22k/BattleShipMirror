@@ -1,4 +1,4 @@
-package battleship.ui.mainWindow;
+package battleship.ui.mainwindow;
 
 /**
  * Status, ob ein Server läuft.

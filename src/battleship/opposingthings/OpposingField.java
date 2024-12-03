@@ -1,4 +1,4 @@
-package battleship.opposingThings;
+package battleship.opposingthings;
 
 /**
  * Repräsentiert den Ort eines Feldes vom Gegner

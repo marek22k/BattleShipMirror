@@ -1,4 +1,4 @@
-package battleship.playersThings;
+package battleship.playersthings;
 
 /**
  * Repräsentiert die Richtung eines Feldes.

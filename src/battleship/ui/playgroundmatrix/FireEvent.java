@@ -1,4 +1,4 @@
-package battleship.ui.playgroundMatrix;
+package battleship.ui.playgroundmatrix;
 
 /**
  * Ereignis, welches das Feuern auf ein Feld beschreibt, indem es die X- und
