@@ -1,5 +1,6 @@
 plugins {
     id 'application'
+    id 'pmd'
     id 'org.gradlex.reproducible-builds' version '1.0'
     id 'com.github.spotbugs' version '6.0.26'
     id 'io.github.sgtsilvio.gradle.proguard' version '0.7.0'
@@ -19,6 +20,14 @@ dependencies {
 }
 
 version = '1.0.0'
+
+pmd {
+    consoleOutput = true
+    toolVersion = '7.8.0'
+    rulesMinimumPriority = 5
+    ruleSetFiles = files 'pmd.xml'
+    ignoreFailures = true
+}
 
 spotbugs {
     effort = com.github.spotbugs.snom.Effort.valueOf 'MAX'

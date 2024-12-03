@@ -20,7 +20,7 @@ public class FireEvent {
      * @param x X-Koordinate des Feldes, auf das gefeuert wurde
      * @param y Y-Koordinate des Feldes, auf das gefeuert wurde
      */
-    public FireEvent(int x, int y) {
+    public FireEvent(final int x, final int y) {
         this.x = x;
         this.y = y;
     }

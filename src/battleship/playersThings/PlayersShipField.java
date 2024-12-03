@@ -3,7 +3,7 @@ package battleship.playersThings;
 public class PlayersShipField extends PlayersField {
     private boolean sunk;
 
-    public PlayersShipField(int x, int y) {
+    public PlayersShipField(final int x, final int y) {
         super(x, y);
         this.sunk = false;
     }

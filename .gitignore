@@ -10,6 +10,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+.eclipse-pmd
 
 # External tool builders
 .externalToolBuilders/

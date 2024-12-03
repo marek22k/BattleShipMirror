@@ -35,7 +35,7 @@ public class PlayersShip {
      * @param length Die Länge des Schiffes.
      * @return Das generierte Schiff.
      */
-    public static PlayersShip generate(Random random, int size, int length) {
+    public static PlayersShip generate(final Random random, final int size, final int length) {
         /* Es kann kein Schiff generiert werden, welches größer als das Spielfeld ist */
         if (length >= size) {
             throw new RuntimeException(
@@ -70,7 +70,7 @@ public class PlayersShip {
      * @param direction Richtung des Schiffes
      * @param length    Länge des Schiffes
      */
-    public PlayersShip(PlayersField start, PlayersShipDirection direction, int length) {
+    public PlayersShip(final PlayersField start, final PlayersShipDirection direction, final int length) {
         this.direction = direction;
         this.length = length;
         this.fields = new ArrayList<>();
@@ -155,7 +155,7 @@ public class PlayersShip {
      *
      * @param field Das Schiffsfeld, welches als getroffen markiert werden soll.
      */
-    public void hit(PlayersField field) {
+    public void hit(final PlayersField field) {
         this.fields.stream().filter(f -> f.hasSamePosition(field)).findFirst().ifPresent(PlayersShipField::hit);
     }
 
@@ -166,7 +166,7 @@ public class PlayersShip {
      * @param size
      * @return
      */
-    public boolean isInField(int size) {
+    public boolean isInField(final int size) {
         return this.getMaxX() < size && this.getMaxY() < size;
     }
 
@@ -177,7 +177,7 @@ public class PlayersShip {
      * @param other Das andere Schiff
      * @return true, wenn es benachbart oder an der gleichen Position ist.
      */
-    public boolean isNeighborOrEqual(PlayersShip other) {
+    public boolean isNeighborOrEqual(final PlayersShip other) {
         return this.fields.stream().anyMatch(f -> other.fields.stream().anyMatch(f::isNeighborOrEqual));
     }
 
@@ -187,7 +187,7 @@ public class PlayersShip {
      * @param field Das Spielfeld.
      * @return true, wenn das Schiff das Spielfeld abdeckt, sonst false.
      */
-    public boolean isOnField(PlayersField field) {
+    public boolean isOnField(final PlayersField field) {
         return this.fields.stream().anyMatch(f -> f.hasSamePosition(field));
     }
 
@@ -207,7 +207,7 @@ public class PlayersShip {
      * @param pm Die `PlaygroundMatrix`, auf welche das Schiff eingezeichnet werden
      *           soll.
      */
-    public void print(PlaygroundMatrix pm) {
+    public void print(final PlaygroundMatrix pm) {
         for (final PlayersShipField element : this.fields) {
             final int x = element.getX();
             final int y = element.getY();

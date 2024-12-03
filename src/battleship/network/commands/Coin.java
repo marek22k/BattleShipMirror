@@ -16,7 +16,7 @@ public class Coin implements Command {
      * @param command Das COIN-Paket
      * @return Repräsentation des COIN-Pakets
      */
-    public static Coin fromString(String command) {
+    public static Coin fromString(final String command) {
         final String coin = command.strip();
         return new Coin(coin);
     }
@@ -26,7 +26,7 @@ public class Coin implements Command {
      *
      * @param coin Die geworfene Münze (`"0"` oder `"1"`) als String.
      */
-    public Coin(String coin) {
+    public Coin(final String coin) {
         this.coin = coin;
     }
 

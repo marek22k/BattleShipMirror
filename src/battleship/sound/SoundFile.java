@@ -25,7 +25,7 @@ public final class SoundFile {
      *
      * @param resourceName Pfad zur Sound-Resource
      */
-    public SoundFile(String resourceName) {
+    public SoundFile(final String resourceName) {
         if (resourceName == null) {
             throw new IllegalArgumentException("resourceName is null");
         }

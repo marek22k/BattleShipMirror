@@ -90,7 +90,7 @@ public class Constants {
     /**
      * Standardloglevel
      */
-    public static final Level logLevel = Level.ALL;
+    public static final Level LOG_LEVEL = Level.ALL;
 
     /**
      * Gibt an, ob das Spiel Sound unterstützen soll.

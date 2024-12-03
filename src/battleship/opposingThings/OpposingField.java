@@ -19,7 +19,7 @@ public class OpposingField {
      * @param x X-Koordinate des Feldes, beginnend bei 0
      * @param y Y-Koordinate des Feldes, beginnend bei 0
      */
-    public OpposingField(int x, int y) {
+    public OpposingField(final int x, final int y) {
         this.x = x;
         this.y = y;
     }

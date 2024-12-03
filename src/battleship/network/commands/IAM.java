@@ -23,7 +23,7 @@ public class IAM implements Command {
      * @param command Das IAM-Paket
      * @return Repräsentation des IAM-Pakets
      */
-    public static IAM fromString(String command) {
+    public static IAM fromString(final String command) {
         final String level = Utils.getFirstWordOrLine(command);
         final String name = Utils.getStringAfterFirstSpace(command);
         return new IAM(name, level);
@@ -35,7 +35,7 @@ public class IAM implements Command {
      * @param name  Name des Spielers
      * @param level Level des Spielers
      */
-    public IAM(String name, String level) {
+    public IAM(final String name, final String level) {
         this.name = name;
         this.level = level;
     }

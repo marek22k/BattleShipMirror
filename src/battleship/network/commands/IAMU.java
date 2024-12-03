@@ -16,7 +16,7 @@ public class IAMU implements Command {
      * @param command Das IAMU-Paket
      * @return Repräsentation des IAMU-Pakets
      */
-    public static IAMU fromString(String command) {
+    public static IAMU fromString(final String command) {
         final String name = command.strip();
         return new IAMU(name);
     }
@@ -26,7 +26,7 @@ public class IAMU implements Command {
      *
      * @param name Name des Spielers
      */
-    public IAMU(String name) {
+    public IAMU(final String name) {
         this.name = name;
     }
 

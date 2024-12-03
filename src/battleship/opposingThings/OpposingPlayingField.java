@@ -28,7 +28,7 @@ public class OpposingPlayingField {
      *
      * @param n Größe des Spielfeldes. Es ist quadratisch.
      */
-    public OpposingPlayingField(int n) {
+    public OpposingPlayingField(final int n) {
         this.field = new OpposingFieldStatus[n][n];
         this.n = n;
         this.random = new Random();
@@ -113,7 +113,7 @@ public class OpposingPlayingField {
      * @param f
      * @return
      */
-    public OpposingShipEndWithDirection followShipDownRight(OpposingField f) {
+    public OpposingShipEndWithDirection followShipDownRight(final OpposingField f) {
         int x = f.getX();
         int y = f.getY();
         OpposingShipDirection direction = OpposingShipDirection.UNKNOWN;
@@ -152,7 +152,7 @@ public class OpposingPlayingField {
      * @param f
      * @return
      */
-    public OpposingShipEndWithDirection followShipUpLeft(OpposingField f) {
+    public OpposingShipEndWithDirection followShipUpLeft(final OpposingField f) {
         int x = f.getX();
         int y = f.getY();
         OpposingShipDirection direction = OpposingShipDirection.UNKNOWN;
@@ -304,7 +304,7 @@ public class OpposingPlayingField {
      * @return
      */
     @Nullable
-    public OpposingField getNextField(OpposingField f, OpposingFieldStatus fieldStatus) {
+    public OpposingField getNextField(final OpposingField f, final OpposingFieldStatus fieldStatus) {
         /*
          * Das Feld könnte wie folgt aussehen:
          * AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -359,7 +359,7 @@ public class OpposingPlayingField {
      * @return
      */
     @Nullable
-    public OpposingField getNextField(OpposingFieldStatus fieldStatus) {
+    public OpposingField getNextField(final OpposingFieldStatus fieldStatus) {
         return this.getNextField(new OpposingField(0, 0), fieldStatus);
     }
 
@@ -369,7 +369,7 @@ public class OpposingPlayingField {
      * @param f           Das Feld, welches getroffen wurden ist.
      * @param fieldStatus Der Status des Feldes, welches getroffen wurden ist.
      */
-    public void hit(OpposingField f, OpposingFieldStatus fieldStatus) {
+    public void hit(final OpposingField f, final OpposingFieldStatus fieldStatus) {
         /*
          * Wenn Wasser, dann Feld als Wasser markieren Wenn Schiff, dann Feld als Schiff
          * markieren Wenn Versunken, dann Feld und angrenzende Schifffelder als
@@ -421,7 +421,7 @@ public class OpposingPlayingField {
      * @return true, wenn es noch nicht angegriffen wurden ist und unbekannt ist,
      *         sonst false.
      */
-    public boolean isUnknown(OpposingField f) {
+    public boolean isUnknown(final OpposingField f) {
         return this.field[f.getY()][f.getX()] == OpposingFieldStatus.UNKNOWN;
     }
 
@@ -431,7 +431,7 @@ public class OpposingPlayingField {
      *
      * @param pm PlaygroundMatrix auf die das Spielfeld gezeichnet werden soll.
      */
-    public void print(PlaygroundMatrix pm) {
+    public void print(final PlaygroundMatrix pm) {
         for (int y = 0; y < this.field.length; y++) {
             for (int x = 0; x < this.field[y].length; x++) {
                 switch (this.field[y][x]) {

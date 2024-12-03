@@ -16,7 +16,7 @@ public class Chat implements Command {
      * @param command Das CHAT-Paket
      * @return Repräsentation des CHAT-Pakets
      */
-    public static Chat fromString(String command) {
+    public static Chat fromString(final String command) {
         return new Chat(command.strip());
     }
 
@@ -25,7 +25,7 @@ public class Chat implements Command {
      *
      * @param message Die Nachricht, welche das Paket übermittelt.
      */
-    public Chat(String message) {
+    public Chat(final String message) {
         this.message = message;
     }
 

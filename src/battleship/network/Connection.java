@@ -42,9 +42,9 @@ public final class Connection {
      * @return Liefert eine Spiele-Verbindung zurück
      * @throws IOException
      */
-    public static Connection connectTo(String host, int port) throws IOException {
+    public static Connection connectTo(final String host, final int port) throws IOException {
         final Logger logger = Logger.getLogger(Connection.class.getName());
-        logger.setLevel(Constants.logLevel);
+        logger.setLevel(Constants.LOG_LEVEL);
 
         logger.log(Level.INFO, "Connect to " + host + ":" + port);
         final Socket socket = new Socket(host, port);
@@ -61,9 +61,9 @@ public final class Connection {
      *               werden soll.
      * @throws IOException
      */
-    public Connection(Socket socket) throws IOException {
+    public Connection(final Socket socket) throws IOException {
         this.logger = Logger.getLogger(Connection.class.getName());
-        this.logger.setLevel(Constants.logLevel);
+        this.logger.setLevel(Constants.LOG_LEVEL);
 
         this.socket = socket;
         this.writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
@@ -349,7 +349,7 @@ public final class Connection {
      * @param eventhandler Der Event-Handler. Falls bereits einer gesetzt ist, wird
      *                     dieser überschrieben.
      */
-    public void setEventHandler(EventHandler eventhandler) {
+    public void setEventHandler(final EventHandler eventhandler) {
         this.eventhandler = eventhandler;
     }
 
@@ -359,7 +359,7 @@ public final class Connection {
      * @param message Die Nachricht, welche das Chat-Paket transportieren soll.
      * @throws IOException
      */
-    public void writeChat(String message) throws IOException {
+    public void writeChat(final String message) throws IOException {
         this.logger.log(Level.FINE, "Send chat to peer.");
         final Chat chat = new Chat(message);
         this.write(chat);
@@ -372,7 +372,7 @@ public final class Connection {
      * @param coinValue Die geworfene Münze, welche gesendet werden soll.
      * @throws IOException
      */
-    public void writeCoin(String coinValue) throws IOException {
+    public void writeCoin(final String coinValue) throws IOException {
         this.logger.log(Level.FINE, "Send coin " + coinValue + " to peer.");
         final Coin coin = new Coin(coinValue);
         this.write(coin);
@@ -391,7 +391,7 @@ public final class Connection {
      *                  verwendet.
      * @throws IOException
      */
-    public void writeHit(int x, int y, HitStatus hitstatus) throws IOException {
+    public void writeHit(final int x, final int y, final HitStatus hitstatus) throws IOException {
         this.logger.log(Level.FINE, "Send hit on x=" + y + " y=" + y + " hitstatus=" + hitstatus + " to peer.");
         final Hit hit = new Hit(x, y, hitstatus);
         this.write(hit);
@@ -408,7 +408,7 @@ public final class Connection {
      * @param level Gewünschtes Level des Spielers, welches übermittelt werden soll.
      * @throws IOException
      */
-    public void writeIAM(String name, String level) throws IOException {
+    public void writeIAM(final String name, final String level) throws IOException {
         this.logger.log(Level.FINE, "Send IAM to peer.");
         final IAM iam = new IAM(name, level);
         this.write(iam);
@@ -422,7 +422,7 @@ public final class Connection {
      *             welcher übermittelt werden soll.
      * @throws IOException
      */
-    public void writeIAMU(String name) throws IOException {
+    public void writeIAMU(final String name) throws IOException {
         this.logger.log(Level.FINE, "Send IAMU to peer.");
         final IAMU iamu = new IAMU(name);
         this.write(iamu);
@@ -436,7 +436,7 @@ public final class Connection {
      * @param y Y-Koordinate, welche übermittelt werden soll.
      * @throws IOException
      */
-    public void writeShoot(int x, int y) throws IOException {
+    public void writeShoot(final int x, final int y) throws IOException {
         this.logger.log(Level.FINE, "Send shoot on x=" + x + " y=" + y + " to peer.");
         final Shoot shoot = new Shoot(x, y);
         this.write(shoot);
@@ -476,7 +476,7 @@ public final class Connection {
      *
      * @param event Das Event
      */
-    private void runEventHandler(ConnectionEvent event) {
+    private void runEventHandler(final ConnectionEvent event) {
         if (this.eventhandler != null) {
             this.eventhandler.handle(event, null);
         }
@@ -489,7 +489,7 @@ public final class Connection {
      * @param event       Das Event
      * @param eventObject Das Event-Objekt, was an den Handler übergeben wird.
      */
-    private void runEventHandler(ConnectionEvent event, Object eventObject) {
+    private void runEventHandler(final ConnectionEvent event, final Object eventObject) {
         if (this.eventhandler != null) {
             this.eventhandler.handle(event, eventObject);
         }
@@ -501,7 +501,7 @@ public final class Connection {
      * @param command Der Befehl, welcher gesendet werden soll.
      * @throws IOException
      */
-    private void write(Command command) throws IOException {
+    private void write(final Command command) throws IOException {
         this.writer.write(command.getFullCommand());
         this.writer.flush();
     }

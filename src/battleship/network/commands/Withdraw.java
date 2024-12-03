@@ -11,7 +11,7 @@ public class Withdraw implements Command {
      * @param command Das WITHDRAW-Paket
      * @return Repräsentation des WITHDRAW-Pakets
      */
-    public static Withdraw fromString(String command) {
+    public static Withdraw fromString(final String command) {
         if (!command.isBlank()) {
             throw new RuntimeException("Withdraw contains message.");
         }

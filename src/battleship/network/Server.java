@@ -13,7 +13,7 @@ public class Server {
         this(Constants.SERVER_PORT);
     }
 
-    public Server(int port) throws IOException {
+    public Server(final int port) throws IOException {
         this.serversocket = new ServerSocket(port, 50, null);
     }
 

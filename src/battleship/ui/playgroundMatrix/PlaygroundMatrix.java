@@ -53,7 +53,7 @@ public class PlaygroundMatrix extends JPanel {
      * @param rows Anzahl der Zeilen
      * @param cols Anzahl der Reihen
      */
-    public PlaygroundMatrix(int rows, int cols) {
+    public PlaygroundMatrix(final int rows, final int cols) {
         this.rows = rows;
         this.cols = cols;
         this.listeners = new ArrayList<>();
@@ -133,7 +133,7 @@ public class PlaygroundMatrix extends JPanel {
      *
      * @param listener Der zu registrierende FireListener
      */
-    public void addFireListener(FireListener listener) {
+    public void addFireListener(final FireListener listener) {
         this.listeners.add(listener);
     }
 
@@ -144,7 +144,7 @@ public class PlaygroundMatrix extends JPanel {
      * @param row   Spaltennummer des Feldes (beginnend bei 0)
      * @param color Die Farbe auf welche das Feld gesetzt werden soll
      */
-    public void setFieldColor(int col, int row, Color color) {
+    public void setFieldColor(final int col, final int row, final Color color) {
         if (row >= 0 && row < this.rows && col >= 0 && col < this.cols) {
             this.grid[row][col].setBackground(color);
         }
@@ -156,7 +156,7 @@ public class PlaygroundMatrix extends JPanel {
      * @param col Zeilennummer des Feldes (beginnend bei 0)
      * @param row Spaltennummer des Feldes (beginnend bei 0)
      */
-    public void setShip(int col, int row) {
+    public void setShip(final int col, final int row) {
         this.setFieldColor(col, row, Color.DARK_GRAY);
     }
 
@@ -166,7 +166,7 @@ public class PlaygroundMatrix extends JPanel {
      * @param col Zeilennummer des Feldes (beginnend bei 0)
      * @param row Spaltennummer des Feldes (beginnend bei 0)
      */
-    public void setSunk(int col, int row) {
+    public void setSunk(final int col, final int row) {
         this.setFieldColor(col, row, new Color(0, 0, 153));
     }
 
@@ -176,7 +176,7 @@ public class PlaygroundMatrix extends JPanel {
      * @param col Zeilennummer des Feldes (beginnend bei 0)
      * @param row Spaltennummer des Feldes (beginnend bei 0)
      */
-    public void setUnknown(int col, int row) {
+    public void setUnknown(final int col, final int row) {
         this.setFieldColor(col, row, Color.WHITE);
     }
 
@@ -186,7 +186,7 @@ public class PlaygroundMatrix extends JPanel {
      * @param col Zeilennummer des Feldes (beginnend bei 0)
      * @param row Spaltennummer des Feldes (beginnend bei 0)
      */
-    public void setWater(int col, int row) {
+    public void setWater(final int col, final int row) {
         this.setFieldColor(col, row, new Color(0, 102, 255));
     }
 
@@ -196,7 +196,7 @@ public class PlaygroundMatrix extends JPanel {
      * @param x X-Koordinate / Zeilennummer
      * @param y Y-Koordinate / Spaltennummer
      */
-    private void fireEvent(int x, int y) {
+    private void fireEvent(final int x, final int y) {
         final FireEvent event = new FireEvent(x, y);
         for (final FireListener listener : this.listeners) {
             listener.fire(event);

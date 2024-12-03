@@ -67,7 +67,7 @@ public final class BattleShip {
 
         /* Logger erstellen */
         this.logger = Logger.getLogger(BattleShip.class.getName());
-        this.logger.setLevel(Constants.logLevel);
+        this.logger.setLevel(Constants.LOG_LEVEL);
 
         /*
          * Handler anlegen, welcher aufgerufen wird, wenn der "Connect"-Button beim
@@ -240,7 +240,7 @@ public final class BattleShip {
      *                   haben. Dies ist notwendig zu wissen, um zu Entscheiden, wer
      *                   anfängt.
      */
-    private void startGame(Connection connection, boolean isServer) {
+    private void startGame(final Connection connection, final boolean isServer) {
         /*
          * Deaktiviere die Optionen Dinge im Hauptfenster zu tun (mit Ausnahme der
          * Sound-Einstellungen)
