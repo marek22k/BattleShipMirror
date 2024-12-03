@@ -63,16 +63,14 @@ public class PlayersField {
                 || y == oy && (x - 1 == ox /* links */ || x + 1 == ox /* rechts */);
     }
 
+    /**
+     * Überprüft, ob ein Feld benachbart ist oder auf der gleichen Position.
+     * 
+     * @param field Das andere Feld.
+     * @return true, wenn beide Felder Nachbarn sind oder auf der gleichen Position.
+     */
     public boolean isNeighborOrEqual(PlayersField field) {
         return this.equals(field) || this.isNeighbor(field);
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     @Override
