@@ -48,9 +48,14 @@ import battleship.utils.NetworkUtils;
 import battleship.utils.SystemUtils;
 
 public final class MainWindow {
+    /*
+     * Hauptfenster
+     */
     private final JFrame window;
 
-    // Log panel
+    /*
+     * Elemente im Log-Panel
+     */
     private final DefaultListModel<String> ipListModel;
     private final JTextPane logTextPane;
 
@@ -58,7 +63,9 @@ public final class MainWindow {
     private final Style logWarningStyle;
     private final Style logInfoStyle;
 
-    // Server panel
+    /*
+     * Elemente im Server-Panel
+     */
     private final JLabel serverLabel;
     private final JRadioButton serverModeRadioButton;
     private final JButton serverStartButton;
@@ -71,7 +78,9 @@ public final class MainWindow {
     private final JTextField serverPortField;
     private ServerStatus serverstatus;
 
-    // Client panel
+    /*
+     * Elemente im Client-Panel
+     */
     private final JLabel clientLabel;
     private final JRadioButton clientModeRadioButton;
     private final JTextField clientHostnameField;
@@ -80,7 +89,9 @@ public final class MainWindow {
     private final JLabel clientPortLabel;
     private final JButton clientConnectButton;
 
-    // Settings panel
+    /*
+     * Elemente im Settings-Panel
+     */
     private final JLabel maxLevelLabel;
     private final JComboBox<Integer> levelComboBox;
     private final JLabel currentLevelLabel;
