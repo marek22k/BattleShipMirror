@@ -14,8 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-@SuppressWarnings("serial")
 public class PlaygroundMatrix extends JPanel {
+    private static final long serialVersionUID = 3185851666830761797L;
+
     private final JPanel[][] grid;
 
     private final int rows;
