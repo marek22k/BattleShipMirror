@@ -25,7 +25,7 @@ public class OpposingPlayingField {
 
     /**
      * Erstellt ein gegnerisches Spielfeld.
-     * 
+     *
      * @param n Größe des Spielfeldes. Es ist quadratisch.
      */
     public OpposingPlayingField(int n) {
@@ -49,7 +49,7 @@ public class OpposingPlayingField {
      * ASCII-Art zeichnet.
      * `X` steht dabei für einen Treffer, `S` für ein versunkenes Schiff, `W` für
      * Wasser und `_` für unbekannt.
-     * 
+     *
      * @return Das Spielfeld als String
      */
     public String debugPrint() {
@@ -92,7 +92,7 @@ public class OpposingPlayingField {
      * Gibt einen String zurück, welches das Spielfeld beschreibt. Dabei werden alle
      * einzelne Felder, welche nicht unbekannt sind, mit Koordinaten und Inhalt
      * ausgegeben.
-     * 
+     *
      * @return Das Spielfeld als String
      */
     public String debugPrint2() {
@@ -365,7 +365,7 @@ public class OpposingPlayingField {
 
     /**
      * Speichert einen Treffer im gegnerischen Spielfeld ab.
-     * 
+     *
      * @param f           Das Feld, welches getroffen wurden ist.
      * @param fieldStatus Der Status des Feldes, welches getroffen wurden ist.
      */
@@ -416,7 +416,7 @@ public class OpposingPlayingField {
     /**
      * Gibt an, ob ein bestimmtes Feld unbekannt ist - also noch nicht angegriffen
      * wurden ist.
-     * 
+     *
      * @param f Das Feld, welches überprüft werden soll.
      * @return true, wenn es noch nicht angegriffen wurden ist und unbekannt ist,
      *         sonst false.
@@ -428,7 +428,7 @@ public class OpposingPlayingField {
     /**
      * Überträgt das Spielfeld in eine graphische Darstellung in Form einer
      * `PlaygroundMatrix`.
-     * 
+     *
      * @param pm PlaygroundMatrix auf die das Spielfeld gezeichnet werden soll.
      */
     public void print(PlaygroundMatrix pm) {

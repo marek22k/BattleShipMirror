@@ -59,8 +59,8 @@ public class PlayersField {
         final int ox = other.getX();
         final int oy = other.getY();
 
-        return (y - 1 == oy && x == ox) /* oben */ || (y + 1 == oy && x == ox) /* unten */
-                || (x + 1 == ox && y == oy) /* rechts */ || (x - 1 == ox && y == oy) /* links */;
+        return x == ox && (y - 1 == oy /* oben */ || y + 1 == oy /* unten */)
+                || y == oy && (x - 1 == ox /* links */ || x + 1 == ox /* rechts */);
     }
 
     public boolean isNeighborOrEqual(PlayersField field) {
