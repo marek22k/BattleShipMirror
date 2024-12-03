@@ -15,11 +15,11 @@
     </Match>
     <Match>
         <Bug pattern="S508C_SET_COMP_COLOR" />
-        <Class name="battleship.ui.playgroundMatrix.PlaygroundMatrix" />
+        <Class name="battleship.ui.playgroundmatrix.PlaygroundMatrix" />
     </Match>
     <Match>
         <Bug pattern="EI_EXPOSE_REP" />
-        <Class name="battleship.ui.gameWindow.GameWindow" />
+        <Class name="battleship.ui.gamewindow.GameWindow" />
         <Or>
             <Method name="getOpponentField" />
             <Method name="getPlayersField" />

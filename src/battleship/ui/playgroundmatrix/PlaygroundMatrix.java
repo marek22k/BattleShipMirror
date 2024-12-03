@@ -18,7 +18,7 @@ import javax.swing.SwingConstants;
  * Graphisches Spielfeld.
  */
 public class PlaygroundMatrix extends JPanel {
-    private static final long serialVersionUID = 3185851666830761797L;
+    private static final long serialVersionUID = -4425085031052165829L;
 
     /*
      * Speichert die einzelnen Felder in Form von JPanels.

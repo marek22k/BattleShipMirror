@@ -891,7 +891,7 @@ public final class GameSession {
 
                 if (this.gamewindow != null) {
                     try {
-                        SwingUtilities.invokeAndWait(() -> this.gamewindow.close());
+                        SwingUtilities.invokeAndWait(this.gamewindow::close);
                     } catch (final Exception e) {
                         this.logger.log(Level.SEVERE, "Failed to close game window.", e);
                     }
