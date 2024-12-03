@@ -4,13 +4,23 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 
+/**
+ * System-Tools
+ */
 public final class SystemUtils {
+    /**
+     * SystemUtils kann nicht instanziiert werden
+     */
     private SystemUtils() {
         throw new UnsupportedOperationException("SystemUtils cannot be instantiated");
     }
 
-    public static void copyToClipboard(String ipAddress) {
-        final StringSelection stringSelection = new StringSelection(ipAddress);
+    /**
+     * Kopiert einen String in die System-Zwischenablage
+     * @param text Text, der in die System-Zwischenablage kopiert werden soll.
+     */
+    public static void copyToClipboard(String text) {
+        final StringSelection stringSelection = new StringSelection(text);
         final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(stringSelection, null);
     }
