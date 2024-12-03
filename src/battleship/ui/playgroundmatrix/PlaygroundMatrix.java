@@ -60,7 +60,7 @@ public class PlaygroundMatrix extends JPanel {
         this.cols = cols;
         this.listeners = new ArrayList<>();
 
-        this.setLayout(new GridBagLayout());
+        super.setLayout(new GridBagLayout());
         final GridBagConstraints gbc = new GridBagConstraints();
 
         // Leeres Zusatzfeld oben links
@@ -72,7 +72,7 @@ public class PlaygroundMatrix extends JPanel {
         final JPanel emptyCorner = new JPanel();
         // Größe des leeren Feldes
         emptyCorner.setPreferredSize(new Dimension(40, 40));
-        this.add(emptyCorner, gbc);
+        super.add(emptyCorner, gbc);
 
         // Buchstabenfelder oben
         for (int i = 0; i < cols; i++) {
@@ -83,7 +83,7 @@ public class PlaygroundMatrix extends JPanel {
             gbc.weighty = 0.1;
             final JLabel label = new JLabel(String.valueOf((char) ('A' + i)), SwingConstants.CENTER);
             label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            this.add(label, gbc);
+            super.add(label, gbc);
         }
 
         // Zahlenfelder links
@@ -97,7 +97,7 @@ public class PlaygroundMatrix extends JPanel {
             label.setPreferredSize(new Dimension(40, 40)); // Breite der Zahlenfelder
             label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             label.setLabelFor(null);
-            this.add(label, gbc);
+            super.add(label, gbc);
         }
 
         // Spielfeld erstellen
@@ -113,7 +113,7 @@ public class PlaygroundMatrix extends JPanel {
                 panel.setBackground(Color.BLACK); // Anfangsfarbe (Leer/Unbekannt)
                 panel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY)); // Helle Linien
                 this.grid[i][j] = panel;
-                this.add(panel, gbc);
+                super.add(panel, gbc);
 
                 // MouseListener hinzufügen, um auf Klicks zu reagieren
                 final int x = j;
@@ -127,7 +127,7 @@ public class PlaygroundMatrix extends JPanel {
                 });
             }
         }
-        this.setPreferredSize(new Dimension(cols * RESIZE_FACTOR, rows * RESIZE_FACTOR));
+        super.setPreferredSize(new Dimension(cols * RESIZE_FACTOR, rows * RESIZE_FACTOR));
     }
 
     /**

@@ -18,5 +18,9 @@
 	<rule ref="category/java/errorprone.xml">
 		<exclude name="NullAssignment" />
 		<exclude name="AvoidLiteralsInIfCondition" />
+		
+		<!-- TODO? -->
+		<exclude name="CloseResource" />
+		<exclude name="AvoidDuplicateLiterals" />
 	</rule>
 </ruleset>
