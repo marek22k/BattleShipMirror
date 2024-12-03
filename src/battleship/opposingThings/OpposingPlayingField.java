@@ -10,11 +10,11 @@ import edu.umd.cs.findbugs.annotations.Nullable;
  */
 public class OpposingPlayingField {
     /**
-     * Alle Felder vom Spielfeld des Gegners mit iherem Inhalt
+     * Alle Felder vom Spielfeld des Gegners mit ihrem Inhalt
      */
     private final OpposingFieldStatus[][] field;
     /**
-     * Die Größe des Spielfeldes. Es wird angenommen, dass es immer quadratisch ist.
+     * Die Größe des Spielfelds. Es wird angenommen, dass es immer quadratisch ist.
      */
     private final int n;
     /**
@@ -23,6 +23,11 @@ public class OpposingPlayingField {
      */
     private final Random random;
 
+    /**
+     * Erstellt ein gegnerisches Spielfeld.
+     * 
+     * @param n Größe des Spielfeldes. Es ist quadratisch.
+     */
     public OpposingPlayingField(int n) {
         this.field = new OpposingFieldStatus[n][n];
         this.n = n;
@@ -39,9 +44,17 @@ public class OpposingPlayingField {
         }
     }
 
+    /**
+     * Gibt einen String zurück, welchen das Spielfeld (bzw. die Felder) in
+     * ASCII-Art zeichnet.
+     * `X` steht dabei für einen Treffer, `S` für ein versunkenes Schiff, `W` für
+     * Wasser und `_` für unbekannt.
+     * 
+     * @return Das Spielfeld als String
+     */
     public String debugPrint() {
         /*
-         * Die initale Kapatität kann angegeben werden. Jedes Feld wird mit einem
+         * Die initiale Kapazität kann angegeben werden. Jedes Feld wird mit einem
          * Zeichen gedruckt. Dies sind also n*n-Zeichen. Zusätzlich wird nach jedem
          * Zeichen eine Leerzeichen hinzugefügt. Dies sind auch noch einmal n*n Zeichen.
          * Hinzukommt eine Leerzeile nach jeder Zeile. Dies sind n Zeichen. Insgesamt
@@ -75,6 +88,13 @@ public class OpposingPlayingField {
         return sb.toString();
     }
 
+    /**
+     * Gibt einen String zurück, welches das Spielfeld beschreibt. Dabei werden alle
+     * einzelne Felder, welche nicht unbekannt sind, mit Koordinaten und Inhalt
+     * ausgegeben.
+     * 
+     * @return Das Spielfeld als String
+     */
     public String debugPrint2() {
         final StringBuilder sb = new StringBuilder();
         for (int y = 0; y < this.n; y++) {
@@ -98,11 +118,13 @@ public class OpposingPlayingField {
         int y = f.getY();
         OpposingShipDirection direction = OpposingShipDirection.UNKNOWN;
         if (x + 1 < this.n && this.field[y][x + 1] == OpposingFieldStatus.SHIP) {
+            /* Verfolge das Schiff nach rechts */
             do {
                 x++;
             } while (x + 1 < this.n && this.field[y][x + 1] == OpposingFieldStatus.SHIP);
             direction = OpposingShipDirection.HORIZONTAL;
         } else if (y + 1 < this.n && this.field[y + 1][x] == OpposingFieldStatus.SHIP) {
+            /* Verfolge das Schiff nach unten */
             do {
                 y++;
             } while (y + 1 < this.n && this.field[y + 1][x] == OpposingFieldStatus.SHIP);
@@ -135,11 +157,13 @@ public class OpposingPlayingField {
         int y = f.getY();
         OpposingShipDirection direction = OpposingShipDirection.UNKNOWN;
         if (x - 1 >= 0 && this.field[y][x - 1] == OpposingFieldStatus.SHIP) {
+            /* Verfolge das Schiff nach links */
             do {
                 x--;
             } while (x - 1 >= 0 && this.field[y][x - 1] == OpposingFieldStatus.SHIP);
             direction = OpposingShipDirection.HORIZONTAL;
         } else if (y - 1 >= 0 && this.field[y - 1][x] == OpposingFieldStatus.SHIP) {
+            /* Verfolge das Schiff nach oben */
             do {
                 y--;
             } while (y - 1 >= 0 && this.field[y - 1][x] == OpposingFieldStatus.SHIP);
@@ -186,6 +210,15 @@ public class OpposingPlayingField {
             int x = fd.getEnd().getX();
             int y = fd.getEnd().getY();
             if (fd.getDirection() != OpposingShipDirection.UNKNOWN) {
+                /*
+                 * Die Richtung des Schiffes ist bekannt und zusätzlich ist das Schiff mehr als
+                 * ein Feld groß (sonst könnte keine Richtung ermittelt werden
+                 */
+                /*
+                 * Das Schiff wurde nach unten rechts verfolgt. Es könnte sein, dass es dort
+                 * noch unaufgedeckte Schiffsteile gibt (die man treffen könnte). Schaue, ob da
+                 * so ist und wenn dort ein unbekanntes Feld ist, feuere.
+                 */
                 if (fd.getDirection() == OpposingShipDirection.HORIZONTAL) {
                     if (x + 1 < this.n && this.field[y][x + 1] == OpposingFieldStatus.UNKNOWN) {
                         return new OpposingField(x + 1, y);
@@ -195,6 +228,10 @@ public class OpposingPlayingField {
                         return new OpposingField(x, y + 1);
                     }
                 }
+                /*
+                 * Unten rechts scheint das Schiff keine unbekannten Teile mehr zu haben. Schaue
+                 * also oben links nach.
+                 */
                 fd = this.followShipUpLeft(shipField);
                 x = fd.getEnd().getX();
                 y = fd.getEnd().getY();
@@ -207,10 +244,18 @@ public class OpposingPlayingField {
                         return new OpposingField(x, y - 1);
                     }
                 }
+                /*
+                 * Das Schiff ist nicht versunken, hat aber an keinem Ende ein unbekanntes Feld.
+                 * Das ist seltsam und sollte so nicht sein.
+                 */
                 throw new RuntimeException(
                         "Playing field integrity of the opponent's playing field violated. There is a ship where no fields next to its ends are unknown."
                 );
             }
+            /*
+             * Wenn die Richtung des Schiffes unbekannt ist, schieße auf die benachbarten
+             * unbekannten Felder
+             */
             if (x - 1 >= 0 && this.field[y][x - 1] == OpposingFieldStatus.UNKNOWN) {
                 return new OpposingField(x - 1, y);
             }
@@ -224,6 +269,11 @@ public class OpposingPlayingField {
                 return new OpposingField(x, y + 1);
             }
 
+            /*
+             * Es gibt ein Schiff, was ein Feld groß ist und nicht nicht versunken, aber
+             * alle benachbarten Felder sind bereits getroffen. Vielleicht ein U-Boot? So
+             * oder so seltsam und sollte nicht passieren.
+             */
             throw new RuntimeException(
                     "Playing field integrity of the opponent's playing field violated. There is a one-field ship that has not sunk."
             );
@@ -313,6 +363,12 @@ public class OpposingPlayingField {
         return this.getNextField(new OpposingField(0, 0), fieldStatus);
     }
 
+    /**
+     * Speichert einen Treffer im gegnerischen Spielfeld ab.
+     * 
+     * @param f           Das Feld, welches getroffen wurden ist.
+     * @param fieldStatus Der Status des Feldes, welches getroffen wurden ist.
+     */
     public void hit(OpposingField f, OpposingFieldStatus fieldStatus) {
         /*
          * Wenn Wasser, dann Feld als Wasser markieren Wenn Schiff, dann Feld als Schiff
@@ -324,11 +380,15 @@ public class OpposingPlayingField {
 
         switch (fieldStatus) {
             case WATER, SHIP:
+                /* Markiere das Feld entsprechend. */
                 this.field[y][x] = fieldStatus;
                 break;
 
             case SUNK:
-                /* Dieses als Feld versenkt markieren */
+                /*
+                 * Dieses als Feld versenkt markieren. Dies bedeutet, dass alle angrenzenden
+                 * Schiffsfelder nun auch als versunken markiert werden sollen.
+                 */
                 this.field[y][x] = fieldStatus;
                 /* Alle Schiffsfelder links als versenkt markieren */
                 for (int i = x - 1; i >= 0 && this.field[y][i] == OpposingFieldStatus.SHIP; i--) {
@@ -353,10 +413,24 @@ public class OpposingPlayingField {
         }
     }
 
+    /**
+     * Gibt an, ob ein bestimmtes Feld unbekannt ist - also noch nicht angegriffen
+     * wurden ist.
+     * 
+     * @param f Das Feld, welches überprüft werden soll.
+     * @return true, wenn es noch nicht angegriffen wurden ist und unbekannt ist,
+     *         sonst false.
+     */
     public boolean isUnknown(OpposingField f) {
         return this.field[f.getY()][f.getX()] == OpposingFieldStatus.UNKNOWN;
     }
 
+    /**
+     * Überträgt das Spielfeld in eine graphische Darstellung in Form einer
+     * `PlaygroundMatrix`.
+     * 
+     * @param pm PlaygroundMatrix auf die das Spielfeld gezeichnet werden soll.
+     */
     public void print(PlaygroundMatrix pm) {
         for (int y = 0; y < this.field.length; y++) {
             for (int x = 0; x < this.field[y].length; x++) {
