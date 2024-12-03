@@ -43,14 +43,8 @@ public class IAM implements Command {
     @Override
     public String getFullCommand() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("IAM ");
+        builder.append("IAM ").append(this.level).append(' ').append(this.name).append("\r\n");
 
-        builder.append(this.level);
-        builder.append(' ');
-
-        builder.append(this.name);
-
-        builder.append("\r\n");
         return builder.toString();
     }
 

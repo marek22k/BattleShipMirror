@@ -78,12 +78,7 @@ public class Hit implements Command {
     @Override
     public String getFullCommand() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("HIT ");
-
-        builder.append((char) (this.x + 'A'));
-        builder.append(this.y + 1);
-
-        builder.append(' ');
+        builder.append("HIT ").append((char) (this.x + 'A')).append(this.y + 1).append(' ');
 
         switch (this.hitstatus) {
             case WATER:

@@ -23,4 +23,14 @@
 		<exclude name="CloseResource" />
 		<exclude name="AvoidDuplicateLiterals" />
 	</rule>
+	<rule ref="category/java/multithreading.xml">
+		<!-- Rules for J2EE and EJB -->
+		<exclude name="DoNotUseThreads" />
+		<!-- Not documentated rule -->
+		<exclude name="AvoidSynchronizedStatement" />
+	</rule>
+	<rule ref="category/java/performance.xml">
+		<exclude name="AvoidInstantiatingObjectsInLoops" />
+		<exclude name="TooFewBranchesForASwitchStatement" />
+	</rule>
 </ruleset>

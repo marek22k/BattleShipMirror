@@ -11,6 +11,8 @@ local.properties
 .loadpath
 .recommenders
 .eclipse-pmd
+.pmd
+.ruleset
 
 # External tool builders
 .externalToolBuilders/

@@ -48,12 +48,8 @@ public class Shoot implements Command {
     @Override
     public String getFullCommand() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("SHOOT ");
+        builder.append("SHOOT ").append((char) (this.x + 'A')).append(this.y + 1).append("\r\n");
 
-        builder.append((char) (this.x + 'A'));
-        builder.append(this.y + 1);
-
-        builder.append("\r\n");
         return builder.toString();
     }
 

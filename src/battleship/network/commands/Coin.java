@@ -42,11 +42,8 @@ public class Coin implements Command {
     @Override
     public String getFullCommand() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("COIN ");
+        builder.append("COIN ").append(this.flippedCoin).append("\r\n");
 
-        builder.append(this.flippedCoin);
-
-        builder.append("\r\n");
         return builder.toString();
     }
 

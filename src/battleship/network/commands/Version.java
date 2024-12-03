@@ -58,14 +58,9 @@ public class Version implements Command {
     @Override
     public String getFullCommand() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("VERSION ");
+        builder.append("VERSION ").append(this.implementation).append(' ').append(String.join(" ", this.versions))
+                .append("\r\n");
 
-        builder.append(this.implementation);
-        builder.append(' ');
-
-        builder.append(String.join(" ", this.versions));
-
-        builder.append("\r\n");
         return builder.toString();
     }
 

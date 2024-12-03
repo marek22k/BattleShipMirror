@@ -32,11 +32,8 @@ public class Chat implements Command {
     @Override
     public String getFullCommand() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("CHAT ");
-
-        builder.append(this.message);
-
-        builder.append("\r\n");
+        builder.append("CHAT ").append(this.message).append("\r\n");
+        
         return builder.toString();
     }
 

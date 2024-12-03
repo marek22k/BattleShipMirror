@@ -33,11 +33,8 @@ public class IAMU implements Command {
     @Override
     public String getFullCommand() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("IAMU ");
-
-        builder.append(this.name);
-
-        builder.append("\r\n");
+        builder.append("IAMU ").append(this.name).append("\r\n");
+        
         return builder.toString();
     }
 
