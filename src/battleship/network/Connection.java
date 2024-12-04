@@ -46,7 +46,7 @@ public final class Connection {
         final Logger logger = Logger.getLogger(Connection.class.getName());
         logger.setLevel(Constants.LOG_LEVEL);
 
-        logger.log(Level.INFO, "Connect to " + host + ":" + port);
+        logger.log(Level.INFO, () -> "Connect to " + host + ":" + port);
         final Socket socket = new Socket(host, port);
         logger.log(Level.INFO, "Connected.");
         return new Connection(socket);
@@ -163,7 +163,7 @@ public final class Connection {
         final String keyword = Utils.getFirstWordOrLine(line).strip();
         /* Die Parameter des Befehls folgen darauf */
         final String payload = Utils.getStringAfterFirstSpace(line);
-        this.logger.log(Level.FINE, "Receive command from peer: " + Utils.sanitizeString(keyword.strip()));
+        this.logger.log(Level.FINE, () -> "Receive command from peer: " + Utils.sanitizeString(keyword.strip()));
 
         /*
          * Wenn ein erforderliches Paket invalid ist, wird ein Fehler geworfen, sonst
@@ -190,7 +190,7 @@ public final class Connection {
                     );
                 }
                 this.peerImplementation = version.getImplementation();
-                this.logger.log(Level.INFO, "Peers implementation: " + Utils.sanitizeString(this.peerImplementation));
+                this.logger.log(Level.INFO, () -> "Peers implementation: " + Utils.sanitizeString(this.peerImplementation));
 
                 this.runEventHandler(ConnectionEvent.VERSION_COMMAND_RECEIVED);
                 break;
@@ -211,8 +211,8 @@ public final class Connection {
 
                 this.peersName = Utils.sanitizeString(iam.getName());
                 this.peersLevel = Utils.sanitizeString(iam.getLevel());
-                this.logger.log(Level.FINE, "Peers name: " + Utils.sanitizeString(this.peersName));
-                this.logger.log(Level.FINE, "Peers level: " + Utils.sanitizeString(this.peersLevel));
+                this.logger.log(Level.FINE, () -> "Peers name: " + Utils.sanitizeString(this.peersName));
+                this.logger.log(Level.FINE, () -> "Peers level: " + Utils.sanitizeString(this.peersLevel));
 
                 this.runEventHandler(ConnectionEvent.IAM_COMMAND_RECEIVED);
                 break;
@@ -233,7 +233,7 @@ public final class Connection {
                 }
 
                 this.peersUnicodeName = Utils.sanitizeString(iamu.getName());
-                this.logger.log(Level.FINE, "Peers unicode name: " + Utils.sanitizeString(this.peersUnicodeName));
+                this.logger.log(Level.FINE, () -> "Peers unicode name: " + Utils.sanitizeString(this.peersUnicodeName));
 
                 this.runEventHandler(ConnectionEvent.IAMU_COMMAND_RECEIVED);
                 break;
@@ -252,8 +252,7 @@ public final class Connection {
                     this.logger.log(Level.FINE, "The peer's command seems to be well structured.");
                 }
 
-                this.logger.log(Level.FINE, "Peers coin: " + coin.getCoin()); // Da validiert, ist keine Reinigung des
-                // Strings erforderlich
+                this.logger.log(Level.FINE, "Peers coin: {0}", coin); // Da validiert, ist keine Reinigung des Strings erforderlich
 
                 this.runEventHandler(ConnectionEvent.COIN_COMMAND_RECEIVED, coin.getCoin());
                 break;
@@ -272,8 +271,7 @@ public final class Connection {
                     this.logger.log(Level.FINE, "The peer's command seems to be well structured.");
                 }
 
-                this.logger.log(Level.FINE, "Shoot X: " + shoot.getX());
-                this.logger.log(Level.FINE, "Shoot Y: " + shoot.getY());
+                this.logger.log(Level.FINE, "Shoot: {0}", shoot);
 
                 this.runEventHandler(ConnectionEvent.SHOOT_COMMAND_RECEIVED, shoot);
                 break;
@@ -292,9 +290,7 @@ public final class Connection {
                     this.logger.log(Level.FINE, "The peer's command seems to be well structured.");
                 }
 
-                this.logger.log(Level.FINE, "Hit X: " + hit.getX());
-                this.logger.log(Level.FINE, "Hit Y: " + hit.getY());
-                this.logger.log(Level.FINE, "Hit status: " + hit.getHitStatus());
+                this.logger.log(Level.FINE, "Hit: {0}", hit);
 
                 this.runEventHandler(ConnectionEvent.HIT_COMMAND_RECEIVED, hit);
                 break;
@@ -313,7 +309,7 @@ public final class Connection {
                     this.logger.log(Level.FINE, "The peer's command seems to be well structured.");
                 }
 
-                this.logger.log(Level.FINE, "Chat message length: " + chat.getMessage().length());
+                this.logger.log(Level.FINE, "Chat message: {0}", chat);
 
                 this.runEventHandler(ConnectionEvent.CHAT_COMMAND_RECEIVED, chat.getMessage());
                 break;
@@ -373,8 +369,8 @@ public final class Connection {
      * @throws IOException
      */
     public void writeCoin(final String coinValue) throws IOException {
-        this.logger.log(Level.FINE, "Send coin " + coinValue + " to peer.");
         final Coin coin = new Coin(coinValue);
+        this.logger.log(Level.FINE, "Send coin {0} to peer.", coin);
         this.write(coin);
         this.runEventHandler(ConnectionEvent.COIN_COMMAND_SENT);
     }
@@ -392,8 +388,8 @@ public final class Connection {
      * @throws IOException
      */
     public void writeHit(final int x, final int y, final HitStatus hitstatus) throws IOException {
-        this.logger.log(Level.FINE, "Send hit on x=" + y + " y=" + y + " hitstatus=" + hitstatus + " to peer.");
         final Hit hit = new Hit(x, y, hitstatus);
+        this.logger.log(Level.FINE, "Send hit {0} to peer.", hit);
         this.write(hit);
         this.runEventHandler(ConnectionEvent.HIT_COMMAND_SENT);
     }
@@ -437,8 +433,8 @@ public final class Connection {
      * @throws IOException
      */
     public void writeShoot(final int x, final int y) throws IOException {
-        this.logger.log(Level.FINE, "Send shoot on x=" + x + " y=" + y + " to peer.");
         final Shoot shoot = new Shoot(x, y);
+        this.logger.log(Level.FINE, "Send shoot {0} to peer.", shoot);
         this.write(shoot);
         this.runEventHandler(ConnectionEvent.SHOOT_COMMAND_SENT);
     }

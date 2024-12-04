@@ -27,4 +27,9 @@ public class Withdraw implements Command {
     public boolean isValid() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Withdraw []";
+    }
 }

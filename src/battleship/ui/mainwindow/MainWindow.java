@@ -313,7 +313,7 @@ public final class MainWindow {
                     final String selectedIp = MainWindow.this.serverIpList.getSelectedValue();
                     if (selectedIp != null) {
                         SystemUtils.copyToClipboard(selectedIp);
-                        MainWindow.this.logger.log(Level.INFO, "Copied IP address to clipboard: " + selectedIp);
+                        MainWindow.this.logger.log(Level.INFO, "Copied IP address to clipboard: {0}", selectedIp);
                     }
                 }
             }

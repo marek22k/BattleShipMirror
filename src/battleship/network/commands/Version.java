@@ -76,4 +76,9 @@ public class Version implements Command {
     public boolean isValid() {
         return !(this.implementation.isBlank() || this.versions.stream().anyMatch(String::isBlank));
     }
+
+    @Override
+    public String toString() {
+        return "Version [implementation=" + implementation + ", versions=" + versions + "]";
+    }
 }

@@ -86,7 +86,7 @@ public final class Sound {
             try {
                 sf.play();
             } catch (final Exception e) {
-                logger.log(Level.SEVERE, "Failed to play sound: " + sf.toString(), e);
+                logger.log(Level.SEVERE, e, () -> "Failed to play sound: " + sf.toString());
             }
         }
     }

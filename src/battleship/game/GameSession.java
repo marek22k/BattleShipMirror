@@ -178,7 +178,7 @@ public final class GameSession {
             switch (this.turnstatus) {
                 /* Ich soll angreifer, aber bin ich überhaupt dran? */
                 case MY_TURN_FIRST_TURN, MY_TURN, MY_TURN_AFTER_HIT:
-                    this.logger.log(Level.INFO, "Attack opponent at x=" + x + " y=" + y);
+                    this.logger.log(Level.INFO, () -> "Attack opponent at x=" + x + " y=" + y);
                     /*
                      * Habe ich das Feld bereits einmal angegriffen? / Ist mir bekannt, was der
                      * Gegner dort hat?
@@ -242,7 +242,7 @@ public final class GameSession {
     private void changeTurn(final TurnStatus turnstatus) {
         synchronized (this.turnLock) {
             this.turnstatus = turnstatus;
-            this.logger.log(Level.FINER, "Change turnstatus into: " + turnstatus);
+            this.logger.log(Level.FINER, "Change turnstatus into: {0}", turnstatus);
             switch (turnstatus) {
                 case MY_TURN_FIRST_TURN, MY_TURN, MY_TURN_AFTER_HIT:
                     SwingUtilities.invokeLater(() -> this.gamewindow.playersTurn(true));
@@ -268,8 +268,8 @@ public final class GameSession {
                 if (this.turnstatus != TurnStatus.NOT_READY_NOT_INITIALIZED) {
                     this.logger.log(
                             Level.WARNING,
-                            "The game is to be initialized, although it is already initialized. TurnStatus: "
-                                    + this.turnstatus
+                            "The game is to be initialized, although it is already initialized. TurnStatus: {0}",
+                            this.turnstatus
                     );
                     SwingUtilities.invokeLater(() -> {
                         JOptionPane.showMessageDialog(
@@ -279,10 +279,10 @@ public final class GameSession {
                     });
                     return;
                 }
-                this.logger.log(Level.FINE, "Our coin: " + this.myCoin);
+                this.logger.log(Level.FINE, "Our coin: {0}", this.myCoin);
                 /* Setzen des Handlers, wenn ein Kommando gelesen wird. */
                 this.connection.setEventHandler((ConnectionEvent event, Object eventObject) -> {
-                    this.logger.log(Level.FINE, "Event received: " + event);
+                    this.logger.log(Level.FINE, "Event received: {0}", event);
                     switch (event) {
                         case CHAT_COMMAND_INVALID:
                             break;
@@ -473,7 +473,8 @@ public final class GameSession {
                         default:
                             this.logger.log(
                                     Level.SEVERE,
-                                    "Unknown event triggered: " + event + "; eventObject null? " + (eventObject == null)
+                                    () -> "Unknown event triggered: " + event + "; eventObject null? "
+                                            + (eventObject == null)
                             );
                             SwingUtilities.invokeLater(
                                     () -> JOptionPane.showMessageDialog(
@@ -551,8 +552,8 @@ public final class GameSession {
                 if (this.turnstatus != TurnStatus.NOT_READY_HANDSHAKE_PHASE1_PERFORMED) {
                     this.logger.log(
                             Level.WARNING,
-                            "The game is to be prepared, although it is already prepared. TurnStatus: "
-                                    + this.turnstatus
+                            "The game is to be prepared, although it is already prepared. TurnStatus: {0}",
+                            this.turnstatus
                     );
                     SwingUtilities.invokeLater(() -> {
                         JOptionPane.showMessageDialog(
@@ -567,8 +568,8 @@ public final class GameSession {
                  */
                 final int level = Math.min(Integer.parseInt(this.connection.getPeersLevel()), this.playersLevel);
                 final int levelSize = Constants.LEVEL_SIZES.get(level - 1);
-                this.logger.log(Level.INFO, "Level: " + level);
-                this.logger.log(Level.FINE, "Level size: " + levelSize);
+                this.logger.log(Level.INFO, "Level: {0}", level);
+                this.logger.log(Level.FINE, "Level size: {0}", levelSize);
                 this.opposing = new OpposingPlayingField(levelSize);
                 this.players = new PlayersPlayingField(levelSize);
 
@@ -617,16 +618,17 @@ public final class GameSession {
                             synchronized (this.turnLock) {
                                 try {
                                     final OpposingField f = this.opposing.getComputerMove();
-                                    this.logger
-                                            .log(Level.FINE, "Computer move on x=" + f.getX() + " and y=" + f.getY());
+                                    this.logger.log(
+                                            Level.FINE, () -> "Computer move on x=" + f.getX() + " and y=" + f.getY()
+                                    );
                                     this.attackOpponent(f.getX(), f.getY());
 
                                 } catch (final Exception e) {
                                     this.logger.log(Level.SEVERE, "Failed to calculate computer move.");
                                     this.logger.log(
                                             Level.FINE,
-                                            "Current opposing playing field:\n" + this.opposing.debugPrint() + "\n"
-                                                    + "Fields:\n" + this.opposing.debugPrint2()
+                                            () -> "Current opposing playing field:\n" + this.opposing.debugPrint()
+                                                    + "\nFields:\n" + this.opposing.debugPrint2()
                                     );
                                     throw e;
                                 }
@@ -674,8 +676,8 @@ public final class GameSession {
                         );
                         this.logger.log(
                                 Level.FINE,
-                                "lastShoot x=" + this.lastShoot.getX() + " y=" + this.lastShoot.getY() + " Hit x=" + x
-                                        + " y=" + y
+                                () -> "lastShoot x=" + this.lastShoot.getX() + " y=" + this.lastShoot.getY()
+                                        + " Hit x={2} y={3}"
                         );
                         SwingUtilities.invokeLater(() -> {
                             JOptionPane.showMessageDialog(
@@ -854,7 +856,7 @@ public final class GameSession {
 
                 this.logger.log(
                         Level.FINER,
-                        "XOR COIN result: " + xorResult + " -> serverStarts? " + serverStarts + " -> weStart? "
+                        () -> "XOR COIN result: " + xorResult + " -> serverStarts? " + serverStarts + " -> weStart? "
                                 + weStart + " (isServer? " + this.isServer + ")"
                 );
                 if (weStart) {
@@ -882,7 +884,7 @@ public final class GameSession {
      */
     private void stopGame(final GameEndStatus status) {
         if (this.isRunning.compareAndSet(true, false)) {
-            this.logger.log(Level.FINE, "Stop current game with status " + status + ".");
+            this.logger.log(Level.FINE, "Stop current game with status {0}.", status);
             this.logger.log(Level.FINE, "Wait for turnlock to stop game.");
             synchronized (this.turnLock) {
                 this.logger.log(Level.FINE, "Turnlock received.");

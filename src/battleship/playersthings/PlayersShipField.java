@@ -16,4 +16,8 @@ public class PlayersShipField extends PlayersField {
         return this.sunk;
     }
 
+    @Override
+    public String toString() {
+        return "PlayersShipField [x=" + super.getX() + ", y=" + this.getY() + ", sunk=" + sunk + "]";
+    }
 }

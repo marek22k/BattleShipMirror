@@ -52,4 +52,8 @@ public class Coin implements Command {
         return "0".equals(this.flippedCoin) || "1".equals(this.flippedCoin);
     }
 
+    @Override
+    public String toString() {
+        return "Coin [flippedCoin=" + flippedCoin + "]";
+    }
 }

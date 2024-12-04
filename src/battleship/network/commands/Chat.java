@@ -45,4 +45,9 @@ public class Chat implements Command {
     public boolean isValid() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Chat [message.length=" + message.length() + "]";
+    }
 }
