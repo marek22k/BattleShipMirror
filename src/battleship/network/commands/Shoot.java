@@ -76,4 +76,8 @@ public class Shoot implements Command {
         return this.x >= 0 && this.y >= 0;
     }
 
+    @Override
+    public String toString() {
+        return "Shoot [x=" + x + ", y=" + y + "]";
+    }
 }

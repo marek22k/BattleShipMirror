@@ -46,4 +46,9 @@ public class IAMU implements Command {
     public boolean isValid() {
         return !this.name.isBlank();
     }
+
+    @Override
+    public String toString() {
+        return "IAMU [name=" + name + "]";
+    }
 }

@@ -133,7 +133,7 @@ public final class BattleShip {
                                 + " (" + client.getInetAddress().getHostAddress() + ") -> "
                                 + client.getLocalAddress().getHostName() + ":" + client.getLocalPort() + " ("
                                 + client.getLocalAddress().getHostAddress() + ")";
-                        this.logger.log(Level.INFO, "Incoming connection from client: " + clientQuestion);
+                        this.logger.log(Level.INFO, "Incoming connection from client: {0}", clientQuestion);
                         final int option = JOptionPane.showConfirmDialog(
                                 null, "Accept client? " + clientQuestion, "Accept client?", JOptionPane.YES_NO_OPTION
                         );
@@ -262,7 +262,7 @@ public final class BattleShip {
                             Level.WARNING,
                             "The game cannot be started if the server is still running. Stopping the server."
                     );
-                    this.logger.log(Level.FINE, "ServerStatus: " + this.serverstatus);
+                    this.logger.log(Level.FINE, "ServerStatus: {0}", this.serverstatus);
                     this.mainwindow.stopServer();
                 }
             }
@@ -291,7 +291,7 @@ public final class BattleShip {
                      * beendet wird.
                      */
                     (GameEndStatus status) -> {
-                        this.logger.log(Level.FINE, "In game exit handler, status=" + status);
+                        this.logger.log(Level.FINE, "In game exit handler, status={0}", status);
                         switch (status) {
                             /*
                              * Im Falle, dass der Spieler gewonnen hat, gebe eine Meldung aus und Spiele
@@ -368,15 +368,19 @@ public final class BattleShip {
                             status == GameEndStatus.SUCCESSFUL_WON || status == GameEndStatus.SUCCESSFUL_DRAW_FROM_PEER
                         ) {
                             this.logger.log(Level.INFO, "Level up!");
-                            /*
-                             * Das neue Level ist das gespielte Level + 1 oder das aktuell maximale Level,
-                             * jenachdem, was besser ist. Trotzdem darf das Level nicht höher sein als das
-                             * maximale Level.
-                             */
-                            this.currentMaxLevel = Math
-                                    .clamp(selectedLevel + 1, this.currentMaxLevel, Constants.NUMBER_OF_LEVELS);
-                            this.logger.log(Level.INFO, "New level: " + this.currentMaxLevel);
-                            SwingUtilities.invokeLater(() -> this.mainwindow.updateLevels(this.currentMaxLevel));
+                            if (selectedLevel <= Integer.MAX_VALUE - 1) {
+                                /*
+                                 * Das neue Level ist das gespielte Level + 1 oder das aktuell maximale Level,
+                                 * jenachdem, was besser ist. Trotzdem darf das Level nicht höher sein als das
+                                 * maximale Level.
+                                 */
+                                this.currentMaxLevel = Math
+                                        .clamp(selectedLevel + 1, this.currentMaxLevel, Constants.NUMBER_OF_LEVELS);
+                                this.logger.log(Level.INFO, "New level: {0}", this.currentMaxLevel);
+                                SwingUtilities.invokeLater(() -> this.mainwindow.updateLevels(this.currentMaxLevel));
+                            } else {
+                                logger.log(Level.WARNING, "Numerical maximum level reached: {0}", selectedLevel);
+                            }
                         }
                         /*
                          * Aktiviere wieder das Hauptfenster, sodass der Nutzer ein neues Spiel starten

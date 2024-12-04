@@ -234,7 +234,7 @@ public final class TerminalWindow {
             sd.insertString(sd.getLength(), text, style);
         } catch (final BadLocationException e) {
             this.logger.log(Level.SEVERE, "An error has occurred during printing.", e);
-            this.logger.log(Level.INFO, "The original message is: " + text);
+            this.logger.log(Level.INFO, "The original message is: {0}", text);
         }
     }
 
@@ -462,7 +462,7 @@ public final class TerminalWindow {
     private void stopProcess(final String reason) {
         synchronized (this.processLock) {
             if (this.processstatus != ProcessStatus.STOPPED && this.processstatus != ProcessStatus.WAITING_FOR_END) {
-                this.logger.log(Level.INFO, "Process finished: " + reason);
+                this.logger.log(Level.INFO, "Process finished: {0}", reason);
 
                 SwingUtilities.invokeLater(() -> this.printToSystemMessage("Process finished: " + reason + "\n"));
 

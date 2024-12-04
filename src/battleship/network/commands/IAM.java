@@ -73,4 +73,9 @@ public class IAM implements Command {
 
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "IAM [name=" + name + ", level=" + level + "]";
+    }
 }

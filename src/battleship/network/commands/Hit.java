@@ -138,4 +138,8 @@ public class Hit implements Command {
         return this.x >= 0 && this.y >= 0 && this.hitstatus != HitStatus.UNKNOWN;
     }
 
+    @Override
+    public String toString() {
+        return "Hit [x=" + x + ", y=" + y + ", hitstatus=" + hitstatus + "]";
+    }
 }
