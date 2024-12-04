@@ -864,7 +864,14 @@ public final class GameSession {
                     this.logger.log(Level.INFO, "The peer starts the game.");
                 }
                 this.changeTurn(weStart ? TurnStatus.MY_TURN_FIRST_TURN : TurnStatus.YOUR_TURN_FIRST_TURN);
-                SwingUtilities.invokeLater(this.gamewindow::show);
+                SwingUtilities.invokeLater(() -> {
+                    if (this.gamewindow == null) {
+                        this.logger.log(Level.SEVERE, "GameWindow is null, but should be displayed.");
+                        this.stopGame(GameEndStatus.GAME_PREPARATION_OR_START_FAILED);
+                        return;
+                    }
+                    this.gamewindow.show();
+                });
             }
         } catch (final Exception e) {
             this.logger.log(Level.SEVERE, "Error when starting the game.", e);
