@@ -25,7 +25,7 @@ public final class BattleShip {
     /* Speichert die aktuelle Einstellung, ob Ton abgespielt werden soll. */
     private final AtomicBoolean sound;
     /* Speichert das Hauptfenster. */
-    private MainWindow mainwindow;
+    private final MainWindow mainwindow;
     /*
      * Speichert die aktuelle Spiele-Sitzung bzw. null, wenn aktuell kein Spiel
      * läuft.

@@ -44,10 +44,6 @@ public class IAMU implements Command {
 
     @Override
     public boolean isValid() {
-        if (this.name.isBlank()) {
-            return false;
-        }
-
-        return true;
+        return !this.name.isBlank();
     }
 }

@@ -7,7 +7,7 @@ import java.util.logging.Level;
 /**
  * Beinhaltet verschiedene Konstanten, welche das Spiel benötigt.
  */
-public class Constants {
+public final class Constants {
     /**
      * Protokoll-Version, welche das aktuelle Spiel implementiert.
      */
