@@ -79,6 +79,6 @@ public class Version implements Command {
 
     @Override
     public String toString() {
-        return "Version [implementation=" + implementation + ", versions=" + versions + "]";
+        return "Version [implementation=" + this.implementation + ", versions=" + this.versions + "]";
     }
 }

@@ -379,7 +379,7 @@ public final class BattleShip {
                                 this.logger.log(Level.INFO, "New level: {0}", this.currentMaxLevel);
                                 SwingUtilities.invokeLater(() -> this.mainwindow.updateLevels(this.currentMaxLevel));
                             } else {
-                                logger.log(Level.WARNING, "Numerical maximum level reached: {0}", selectedLevel);
+                                this.logger.log(Level.WARNING, "Numerical maximum level reached: {0}", selectedLevel);
                             }
                         }
                         /*

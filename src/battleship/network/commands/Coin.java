@@ -54,6 +54,6 @@ public class Coin implements Command {
 
     @Override
     public String toString() {
-        return "Coin [flippedCoin=" + flippedCoin + "]";
+        return "Coin [flippedCoin=" + this.flippedCoin + "]";
     }
 }

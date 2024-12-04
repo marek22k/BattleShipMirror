@@ -48,6 +48,6 @@ public class Chat implements Command {
 
     @Override
     public String toString() {
-        return "Chat [message.length=" + message.length() + "]";
+        return "Chat [message.length=" + this.message.length() + "]";
     }
 }

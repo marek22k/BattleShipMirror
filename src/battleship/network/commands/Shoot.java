@@ -78,6 +78,6 @@ public class Shoot implements Command {
 
     @Override
     public String toString() {
-        return "Shoot [x=" + x + ", y=" + y + "]";
+        return "Shoot [x=" + this.x + ", y=" + this.y + "]";
     }
 }

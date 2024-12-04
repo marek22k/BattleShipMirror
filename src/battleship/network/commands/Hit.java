@@ -140,6 +140,6 @@ public class Hit implements Command {
 
     @Override
     public String toString() {
-        return "Hit [x=" + x + ", y=" + y + ", hitstatus=" + hitstatus + "]";
+        return "Hit [x=" + this.x + ", y=" + this.y + ", hitstatus=" + this.hitstatus + "]";
     }
 }

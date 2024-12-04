@@ -49,6 +49,6 @@ public class IAMU implements Command {
 
     @Override
     public String toString() {
-        return "IAMU [name=" + name + "]";
+        return "IAMU [name=" + this.name + "]";
     }
 }

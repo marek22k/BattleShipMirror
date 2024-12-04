@@ -190,7 +190,9 @@ public final class Connection {
                     );
                 }
                 this.peerImplementation = version.getImplementation();
-                this.logger.log(Level.INFO, () -> "Peers implementation: " + Utils.sanitizeString(this.peerImplementation));
+                this.logger.log(
+                        Level.INFO, () -> "Peers implementation: " + Utils.sanitizeString(this.peerImplementation)
+                );
 
                 this.runEventHandler(ConnectionEvent.VERSION_COMMAND_RECEIVED);
                 break;
@@ -252,7 +254,8 @@ public final class Connection {
                     this.logger.log(Level.FINE, "The peer's command seems to be well structured.");
                 }
 
-                this.logger.log(Level.FINE, "Peers coin: {0}", coin); // Da validiert, ist keine Reinigung des Strings erforderlich
+                this.logger.log(Level.FINE, "Peers coin: {0}", coin); // Da validiert, ist keine Reinigung des Strings
+                                                                      // erforderlich
 
                 this.runEventHandler(ConnectionEvent.COIN_COMMAND_RECEIVED, coin.getCoin());
                 break;
