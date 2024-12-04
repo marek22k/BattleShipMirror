@@ -271,12 +271,12 @@ public final class GameSession {
                             "The game is to be initialized, although it is already initialized. TurnStatus: {0}",
                             this.turnstatus
                     );
-                    SwingUtilities.invokeLater(() -> {
-                        JOptionPane.showMessageDialog(
-                                null, "The game is to be initialized, although it is already initialized.",
-                                "Game already initialized", JOptionPane.WARNING_MESSAGE
-                        );
-                    });
+                    SwingUtilities.invokeLater(
+                            () -> JOptionPane.showMessageDialog(
+                                    null, "The game is to be initialized, although it is already initialized.",
+                                    "Game already initialized", JOptionPane.WARNING_MESSAGE
+                            )
+                    );
                     return;
                 }
                 this.logger.log(Level.FINE, "Our coin: {0}", this.myCoin);

@@ -1,9 +1,11 @@
 package battleship.ui.playgroundmatrix;
 
+import java.io.Serializable;
+
 /**
  * Listener, welcher aufgerufen wird, wenn auf ein Feld gefeuert wird.
  */
-public interface FireListener {
+public interface FireListener extends Serializable {
     /**
      * Methode, welche beim feuern aufgerufen wird
      *
