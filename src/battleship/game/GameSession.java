@@ -516,11 +516,11 @@ public final class GameSession {
                                 );
                             } else {
                                 GameSession.this.logger.log(Level.SEVERE, "Error in reading thread.", e);
-                                SwingUtilities.invokeLater(() -> {
-                                    JOptionPane.showMessageDialog(
-                                            null, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE
-                                    );
-                                });
+                                SwingUtilities.invokeLater(
+                                        () -> JOptionPane.showMessageDialog(
+                                                null, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE
+                                        )
+                                );
                                 GameSession.this.stopGame(GameEndStatus.CONNECTION_DISCONNECTED_OR_DISTURBED);
                             }
                         }
@@ -555,12 +555,12 @@ public final class GameSession {
                             "The game is to be prepared, although it is already prepared. TurnStatus: {0}",
                             this.turnstatus
                     );
-                    SwingUtilities.invokeLater(() -> {
-                        JOptionPane.showMessageDialog(
-                                null, "The game is to be prepared, although it is already prepared.",
-                                "Game already prepared", JOptionPane.WARNING_MESSAGE
-                        );
-                    });
+                    SwingUtilities.invokeLater(
+                            () -> JOptionPane.showMessageDialog(
+                                    null, "The game is to be prepared, although it is already prepared.",
+                                    "Game already prepared", JOptionPane.WARNING_MESSAGE
+                            )
+                    );
                 }
                 /*
                  * Berechne das Level, was gespielt werden soll. Dies ist das Minimum des
@@ -589,9 +589,8 @@ public final class GameSession {
                              * Dieser Code hier im Handler wird ausgeführt, wenn unser Benutzer eine
                              * Nachricht senden möchte.
                              */
-                            SwingUtilities.invokeLater(() -> {
-                                this.gamewindow.writeMessageFromUser(this.playersName, text);
-                            });
+                            SwingUtilities
+                                    .invokeLater(() -> this.gamewindow.writeMessageFromUser(this.playersName, text));
                             this.connection.writeChat(text);
                         });
                         this.gamewindow.getOpponentField().addFireListener((FireEvent fireevent) -> {
@@ -679,14 +678,14 @@ public final class GameSession {
                                 () -> "lastShoot x=" + this.lastShoot.getX() + " y=" + this.lastShoot.getY()
                                         + " Hit x={2} y={3}"
                         );
-                        SwingUtilities.invokeLater(() -> {
-                            JOptionPane.showMessageDialog(
-                                    null,
-                                    "Our or the peer's instance seems to have a faulty implementation. Or the opponent is cheating. We have attacked one of the opponent's squares, but the opponent thinks we have attacked a different square. This is problematic. To continue the game, we trust the opponent and continue with the opponent's information.",
-                                    "The opponent thinks we have attacked a square that we have not attacked.",
-                                    JOptionPane.ERROR_MESSAGE
-                            );
-                        });
+                        SwingUtilities.invokeLater(
+                                () -> JOptionPane.showMessageDialog(
+                                        null,
+                                        "Our or the peer's instance seems to have a faulty implementation. Or the opponent is cheating. We have attacked one of the opponent's squares, but the opponent thinks we have attacked a different square. This is problematic. To continue the game, we trust the opponent and continue with the opponent's information.",
+                                        "The opponent thinks we have attacked a square that we have not attacked.",
+                                        JOptionPane.ERROR_MESSAGE
+                                )
+                        );
                     }
 
                     /* Schaue nach, wie der Gegner geantwortet hat und handle entsprechend. */
@@ -727,13 +726,13 @@ public final class GameSession {
 
                         default:
                             this.logger.log(Level.SEVERE, "The field we have hit has a unknown status.");
-                            SwingUtilities.invokeLater(() -> {
-                                JOptionPane.showMessageDialog(
-                                        null,
-                                        "The field we have hit has a unknown status. The game can be continued. The opponent must send a valid status code.",
-                                        "Invalid status", JOptionPane.ERROR_MESSAGE
-                                );
-                            });
+                            SwingUtilities.invokeLater(
+                                    () -> JOptionPane.showMessageDialog(
+                                            null,
+                                            "The field we have hit has a unknown status. The game can be continued. The opponent must send a valid status code.",
+                                            "Invalid status", JOptionPane.ERROR_MESSAGE
+                                    )
+                            );
                             break;
                     }
                     break;
@@ -744,13 +743,13 @@ public final class GameSession {
                      * gestartet haben.
                      */
                     this.logger.log(Level.WARNING, "Peer has sent the result of an attack that we did not carry out.");
-                    SwingUtilities.invokeLater(() -> {
-                        JOptionPane.showMessageDialog(
-                                null,
-                                "The peer has sent a response to an attack that we never made. This is quite strange and could indicate a faulty implementation of this or the instance of the peer. The command from the peer is ignored. The game can be continued.",
-                                "Invalid command", JOptionPane.ERROR_MESSAGE
-                        );
-                    });
+                    SwingUtilities.invokeLater(
+                            () -> JOptionPane.showMessageDialog(
+                                    null,
+                                    "The peer has sent a response to an attack that we never made. This is quite strange and could indicate a faulty implementation of this or the instance of the peer. The command from the peer is ignored. The game can be continued.",
+                                    "Invalid command", JOptionPane.ERROR_MESSAGE
+                            )
+                    );
                     break;
             }
         }
@@ -808,25 +807,25 @@ public final class GameSession {
                         }
                     } catch (final Exception e) {
                         this.logger.log(Level.SEVERE, "Error in telling the peer about their attack.", e);
-                        SwingUtilities.invokeLater(() -> {
-                            JOptionPane.showMessageDialog(
-                                    null,
-                                    "The opponent has attacked and we wanted to inform them of the result of their attack, but an error has occurred. It is now the opponent's turn.",
-                                    "Error sending the message", JOptionPane.ERROR_MESSAGE
-                            );
-                        });
+                        SwingUtilities.invokeLater(
+                                () -> JOptionPane.showMessageDialog(
+                                        null,
+                                        "The opponent has attacked and we wanted to inform them of the result of their attack, but an error has occurred. It is now the opponent's turn.",
+                                        "Error sending the message", JOptionPane.ERROR_MESSAGE
+                                )
+                        );
                     }
                     break;
 
                 default:
                     this.logger.log(Level.WARNING, "The opponent tries to attack even though it is not his turn.");
-                    SwingUtilities.invokeLater(() -> {
-                        JOptionPane.showMessageDialog(
-                                null,
-                                "The opponent tries to attack even though it is not their turn. Our implementation or that of the peer could be faulty. Or the opponent is trying to cheat. To continue the game, we ignore this command from the opponent.",
-                                "Invalid command", JOptionPane.ERROR_MESSAGE
-                        );
-                    });
+                    SwingUtilities.invokeLater(
+                            () -> JOptionPane.showMessageDialog(
+                                    null,
+                                    "The opponent tries to attack even though it is not their turn. Our implementation or that of the peer could be faulty. Or the opponent is trying to cheat. To continue the game, we ignore this command from the opponent.",
+                                    "Invalid command", JOptionPane.ERROR_MESSAGE
+                            )
+                    );
                     break;
             }
         }
@@ -865,9 +864,7 @@ public final class GameSession {
                     this.logger.log(Level.INFO, "The peer starts the game.");
                 }
                 this.changeTurn(weStart ? TurnStatus.MY_TURN_FIRST_TURN : TurnStatus.YOUR_TURN_FIRST_TURN);
-                SwingUtilities.invokeLater(() -> {
-                    this.gamewindow.show();
-                });
+                SwingUtilities.invokeLater(() -> this.gamewindow.show());
             }
         } catch (final Exception e) {
             this.logger.log(Level.SEVERE, "Error when starting the game.", e);

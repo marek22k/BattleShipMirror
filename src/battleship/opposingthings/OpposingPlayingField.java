@@ -200,8 +200,7 @@ public class OpposingPlayingField {
          * "Playing field integrity of the opponent's playing field violated. There is a ship where no field next to it is unknown."
          * Wenn nein, feuere auf das Feld. Anfang des Schiffes = oben links Ende des
          * Schiffes = unten rechts Wenn es keine Schifffelder gibt, gehe solange bis ein
-         * unbekanntes Feld existiert und schieße. TODO: Vielleicht random Felder
-         * ausprobieren
+         * unbekanntes Feld existiert und schieße.
          */
         final OpposingField shipField = this.getNextField(OpposingFieldStatus.SHIP);
         if (shipField != null) {
