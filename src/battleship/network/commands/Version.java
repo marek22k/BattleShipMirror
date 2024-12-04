@@ -74,9 +74,6 @@ public class Version implements Command {
 
     @Override
     public boolean isValid() {
-        if (this.implementation.isBlank() || this.versions.stream().anyMatch(String::isBlank)) {
-            return false;
-        }
-        return true;
+        return !(this.implementation.isBlank() || this.versions.stream().anyMatch(String::isBlank));
     }
 }

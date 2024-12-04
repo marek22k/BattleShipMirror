@@ -49,10 +49,7 @@ public class Coin implements Command {
 
     @Override
     public boolean isValid() {
-        if ("0".equals(this.flippedCoin) || "1".equals(this.flippedCoin)) {
-            return true;
-        }
-        return false;
+        return "0".equals(this.flippedCoin) || "1".equals(this.flippedCoin);
     }
 
 }

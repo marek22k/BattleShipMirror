@@ -16,6 +16,33 @@
         <exclude name="AtLeastOneConstructor" />
         <exclude name="UnnecessaryLocalBeforeReturn" />
     </rule>
+    <rule ref="category/java/design.xml">
+    	<exclude name="AvoidCatchingGenericException" />
+    	<exclude name="AvoidRethrowingException" />
+    	<exclude name="CognitiveComplexity" />
+    	<exclude name="CyclomaticComplexity" />
+    	<exclude name="DataClass" />
+    	<exclude name="CouplingBetweenObjects" />
+    	<exclude name="ExcessiveImports" />
+    	<exclude name="SignatureDeclareThrowsException" />
+    	<exclude name="CollapsibleIfStatements" />
+    	<exclude name="AvoidThrowingRawExceptionTypes" />
+    	<exclude name="NcssCount" />
+    	<exclude name="GodClass" />
+    	<exclude name="ExceptionAsFlowControl" />
+    	<exclude name="NPathComplexity" />
+    	<exclude name="NPathComplexity" />
+    	<exclude name="SwitchDensity" />
+    	<exclude name="LawOfDemeter" />
+    	<exclude name="AvoidDeeplyNestedIfStmts" />
+    	<exclude name="AvoidUncheckedExceptionsInSignatures" />
+    	<exclude name="LoosePackageCoupling" />
+    </rule>
+   <rule ref="category/java/design.xml/TooManyMethods">
+	    <properties>
+	        <property name="maxmethods" value="40" />
+	    </properties>
+	</rule>
     <rule ref="category/java/errorprone.xml">
         <exclude name="NullAssignment" />
         <exclude name="AvoidLiteralsInIfCondition" />
